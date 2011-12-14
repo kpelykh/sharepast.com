@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/sp-config/target/classes" />
+    <output-test url="file://$MODULE_DIR$/sp-config/target/test-classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/sp-config">
+      <sourceFolder url="file://$MODULE_DIR$/sp-config/src/main/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sp-config/src/main/spring" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-config/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="sp-util" />
+    <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.8.3" level="project" />
+    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.4" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib:2.2" level="project" />
+    <orderEntry type="library" name="Maven: asm:asm:3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-asm:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-expression:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-web:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:jstl:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: taglibs:standard:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-annotations:3.5.6-Final" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:3.5.4-Final" level="project" />
+    <orderEntry type="library" name="Maven: antlr:antlr:2.7.6" level="project" />
+    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.1" level="project" />
+    <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" name="Maven: javax.transaction:jta:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-commons-annotations:3.2.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-core:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aspects:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-test:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-aspectj:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.11" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.6.11" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-ehcache:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache-core:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-spring:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.osgi:org.osgi.core:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.jaxb:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.stream:stax-api:1.0-2" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.1.12" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.servlet:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.xml:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.freemarker:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.spring:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.json:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.lib.org.json:2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.crypto:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.httpclient:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.james:apache-mime4j:0.6" level="project" />
+    <orderEntry type="library" name="Maven: net.jcip:jcip-annotations:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.ssl:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.jsslutils:jsslutils:1.0.5" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:0.9.24" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:0.9.24" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:log4j-over-slf4j:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.liquibase:liquibase-core:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjtools:1.6.11" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:1.7.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:jdk15:5.11" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.easymock:easymock:2.3" level="project" />
+  </component>
+</module>
+

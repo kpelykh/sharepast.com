@@ -1,0 +1,13 @@
+#! /bin/sh
+#
+# this script starts JConsole and opens it to a specified bz instance
+#
+#
+# Oleg Gusakov 2009
+
+if [ x$1 = x -o x$2 = x ]
+then
+    echo usage: "$0 serverName port, for example: rome 9092"
+    exit
+fi
+jconsole -J-Djava.class.path=./jmxremote_optional-5.1.jar service:jmx:jmxmp://$1:$2&

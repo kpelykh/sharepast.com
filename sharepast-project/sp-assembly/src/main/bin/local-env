@@ -1,0 +1,79 @@
+#! /bin/sh
+
+#
+# creates a local /bizzy/bin with maven, groovy, tc and jmeeter
+#
+
+OS=`uname -a | awk '{print $1}'`
+ARCH=`uname -m`
+
+BZ_HOME=/bizzy
+
+NEXUS_URL=http://nexus.bizzy-inc.com:8081/nexus/content/repositories
+NEXUS_3RD_PARTY=$NEXUS_URL/thirdparty
+
+MAVEN_VERSION=2.2.0
+
+GROOVY_VERSION=1.6.3
+
+TC_VERSION=3.1.0
+
+JMETER_VERSION=2.3.4
+
+MAVEN_TC_PLUGIN_VERSION=1.4.0
+
+######################################################################################################
+install_product() {
+PRODUCT_GROUP=$1
+PRODUCT=$2
+PRODUCT_VERSION=$3
+PRODUCT_CLASSIFIER=$4
+PRODUCT_EXT=$5
+PRODUCT_DIR=$6
+
+echo getting $PRODUCT $PRODUCT_VERSION from $NEXUS_3RD_PARTY/$PRODUCT_GROUP/$PRODUCT/$PRODUCT_VERSION/$PRODUCT-$PRODUCT_VERSION-$PRODUCT_CLASSIFIER.$PRODUCT_EXT
+
+cd $BZ_HOME
+if [ ! -d bin ]
+then
+    mkdir bin
+fi
+
+wget $NEXUS_3RD_PARTY/$PRODUCT_GROUP/$PRODUCT/$PRODUCT_VERSION/$PRODUCT-$PRODUCT_VERSION-$PRODUCT_CLASSIFIER.$PRODUCT_EXT
+
+echo extracting $PRODUCT-$PRODUCT_VERSION-$PRODUCT_CLASSIFIER.$PRODUCT_EXT
+tar xzf $PRODUCT-$PRODUCT_VERSION-$PRODUCT_CLASSIFIER.$PRODUCT_EXT
+
+rm -rf bin/$PRODUCT_DIR
+mv $PRODUCT_DIR bin
+rm $PRODUCT-$PRODUCT_VERSION-$PRODUCT_CLASSIFIER.$PRODUCT_EXT
+rm -f bin/$PRODUCT
+ln -s $PRODUCT_DIR bin/$PRODUCT
+}
+######################################################################################################
+
+# Maven
+install_product 'org/apache/maven' apache-maven $MAVEN_VERSION 'bin' 'tar.gz' apache-maven-$MAVEN_VERSION
+
+# Groovy
+install_product 'org/codehaus/groovy' groovy $GROOVY_VERSION 'bin' 'tar.gz' groovy-$GROOVY_VERSION
+
+# Terracotta
+install_product 'com/terracotta' terracotta $TC_VERSION 'bin' 'tar.gz' terracotta-$TC_VERSION
+
+# JMeter
+if [ x$2 == x'jmeter' ]
+then
+	install_product 'org/apache/jmeter' jmeter $JMETER_VERSION 'bin' 'tar.gz' jmeter-$JMETER_VERSION
+fi
+
+# Bz environment
+cat > $BZ_HOME/bz-env <<!
+export MAVEN_HOME=$BZ_HOME/bin/apache-maven
+export GROOVY_HOME=$BZ_HOME/bin/groovy
+export TC_INSTALL_DIR=$BZ_HOME/bin/terracotta
+export JMETER_HOME=$BZ_HOME/bin/jmeter
+export PATH=\$JAVA_HOME/bin:\$MAVEN_HOME/bin:\$GROOVY_HOME/bin:\$JMETER_HOME/bin:\$PATH
+!
+
+echo source file $BZ_HOME/bz-env when you want to setup the environment. Or add it to your .bash_profile

@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>sharepast</groupId>
+        <artifactId>sp-parent-pom</artifactId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>sharepast</artifactId>
+    <version>1-SNAPSHOT</version>
+    <name>SP Distribution</name>
+    <packaging>pom</packaging>
+
+    <properties>
+
+        <sp.geoip.version>1.0</sp.geoip.version>
+
+    </properties>
+
+    <scm>
+        <connection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/memo</connection>
+        <developerConnection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/memo</developerConnection>
+        <url>https://pl3.projectlocker.com/kpelykh/memoly/svn/memo</url>
+    </scm>
+
+    <modules>
+        <module>sp-parent-pom</module>
+        <module>sp-util</module>
+        <module>sp-config</module>
+        <module>sp-dal</module>
+        <module>sp-container</module>
+        <module>sp-gui</module>
+        <module>sp-assembly</module>
+        <module>sp-service</module>
+        <module>sp-jms</module>
+        <module>sp-it</module>
+    </modules>
+
+</project>

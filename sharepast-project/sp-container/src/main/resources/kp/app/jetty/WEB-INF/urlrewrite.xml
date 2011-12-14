@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE urlrewrite
+        PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN"
+        "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+<urlrewrite>
+
+        <!-- this rule is for urls like http://localhost/css/.svn/entries
+            ShiroFilterFactoryBean has filterChain which redirects all requests to folders containing .svn in path to root,
+            but if there's no existing session, it will add ugly JSESSIONID parameter. This filter will strip it out
+        -->
+        <!--<rule>
+           <from>^/;JSESSIONID=.*$</from>
+           <to type="redirect">/</to>
+        </rule>-->
+
+</urlrewrite>
+

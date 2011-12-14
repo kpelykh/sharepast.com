@@ -1,0 +1,51 @@
+#!/usr/bin/env groovy
+/**
+ * this script configures proper certificate store for current version of the platform
+ **
+ */
+import groovy.util.*
+//==============================================================
+String keyEnv = 'de'
+String targetEnv = 'pr'
+String userHome = '/bz/shared'//System.getProperty('user.home')
+//==============================================================
+	// delete current keyfile
+	File keyFile = new File( "config/${keyEnv}/keys.jks" )
+
+	if( keyFile.exists() )
+		keyFile.delete()
+
+	keyFile = new File( userHome, 'pr/keys.jks' )
+	if( !keyFile.exists() )
+	{
+		println "cannot find ${keyFile.absolutePath}, please contact release engineering group"
+		return
+	}
+
+	// copy real keyfile into the folder
+	"cp ${keyFile.absolutePath} ${new File('config/'+keyEnv).absolutePath}".execute().waitForProcessOutput()
+
+	// configure keystore password
+	File ef = new File("classes/${targetEnv}/environment.properties")
+
+	if( !ef.exists() )
+	{
+		println "cannot find ${ef.absolutePath}, please run from the version folder"
+		return
+	}
+
+	def text = ef.text
+
+	File cf = new File(userHome, 'pr/config.xml')
+
+	def config = new XmlSlurper().parseText( cf.text )
+
+	if( ! config )
+	{
+		println "cannot read configuration from "
+		return
+	}
+
+	ef.withWriter { wr -> wr.write("${text.replace('${keystore.password}',config.password.text()).replace('${jdbc.password}',config.jdbcPassword.text())}") }
+
+	println "Done - keystore is now configured"

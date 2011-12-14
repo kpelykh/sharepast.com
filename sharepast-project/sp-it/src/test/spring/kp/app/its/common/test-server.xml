@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                            http://www.springframework.org/schema/context
+                            http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <import resource="classpath:/kp/app/security.xml"/>
+    <import resource="classpath:/kp/app/freemarker.xml"/>
+
+    <import resource="classpath:/kp/app/its/app00105/test-server-00105.xml"/>
+    <import resource="classpath:/kp/app/its/app00200/test-server-00200.xml"/>
+    <import resource="classpath:/kp/app/its/app00205/test-server-00205.xml"/>
+    <import resource="classpath:/kp/app/its/app00270/test-server-00270.xml"/>
+
+    <context:component-scan base-package="kp.app.restlet"/>
+    <context:component-scan base-package="kp.app.security"/>
+    <context:component-scan base-package="kp.app.its.common"/>
+
+    <bean id="testDataGenerator" class="kp.app.dal.util.TestDataGenerator"/>
+
+    <bean id="testSplitRouter" class="org.restlet.ext.spring.SpringRouter">
+        <property name="attachments">
+            <map>
+                <!-- test routers provided by ITs  -->
+                <entry key="/app00105" value-ref="testRouterApp00105"/>
+                <entry key="/app00200" value-ref="testRouterApp00200"/>
+                <entry key="/app00205" value-ref="testRouterApp00205"/>
+                <entry key="/app00270" value-ref="testRouterApp00270"/>
+            </map>
+        </property>
+        <property name="routingMode">
+            <util:constant static-field="org.restlet.routing.Router.MODE_BEST_MATCH"/>
+        </property>
+    </bean>
+
+    <bean id="testApplication" class="org.restlet.Application">
+        <property name="inboundRoot" ref="testSplitRouter"/>
+        <property name="statusService" ref="testApplicationStatusService"/>
+    </bean>
+
+    <bean id="testApplicationStatusService" class="kp.app.restlet.services.ApplicationStatusService"/>
+
+    <bean name="loginResource" class="kp.app.resources.LoginResource" scope="prototype">
+        <property name="representationTemplates">
+          <map>
+            <entry>
+                <key>
+                  <util:constant static-field="org.restlet.data.MediaType.TEXT_HTML"/>
+                </key>
+                <bean class="kp.app.restlet.freemarker.FreemarkerRepresentationFactory">
+                    <property name="templateName" value="login.ftl"/>
+                </bean>
+            </entry>
+          </map>
+        </property>
+      </bean>
+
+    <!-- TEST CONTAINER CONFIG -->
+
+    <bean id="testJettyServer" class="org.eclipse.jetty.server.Server">
+        <property name="gracefulShutdown" value="1000"/>
+        <property name="stopAtShutdown" value="true"/>
+
+        <property name="handler">
+            <bean class="org.eclipse.jetty.server.handler.HandlerCollection">
+                <property name="handlers">
+                    <list>
+                        <ref bean="testWebAppContext"/>
+
+                        <bean id="requestLog" class="org.eclipse.jetty.server.handler.RequestLogHandler">
+                            <property name="requestLog">
+                                <bean class="org.eclipse.jetty.server.NCSARequestLog">
+                                    <property name="retainDays" value="90"/>
+                                    <property name="filename" value="#{appProperties['log.dir']}/jetty.request.log.yyyy_mm_dd"/>
+                                    <property name="append" value="true"/>
+                                    <property name="extended" value="false"/>
+                                    <property name="logTimeZone" value="GMT"/>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="threadPool">
+            <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
+                <property name="minThreads" value="10"/>
+                <property name="maxThreads" value="50"/>
+            </bean>
+        </property>
+
+        <property name="connectors">
+            <list>
+                <bean class="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                    <property name="port" value="${kp.app.http.port}"/>
+                    <property name="maxIdleTime" value="30000"/>
+                    <property name="acceptors" value="2"/>
+                    <property name="confidentialPort" value="${kp.app.https.port}"/>
+                </bean>
+                <bean class="org.eclipse.jetty.server.ssl.SslSocketConnector">
+                    <property name="port" value="${kp.app.https.port}"/>
+                    <property name="maxIdleTime" value="3000"/>
+                    <property name="keystore" value="#{appProperties['config.path']}/${kp.app.env}/${kp.app.keystore.name}"/>
+                    <property name="keyPassword" value="${kp.app.keystore.key.pass}"/>
+                    <property name="password" value="${kp.app.keystore.pass}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="testWebAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
+        <property name="contextPath" value="/"/>
+        <property name="resourceBase" value="#{appProperties['jetty.resources']}"/>
+        <property name="defaultsDescriptor" value="kp/app/jetty/webdefault.xml"/>
+
+        <property name="servletHandler">
+            <bean class="org.eclipse.jetty.servlet.ServletHandler">
+                <property name="startWithUnavailable" value="false"/>
+
+                <property name="filters">
+                    <list>
+                        <bean class="org.eclipse.jetty.servlet.FilterHolder">
+                            <property name="name" value="shiroFilter"/>
+                            <property name="filter">
+                                <bean class="kp.app.security.AppDelegatingFilterProxy"/>
+                            </property>
+                            <property name="initParameters">
+                                <map>
+                                    <entry key="targetFilterLifecycle" value="true"/>
+                                </map>
+                            </property>
+                        </bean>
+                        <bean class="org.eclipse.jetty.servlet.FilterHolder">
+                            <property name="name" value="UrlRewriteFilter"/>
+                            <property name="filter">
+                                <bean class="org.tuckey.web.filters.urlrewrite.UrlRewriteFilter"/>
+                            </property>
+                            <property name="initParameters">
+                                <map>
+                                    <entry key="confReloadCheckInterval" value="60"/>
+                                    <entry key="statusEnabledOnHosts" value="localhost"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+                <property name="servlets">
+                    <list>
+                        <bean class="org.eclipse.jetty.servlet.ServletHolder">
+                            <property name="name" value="dispatcher"/>
+                            <property name="className" value="kp.app.restlet.ext.servlet.AppRestletFrameworkServlet"/>
+                            <property name="initParameters">
+                                <map>
+                                    <entry key="targetRestletBeanName" value="testApplication"/>
+                                    <entry key="contextConfigLocation"
+                                           value="classpath:/kp/app/dispatcher-servlet.xml"/>
+                                </map>
+                            </property>
+                            <property name="initOrder" value="1"/>
+                        </bean>
+                    </list>
+                </property>
+                <property name="filterMappings">
+                    <list>
+                       <!-- Shiro filter should be the first in the chain (or high enough
+                            in the chain such that nothing before it uses the session) -->
+                        <bean class="org.eclipse.jetty.servlet.FilterMapping">
+                            <property name="filterName" value="shiroFilter"/>
+                            <property name="pathSpec" value="/*"/>
+                        </bean>
+                        <bean class="org.eclipse.jetty.servlet.FilterMapping">
+                            <property name="filterName" value="UrlRewriteFilter"/>
+                            <property name="pathSpec" value="/*"/>
+                        </bean>
+                    </list>
+                </property>
+                <property name="servletMappings">
+                    <list>
+                        <bean class="org.eclipse.jetty.servlet.ServletMapping">
+                            <property name="servletName" value="dispatcher"/>
+                            <property name="pathSpec" value="/"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

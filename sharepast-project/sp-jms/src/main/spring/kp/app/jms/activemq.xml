@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+
+    <!-- scans for annotated classes in the com.company package -->
+    <context:component-scan base-package="kp.app.jms.consumer"/>
+
+    <bean id="activeMQServerListener" class="kp.app.jms.common.ActiveMQServerListener"/>
+
+    <amq:broker brokerName="sp-broker" start="true" useJmx="true" persistent="true">
+        <amq:persistenceAdapter>
+            <amq:amqPersistenceAdapter directory="#{appProperties['activemq.persist']}/data" maxFileLength="32mb"/>
+        </amq:persistenceAdapter>
+        <amq:transportConnectors>
+            <amq:transportConnector uri="${jms.url}"/>
+        </amq:transportConnectors>
+    </amq:broker>
+
+    <amq:connectionFactory id="amqConnectionFactory" brokerURL="${jms.url}">
+        <amq:redeliveryPolicy>
+            <amq:redeliveryPolicy initialRedeliveryDelay="5000" maximumRedeliveries="6"/>
+        </amq:redeliveryPolicy>
+    </amq:connectionFactory>
+
+    <bean id="activemq-server" class="org.eclipse.jetty.server.Server">
+
+        <property name="gracefulShutdown" value="1000"/>
+        <property name="stopAtShutdown" value="true"/>
+
+        <property name="connectors">
+            <list>
+                <bean id="Connector" class="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                    <property name="port" value="8161"/>
+                </bean>
+            </list>
+        </property>
+
+        <property name="handler">
+            <bean id="handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
+                <property name="handlers">
+                    <list>
+                        <bean id="contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection">
+                            <property name="handlers">
+                                <list>
+                                    <bean class="org.eclipse.jetty.webapp.WebAppContext">
+                                        <property name="contextPath" value="/admin"/>
+                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps/admin"/>
+                                        <property name="logUrlOnStart" value="true"/>
+                                    </bean>
+                                    <bean class="org.eclipse.jetty.webapp.WebAppContext">
+                                        <property name="contextPath" value="/camel"/>
+                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps/camel"/>
+                                        <property name="logUrlOnStart" value="true"/>
+                                    </bean>
+                                    <bean class="org.eclipse.jetty.webapp.WebAppContext">
+                                        <property name="contextPath" value="/fileserver"/>
+                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps/fileserver"/>
+                                        <property name="logUrlOnStart" value="true"/>
+                                        <property name="parentLoaderPriority" value="true"/>
+                                    </bean>
+                                    <bean class="org.eclipse.jetty.webapp.WebAppContext">
+                                        <property name="contextPath" value="/"/>
+                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps"/>
+                                        <property name="parentLoaderPriority" value="true"/>
+                                    </bean>
+                                    <bean class="org.eclipse.jetty.server.handler.ResourceHandler">
+                                        <property name="directoriesListed" value="true"/>
+                                        <property name="welcomeFiles">
+                                            <list>
+                                                <value>index.html</value>
+                                            </list>
+                                        </property>
+                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps/"/>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean id="defaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler">
+                            <property name="serveIcon" value="false"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- listener container definition using the jms namespace, concurrency is the max number of concurrent listeners that can be started -->
+    <jms:listener-container concurrency="10" prefetch="1" connection-factory="amqConnectionFactory">
+        <jms:listener destination="mailQueue" ref="mailQueueListener"/>
+    </jms:listener-container>
+
+    <!--  ActiveMQ destinations to use  -->
+    <!--<amq:queue id="mailQueue" physicalName="mailsender"/>-->
+
+</beans>
+

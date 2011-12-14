@@ -1,0 +1,80 @@
+<assembly>
+    <id>bin</id>
+
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <fileSets>
+
+        <fileSet>
+            <directory>src/main/config</directory>
+            <outputDirectory>config</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>src/main/config</directory>
+            <outputDirectory>logs</outputDirectory>
+            <includes>
+                <include>placeholder.txt</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>src/main/config</directory>
+            <outputDirectory>tmp</outputDirectory>
+            <includes>
+                <include>placeholder.txt</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>src/main/bin</directory>
+            <outputDirectory>scripts</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>Prep.groovy</include>
+                <include>prep</include>
+                <include>container</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>src/main/jsw</directory>
+            <outputDirectory>jsw</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+    </fileSets>
+
+    <dependencySets>
+
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <unpack>false</unpack>
+            <excludes>
+                <!-- excluded because all web resources are available unpacked - see next dep. set -->
+                <exclude>kp.app:sp-gui</exclude>
+                <exclude>kp.app:sp-config</exclude>
+            </excludes>
+        </dependencySet>
+
+        <dependencySet>
+            <outputDirectory>webapp</outputDirectory>
+            <unpack>true</unpack>
+            <includes>
+                <include>kp.app:sp-gui</include>
+            </includes>
+        </dependencySet>
+
+        <dependencySet>
+            <outputDirectory>classes</outputDirectory>
+            <unpack>true</unpack>
+            <includes>
+                <include>kp:sp-config</include>
+            </includes>
+        </dependencySet>
+
+    </dependencySets>
+
+</assembly>

@@ -1,0 +1,4 @@
+#!/bin/bash
+source ~/bz/set-env
+cd $APP_VERSION_DIR
+./$1 $2

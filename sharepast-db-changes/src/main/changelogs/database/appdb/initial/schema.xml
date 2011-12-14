@@ -1,0 +1,142 @@
+<databaseChangeLog
+     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="initial-schema-1" author="konstantin.pelykh">
+        <comment>Initial tables</comment>
+        <createTable tableName="geographic_location">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="postal_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="county" type="VARCHAR(255)"/>
+            <column name="area_code" type="VARCHAR(255)"/>
+            <column name="latitude" type="DOUBLE"/>
+            <column name="longitude" type="DOUBLE"/>
+            <column name="time_zone" type="VARCHAR(255)"/>
+            <column name="daylight_saving_change" type="CHAR"/>
+            <column name="approved" type="CHAR"/>
+            <column name="dma_name" type="VARCHAR(255)"/>
+            <column name="dma_id" type="INT"/>
+            <column name="launch_date" type="DATETIME"/>
+            <column defaultValue="DISABLED" name="status" type="VARCHAR(30)"/>
+            <column defaultValueNumeric="0" name="target_customers_count" type="INT"/>
+        </createTable>
+      </changeSet>
+      <changeSet id="initial-schema-2" author="konstantin.pelykh">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="salt" type="VARCHAR(50)"/>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="alias" type="VARCHAR(50)"/>
+            <column name="dob" type="DATE"/>
+            <column name="dob_month" type="INT"/>
+            <column name="dob_day" type="INT"/>
+            <column name="dob_year" type="INT"/>
+            <column name="user_status" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="privacy_preferences" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Location embeded -->
+            <column name="country" type="VARCHAR(3)"/>
+            <column name="language" type="VARCHAR(3)"/>
+            <column name="postal_code" type="VARCHAR(25)"/>
+            <column name="time_zone" type="VARCHAR(25)"/>
+            <column name="latitude" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="altitude" type="FLOAT(12,0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="line1" type="VARCHAR(255)"/>
+            <column name="line2" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(100)"/>
+            <column name="state" type="VARCHAR(100)"/>
+            <column name="province" type="VARCHAR(100)"/>
+            <column name="neighborhood_name" type="VARCHAR(100)"/>
+            <column name="dma_id" type="INT"/>
+            <!-- Location embeded end -->
+
+            <column name="notification_preferences" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_settings" type="VARCHAR(255)"/>
+        </createTable>
+        <createTable tableName="file">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(100)"/>
+            <column name="size" type="BIGINT"/>
+            <column name="mime_type" type="VARCHAR(100)"/>
+            <column name="location" type="VARCHAR(512)"/>
+            <column name="created" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="users"/>
+            <dropTable tableName="file"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="initial-schema-3" author="konstantin.pelykh">
+        <createTable tableName="hibernate_sequence">
+            <column name="next_val" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT"/>
+            <column name="role_name" type="VARCHAR(100)"/>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+        <createTable tableName="permissions">
+            <column name="id" type="BIGINT"/>
+            <column name="name" type="VARCHAR(100)"/>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+        <createTable tableName="role_permissions">
+            <column name="role_id" type="BIGINT"/>
+            <column name="permission_id" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT"/>
+            <column name="role_id" type="BIGINT"/>
+        </createTable>
+
+        <addUniqueConstraint tableName="role_permissions" columnNames="role_id, permission_id"/>
+        <addPrimaryKey tableName="user_roles"
+                columnNames="user_id, role_id"
+                constraintName="pk_user_role"/>
+    </changeSet>
+
+</databaseChangeLog>

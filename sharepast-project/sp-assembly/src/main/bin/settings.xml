@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Apache Maven setting used by provisioning system   
+ -->
+
+<settings>
+<!-- 
+  <localRepository>/bizzy/maven.repo</localRepository>
+-->
+   
+	<mirrors>
+
+    <mirror>
+      <id>memo.nexus.public</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://nexus.memo.ly:8081/nexus/content/groups/public</url>
+    </mirror>
+
+	</mirrors>
+
+  <profiles>
+
+      <profile>
+         <id>memo</id>
+
+          <repositories>
+            <repository>
+              <id>memo.nexus.public</id>
+              <url>http://nexus.memo.ly:8081/nexus/content/groups/public</url>
+              <releases><enabled>true</enabled></releases>
+              <snapshots><enabled>true</enabled></snapshots>
+              <name>Maven Repository Switchboard</name>
+            </repository>
+          </repositories>
+
+          <pluginRepositories>
+            <pluginRepository>
+              <id>memo.nexus.public</id>
+              <url>http://nexus.memo.com:8081/nexus/content/groups/public
+              </url>
+              <releases>
+                <enabled>true</enabled>
+              </releases>
+              <snapshots>
+                <enabled>true</enabled>
+              </snapshots>
+            </pluginRepository>
+          </pluginRepositories>
+
+      </profile>
+
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>app</activeProfile>
+  </activeProfiles>
+  
+  <pluginGroups>
+    <pluginGroup>org.mortbay.jetty</pluginGroup>
+    <pluginGroup>org.codehaus.mojo</pluginGroup>
+    <pluginGroup>org.sonatype.maven.plugins</pluginGroup>
+  </pluginGroups>
+
+</settings>

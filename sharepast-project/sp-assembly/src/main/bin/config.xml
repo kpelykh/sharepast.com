@@ -1,0 +1,5 @@
+<config>
+  <keystorePassword>storeBlah</keystorePassword>
+  <keyPassword>keyBlah</keyPassword>
+  <jdbcPassword>B1zz1Us3r</jdbcPassword>
+</config>

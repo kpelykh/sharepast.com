@@ -1,0 +1,23 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="App Integration Tests" annotations="JDK5" verbose="10">
+    <test name="test02">
+        <classes>
+            <class name="kp.app.its.app00105.RestUtilTest"/>
+        </classes>
+    </test>
+    <test name="test01">
+        <classes>
+            <class name="kp.app.its.app00200.SecurityFrameworkTest"/>
+        </classes>
+    </test>
+    <test name="test02">
+        <classes>
+            <class name="kp.app.its.app00205.LogonTest"/>
+        </classes>
+    </test>
+    <test name="test03">
+        <classes>
+            <class name="kp.app.its.app00270.AppSecurityRestExtentionsTest"/>
+        </classes>
+    </test>
+</suite>

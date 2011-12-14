@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="classpath:kp/app/security.xml"/>
+
+    <context:component-scan base-package="kp.app.its.app00270"/>
+
+
+    <!-- ================= protected Resources ===================== -->
+  <bean id="protectedAnnotatedAuthenticatedResource00270"
+        class="kp.app.its.app00270.ProtectedAnnotatedAuthenticatedResource" scope="prototype"/>
+
+  <bean id="protectedAnnotatedPermissionResource00270"
+        class="kp.app.its.app00270.ProtectedAnnotatedPermissionResource" scope="prototype"/>
+
+  <bean id="protectedAnnotatedRoleResource00270"
+        class="kp.app.its.app00270.ProtectedAnnotatedRoleResource" scope="prototype"/>
+
+  <!--<bean id="ProtectedAnnotatedGoodRoleResource00072"
+        class="kp.app.its.app00270.ProtectedAnnotatedRoleResource" scope="prototype"/>
+
+  <bean id="protectedAnnotatedRequireContextResource00072"
+        class="kp.app.its.app00270.ContextResource" scope="prototype"/>
+
+  <bean id="protectedAnnotatedRequireContextNegativeResource00072"
+        class="kp.app.its.app00270.ContextNegativeResource" scope="prototype"/>
+
+  <bean id="protectedShowContextResource00072"
+        class="kp.app.its.app00270.ShowContextResource" scope="prototype"/>
+
+  <bean id="protectedBusinessStatusContextResource00072"
+        class="kp.app.its.app00270.BusinessStatusContextResource" scope="prototype"/>
+
+  <bean id="protectedBusinessStatusAnnotatedResource00072"
+        class="kp.app.its.app00270.BusinessStatusAnnotatedResource" scope="prototype">
+    <property name="available" value="true"/>
+    <property name="modifiable" value="true"/>
+  </bean>-->
+
+    <bean id="testRouterApp00270" class="kp.app.security.ShiroAuthenticator">
+        <constructor-arg index="0" value="null"/>
+        <constructor-arg index="1" value="false"/>
+        <constructor-arg index="2" value="companion.ly"/>
+        <property name="verifier" ref="shiroVerifier"/>
+        <property name="next" ref="testRouterApp00270Map"/>
+        <property name="rechallenging" value="false"/>
+        <property name="httpPort" value="${kp.app.http.port}"/>
+        <property name="httpsPort" value="${kp.app.https.port}"/>
+    </bean>
+
+
+    <bean id="testRouterApp00270Map" class="kp.app.security.AppSecureRouter">
+        <property name="attachments">
+            <map>
+                <entry key="/protectedByContext/{userId}/secured">
+                  <bean class="kp.app.security.AppResourceFinder">
+                    <lookup-method name="create" bean="protectedAnnotatedAuthenticatedResource00270"/>
+                    <property name="name" value="protectedAnnotatedAuthenticatedResource00270"/>
+                    <property name="lock">
+                      <bean class="kp.app.security.UriLock">
+                        <property name="authenticated" value="true"/>
+                        <property name="context" value="MY_USER"/>
+                        <property name="actions">
+                          <list>
+                              <ref bean="ACTION_READ" />
+                          </list>
+                        </property>
+                      </bean>
+                    </property>
+                  </bean>
+                </entry>
+                <entry key="/protectedByPermission/{userId}/secured">
+                  <bean class="kp.app.security.AppResourceFinder">
+                    <lookup-method name="create" bean="protectedAnnotatedPermissionResource00270"/>
+                    <property name="name" value="ProtectedAnnotatedPermissionResource00270"/>
+                    <property name="lock">
+                       <bean class="kp.app.security.UriLock">
+                          <property name="authenticated" value="true"/>
+                          <property name="permissions" value="some:permission"/>
+                        </bean>
+                    </property>
+                  </bean>
+                </entry>
+                <entry key="/protectedByRole/{userId}/secured">
+                  <bean class="kp.app.security.AppResourceFinder">
+                    <lookup-method name="create" bean="protectedAnnotatedRoleResource00270"/>
+                    <property name="name" value="protectedAnnotatedRoleResource00270"/>
+                    <property name="lock">
+                       <bean class="kp.app.security.UriLock">
+                          <property name="authenticated" value="true"/>
+                          <property name="roles" value="some-role"/>
+                        </bean>
+                    </property>
+                  </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>

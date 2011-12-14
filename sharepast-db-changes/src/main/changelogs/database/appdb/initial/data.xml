@@ -1,0 +1,138 @@
+<databaseChangeLog
+     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet author="konstantin.pelykh" id="initial-data-1">
+        <comment>Business GeoLocation Data</comment>
+        <loadData tableName="geographic_location" file="database/appdb/initial/geographic_location.csv">
+            <column name="id" type="NUMERIC"/>
+            <column name="postal_code" type="STRING"/>
+            <column name="city" type="STRING"/>
+            <column name="state" type="STRING"/>
+            <column name="county" type="STRING"/>
+            <column name="area_code" type="STRING"/>
+            <column name="latitude" type="NUMERIC"/>
+            <column name="longitude" type="NUMERIC"/>
+            <column name="time_zone" type="STRING"/>
+            <column name="daylight_saving_change" type="BOOLEAN"/>
+            <column name="approved" type="BOOLEAN"/>
+            <column name="dma_name" type="STRING"/>
+            <column name="dma_id" type="NUMERIC"/>
+            <column name="launch_date" type="STRING"/>
+            <column name="status" type="STRING"/>
+            <column name="target_customers_count" type="NUMERIC"/>
+        </loadData>
+        <modifySql>
+            <replace replace="'true'" with="'T'"/>
+        </modifySql>
+        <modifySql>
+            <replace replace="'false'" with="'F'"/>
+        </modifySql>
+        <modifySql>
+            <replace replace="''" with="NULL"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet author="konstantin.pelykh" id="initial-data-2">
+        <comment>Admin User</comment>
+        <insert tableName="users">
+            <column name="id" valueNumeric="1"/>
+            <column name="username" value="thedude"/>
+            <column name="email" value="thedude@companion.ly"/>
+            <column name="password" value="O8w2ejSI4RPcpotn5fomL+T9LfSLG3L9MpKzA1iRGqs="/>
+            <column name="first_name" value="The"/>
+            <column name="last_name" value="Dude"/>
+            <column name="user_status" value="ACTIVE"/>
+            <column name="gender" value="MALE"/>
+            <column name="time_zone" value="UTC"/>
+            <column name="privacy_preferences" value=""/>
+            <column name="notification_preferences" value=""/>
+            <column name="latitude" valueNumeric="0"/>
+            <column name="longitude" valueNumeric="0"/>
+            <column name="altitude" valueNumeric="0"/>
+            <column name="postal_code" value="94041"/>
+            <column name="line1" value="1885 California Str"/>
+            <column name="city" value="Mountain View"/>
+            <column name="state" value="CA"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" valueNumeric="2"/>
+            <column name="email" value="user@companion.ly"/>
+            <column name="username" value="testuser"/>
+			<!-- password testme -->
+            <column name="password" value="O8w2ejSI4RPcpotn5fomL+T9LfSLG3L9MpKzA1iRGqs="/>
+            <column name="first_name" value="The"/>
+            <column name="last_name" value="User"/>
+            <column name="user_status" value="ACTIVE"/>
+            <column name="gender" value="MALE"/>
+            <column name="time_zone" value="UTC"/>
+            <column name="privacy_preferences" value=""/>
+            <column name="notification_preferences" value=""/>
+            <column name="latitude" valueNumeric="0"/>
+            <column name="longitude" valueNumeric="0"/>
+            <column name="altitude" valueNumeric="0"/>
+            <column name="postal_code" value="94041"/>
+            <column name="line1" value="1885 California Str"/>
+            <column name="city" value="Mountain View"/>
+            <column name="state" value="CA"/>
+        </insert>
+        <insert tableName="file">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="dude.jpg"/>
+            <column name="size" valueNumeric="24000"/>
+            <column name="mime_type" value="image/jpg"/>
+            <column name="location" value="http://zapisnaya.s3.amazonaws.com/public/LJ/MarinaLJ/20110127-Berries-9407LJ.jpg"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="konstantin.pelykh" id="initial-data-3">
+        <comment>Security</comment>
+        <insert tableName="roles">
+            <column name="id" value="1"/>
+            <column name="role_name" value="ADMIN_ROLE"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="id" value="2"/>
+            <column name="role_name" value="USER_ROLE"/>
+        </insert>
+        <insert tableName="permissions">
+            <column name="id">1</column>
+            <column name="name">permission1</column>
+            <column name="description">sample description</column>
+        </insert>
+        <insert tableName="permissions">
+            <column name="id">2</column>
+            <column name="name">permission2</column>
+            <column name="description">sample description</column>
+        </insert>
+        <insert tableName="role_permissions">
+            <column name="role_id" value="1"/>
+            <column name="permission_id" value="1"/>
+        </insert>
+        <insert tableName="role_permissions">
+            <column name="role_id" value="1"/>
+            <column name="permission_id" value="2"/>
+        </insert>
+        <insert tableName="role_permissions">
+            <column name="role_id" value="2"/>
+            <column name="permission_id" value="1"/>
+        </insert>
+        <insert tableName="user_roles">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="user_roles">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="user_roles">
+            <column name="user_id" value="2"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="hibernate_sequence">
+            <column name="next_val" valueNumeric="5"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

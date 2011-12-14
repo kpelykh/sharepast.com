@@ -1,0 +1,4 @@
+#!/bin/bash
+source ~/bz/set-env
+cd $1/code/$2
+groovy scripts/Prep.groovy $*

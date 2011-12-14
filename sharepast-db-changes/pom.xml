@@ -1,0 +1,100 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>sharepast</groupId>
+        <artifactId>sp-parent-pom</artifactId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>sp-db-changes</artifactId>
+    <name>SP Database schema</name>
+    <version>1-SNAPSHOT</version>
+
+    <properties>
+        <lqb.driver>com.mysql.jdbc.Driver</lqb.driver>
+        <lqb.driver.scheme>mysql</lqb.driver.scheme>
+        <lqb.verbose>true</lqb.verbose>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/changelogs</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>sharepast</groupId>
+                        <artifactId>sp-db-changes</artifactId>
+                        <version>${project.version}</version>
+                        <scope>system</scope>
+                        <systemPath>${basedir}/target/sp-db-changes-${project.version}.jar</systemPath>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <profiles>
+
+        <profile>
+            <id>localhost</id>
+            <properties>
+                <lqb.driver>com.mysql.jdbc.Driver</lqb.driver>
+                <lqb.driver.scheme>mysql</lqb.driver.scheme>
+                <lqb.verbose>true</lqb.verbose>
+                <lqb.host>localhost</lqb.host>
+                <lqb.port>3306</lqb.port>
+                <lqb.schema.app>appdb</lqb.schema.app>
+                <lqb.user>app</lqb.user>
+                <lqb.password>app</lqb.password>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>db-update-sp</id>
+            <build>
+                <defaultGoal>liquibase:update</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <configuration>
+                            <driver>${lqb.driver}</driver>
+                            <verbose>${lqb.verbose}</verbose>
+                            <username>${lqb.user}</username>
+                            <password>${lqb.password}</password>
+                            <url>jdbc:${lqb.driver.scheme}://${lqb.host}:${lqb.port}/${lqb.schema.app}</url>
+                            <changeLogFile>${basedir}/src/main/changelogs/database/appdb/master.xml</changeLogFile>
+                            <logging>info</logging>
+                            <dropFirst>true</dropFirst>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <scm>
+        <connection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-db-changes</connection>
+        <developerConnection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-db-changes
+        </developerConnection>
+        <url>https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-db-changes</url>
+    </scm>
+
+</project>

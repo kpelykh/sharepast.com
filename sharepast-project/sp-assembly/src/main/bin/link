@@ -1,0 +1,46 @@
+#! /bin/sh
+#
+# this script create a link for appropriate JSW script in the current folder. Presuming that jsw is a subfolder
+#
+
+OS=`uname -a | awk '{print $1}'`
+ARCH=`uname -m`
+
+APP=bz
+
+if [ ! x$1 == x ]
+then
+    APP=$1
+fi
+
+case $OS in
+
+  "Darwin"   )
+  							echo "Mac"
+  							if [ $ARCH == "i386" ]
+  							then
+  								ln -s jsw/macosx-universal-32/$APP $APP
+  							else
+	  							uname -a
+	  							echo "Unsupported Mac OS X Architecture, please setup Java Service Wrapper manually"
+  							fi 
+  							ls -al $APP 
+  					;;
+
+  "Linux"    ) 
+  							echo "Linux"
+  							if [ $ARCH == "x86_64" ]
+  							then
+  								ln -s jsw/linux-x86-64/$APP $APP
+  							else
+  								ln -s jsw/linux-x86-32/$APP $APP
+  							fi
+  							ls -al $APP 
+  					;;
+
+  *					)
+  							uname -a
+  							echo "Unsupported OS/Architecture, please setup Java Service Wrapper manually"
+						;;
+
+esac

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                            http://www.springframework.org/schema/context
+                            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="kp.app.startup"/>
+    <context:component-scan base-package="kp.app.spring"/>
+
+    <bean id="jettyServer" class="org.eclipse.jetty.server.Server">
+        <property name="gracefulShutdown" value="1000"/>
+        <property name="stopAtShutdown" value="true"/>
+
+        <property name="handler">
+            <bean class="org.eclipse.jetty.server.handler.HandlerCollection">
+                <property name="handlers">
+                    <list>
+                        <ref bean="webAppContext"/>
+
+                        <bean id="requestLog" class="org.eclipse.jetty.server.handler.RequestLogHandler">
+                            <property name="requestLog">
+                                <bean class="org.eclipse.jetty.server.NCSARequestLog">
+                                    <property name="retainDays" value="90"/>
+                                    <property name="filename" value="#{appProperties['log.dir']}/jetty.request.log.yyyy_mm_dd"/>
+                                    <property name="append" value="true"/>
+                                    <property name="extended" value="false"/>
+                                    <property name="logTimeZone" value="GMT"/>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="threadPool">
+            <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
+                <property name="minThreads" value="10"/>
+                <property name="maxThreads" value="50"/>
+            </bean>
+        </property>
+
+        <property name="connectors">
+            <list>
+                <bean class="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                    <property name="port" value="${kp.app.http.port}"/>
+                    <property name="maxIdleTime" value="30000"/>
+                    <property name="acceptors" value="2"/>
+                    <property name="confidentialPort" value="${kp.app.https.port}"/>
+                </bean>
+                <bean class="org.eclipse.jetty.server.ssl.SslSocketConnector">
+                    <property name="port" value="${kp.app.https.port}"/>
+                    <property name="maxIdleTime" value="3000"/>
+                    <property name="keystore" value="#{appProperties['config.path']}/${kp.app.env}/${kp.app.keystore.name}"/>
+                    <property name="keyPassword" value="${kp.app.keystore.key.pass}"/>
+                    <property name="password" value="${kp.app.keystore.pass}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="webAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
+        <property name="contextPath" value="/"/>
+        <property name="resourceBase" value="#{appProperties['jetty.resources']}"/>
+        <property name="defaultsDescriptor" value="kp/app/jetty/webdefault.xml"/>
+
+        <property name="servletHandler">
+            <bean class="org.eclipse.jetty.servlet.ServletHandler">
+                <property name="startWithUnavailable" value="false"/>
+
+                <property name="filters">
+                    <list>
+                        <bean class="org.eclipse.jetty.servlet.FilterHolder">
+                            <property name="name" value="shiroFilter"/>
+                            <property name="filter">
+                                <bean class="kp.app.security.AppDelegatingFilterProxy"/>
+                            </property>
+                            <property name="initParameters">
+                                <map>
+                                    <entry key="targetFilterLifecycle" value="true"/>
+                                </map>
+                            </property>
+                        </bean>
+                        <bean class="org.eclipse.jetty.servlet.FilterHolder">
+                            <property name="name" value="UrlRewriteFilter"/>
+                            <property name="filter">
+                                <bean class="org.tuckey.web.filters.urlrewrite.UrlRewriteFilter"/>
+                            </property>
+                            <property name="initParameters">
+                                <map>
+                                    <entry key="confReloadCheckInterval" value="60"/>
+                                    <entry key="statusEnabledOnHosts" value="localhost"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+                <property name="servlets">
+                    <list>
+                        <bean class="org.eclipse.jetty.servlet.ServletHolder">
+                            <property name="name" value="dispatcher"/>
+                            <property name="className" value="kp.app.restlet.ext.servlet.AppRestletFrameworkServlet"/>
+                            <property name="initParameters">
+                                <map>
+                                    <entry key="targetRestletBeanName" value="application"/>
+                                    <entry key="contextConfigLocation"
+                                           value="classpath:/kp/app/dispatcher-servlet.xml"/>
+                                </map>
+                            </property>
+                            <property name="initOrder" value="1"/>
+                        </bean>
+                    </list>
+                </property>
+                <property name="filterMappings">
+                    <list>
+                        <!-- Shiro filter should be the first in the chain (or high enough
+                        in the chain such that nothing before it uses the session) -->
+                        <bean class="org.eclipse.jetty.servlet.FilterMapping">
+                            <property name="filterName" value="shiroFilter"/>
+                            <property name="pathSpec" value="/*"/>
+                        </bean>
+                        <bean class="org.eclipse.jetty.servlet.FilterMapping">
+                            <property name="filterName" value="UrlRewriteFilter"/>
+                            <property name="pathSpec" value="/*"/>
+                        </bean>
+                    </list>
+                </property>
+                <property name="servletMappings">
+                    <list>
+                        <bean class="org.eclipse.jetty.servlet.ServletMapping">
+                            <property name="servletName" value="dispatcher"/>
+                            <property name="pathSpec" value="/"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,1 @@
+jstatd -J-Djava.security.policy=jstatd.policy

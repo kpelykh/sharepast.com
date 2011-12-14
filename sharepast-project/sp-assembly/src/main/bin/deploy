@@ -1,0 +1,18 @@
+#! /bin/sh
+#
+# this script will deploy the version of bz assembly, specified with -Dbz.version=...
+# If omitted, the version of deploy-pom.xml is used as a default
+# 
+#
+CURR=$(find -maxdepth 1 -type d -mtime 0 -name bz-*)
+echo $CURR
+cd $CURR
+./bz stop
+cd ../
+rm -rf $CURR
+mvn -U -s settings.xml -f deploy-pom.xml $*
+rm -rf target
+CURR1=$(find -maxdepth 1 -type d -mtime 0 -name bz-*)
+cd $CURR1
+../link
+./bz start
