@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="AspectJ" name="AspectJ">
+      <configuration>
+        <option name="overrideAspectPath" value="true" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/sp-assembly/target/classes" />
     <output-test url="file://$MODULE_DIR$/sp-assembly/target/test-classes" />
@@ -11,7 +18,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: tanukisoft:wrapper:3.2.3" level="project" />
-    <orderEntry type="module" module-name="sp-geoip" />
+    <orderEntry type="library" name="Maven: kp.common:geoip:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:0.9.24" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:0.9.24" level="project" />

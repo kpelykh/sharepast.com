@@ -12,7 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/sp-gui.iml" filepath="$PROJECT_DIR$/sp-gui.iml" group="sharepast and modules" />
       <module fileurl="file://$PROJECT_DIR$/sp-it.iml" filepath="$PROJECT_DIR$/sp-it.iml" group="sharepast and modules" />
       <module fileurl="file://$PROJECT_DIR$/sp-jms.iml" filepath="$PROJECT_DIR$/sp-jms.iml" group="sharepast and modules" />
-      <module fileurl="file://$PROJECT_DIR$/sp-parent-pom.iml" filepath="$PROJECT_DIR$/sp-parent-pom.iml" group="sharepast and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sharepast-modules/sharepast-geoip/sp-parent-pom.iml" filepath="$PROJECT_DIR$/../sharepast-modules/sharepast-geoip/sp-parent-pom.iml" group="sharepast and modules" />
       <module fileurl="file://$PROJECT_DIR$/sp-service.iml" filepath="$PROJECT_DIR$/sp-service.iml" group="sharepast and modules" />
       <module fileurl="file://$PROJECT_DIR$/sp-util.iml" filepath="$PROJECT_DIR$/sp-util.iml" group="sharepast and modules" />
     </modules>

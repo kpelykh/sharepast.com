@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="My Fileset" removed="false">
+          <file>file://$MODULE_DIR$/sp-dal/src/main/spring/kp/app/persistence/app-hibernate.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+    <facet type="AspectJ" name="AspectJ">
+      <configuration>
+        <option name="overrideAspectPath" value="true" />
+        <option name="aspectPath">
+          <projectLibrary>
+            <option name="name" value="Maven: org.springframework:spring-aspects:3.0.5.RELEASE" />
+          </projectLibrary>
+          <projectLibrary>
+            <option name="name" value="Maven: org.springframework:spring-tx:3.0.5.RELEASE" />
+          </projectLibrary>
+          <projectLibrary>
+            <option name="name" value="Maven: org.apache.shiro:shiro-aspectj:1.1.0" />
+          </projectLibrary>
+        </option>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/sp-dal/target/classes" />
     <output-test url="file://$MODULE_DIR$/sp-dal/target/test-classes" />
     <exclude-output />
@@ -8,7 +33,12 @@
       <sourceFolder url="file://$MODULE_DIR$/sp-dal/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sp-dal/src/main/spring" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sp-dal/src/test/java" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/sp-dal/target" />
+      <sourceFolder url="file://$MODULE_DIR$/sp-dal/target/generated-sources/test-annotations" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/sp-dal/target/generated-sources/annotations" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-dal/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-dal/target/surefire" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-dal/target/surefire-reports" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-dal/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -63,7 +93,6 @@
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-spring:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.osgi:org.osgi.core:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.jaxb:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.1" level="project" />
     <orderEntry type="library" name="Maven: javax.xml.stream:stax-api:1.0-2" level="project" />
@@ -72,18 +101,18 @@
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.servlet:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.xml:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.freemarker:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.spring:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.json:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.lib.org.json:2.0" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.crypto:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.httpclient:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.james:apache-mime4j:0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.1.1" level="project" />
     <orderEntry type="library" name="Maven: net.jcip:jcip-annotations:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.james:apache-mime4j:0.6" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.ssl:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.jsslutils:jsslutils:1.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:1.7.4" level="project" />

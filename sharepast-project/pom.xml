@@ -4,26 +4,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>sharepast</groupId>
+        <groupId>com.sharepast</groupId>
         <artifactId>sp-parent-pom</artifactId>
         <version>1-SNAPSHOT</version>
     </parent>
 
     <artifactId>sharepast</artifactId>
     <version>1-SNAPSHOT</version>
-    <name>SP Distribution</name>
+    <name>SP Reactor</name>
     <packaging>pom</packaging>
 
-    <properties>
-
-        <sp.geoip.version>1.0</sp.geoip.version>
-
-    </properties>
-
     <scm>
-        <connection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/memo</connection>
-        <developerConnection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/memo</developerConnection>
-        <url>https://pl3.projectlocker.com/kpelykh/memoly/svn/memo</url>
+        <connection>scm:git:git@github.com:kpelykh/sharepast.com.git</connection>
+        <developerConnection>scm:git:git@github.com:kpelykh/sharepast.com.git</developerConnection>
+        <url>scm:git:git@github.com:kpelykh/sharepast.com.git</url>
     </scm>
 
     <modules>

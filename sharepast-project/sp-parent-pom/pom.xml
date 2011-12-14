@@ -2,18 +2,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>sharepast</groupId>
+    <groupId>com.sharepast</groupId>
     <artifactId>sp-parent-pom</artifactId>
     <version>1-SNAPSHOT</version>
 
     <name>SP Parent POM</name>
     <packaging>pom</packaging>
 
-    <url>http://sharepast.com</url>
+    <url>http://www.sharepast.com</url>
 
     <properties>
 
-        <sp.geoip.version>1.0</sp.geoip.version>
+        <geoip.version>1.0</geoip.version>
 
         <sp.env>de</sp.env>
 
@@ -163,25 +163,10 @@
     <developers>
         <developer>
             <name>Konstantin Pelykh</name>
-            <email>kp@memo.ly</email>
+            <email>kp@sharepast.com</email>
             <timezone>-8</timezone>
         </developer>
     </developers>
-
-    <scm>
-        <connection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-parent-pom</connection>
-        <developerConnection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-parent-pom
-        </developerConnection>
-        <url>https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-parent-pom</url>
-    </scm>
-
-    <!--<repositories>
-        <repository>
-            <id>maven-restlet</id>
-            <name>Public online Restlet repository</name>
-            <url>http://maven.restlet.org</url>
-        </repository>
-    </repositories>-->
 
     <dependencies>
 
@@ -266,9 +251,9 @@
         <dependencies>
 
             <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>sp-geoip</artifactId>
-                <version>${sp.geoip.version}</version>
+                <groupId>kp.common</groupId>
+                <artifactId>geoip</artifactId>
+                <version>${geoip.version}</version>
             </dependency>
 
 

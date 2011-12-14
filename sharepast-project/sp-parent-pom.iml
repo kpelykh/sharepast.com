@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="AspectJ" name="AspectJ">
+      <configuration>
+        <option name="overrideAspectPath" value="true" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/sp-parent-pom/target/classes" />
     <output-test url="file://$MODULE_DIR$/sp-parent-pom/target/test-classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/sp-parent-pom">
+      <excludeFolder url="file://$MODULE_DIR$/sp-parent-pom/${project.build.directory}/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-parent-pom/${project.build.directory}/test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/sp-parent-pom/target" />
     </content>
     <orderEntry type="inheritedJdk" />

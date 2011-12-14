@@ -20,7 +20,7 @@
   <dependencies>
     <dependency>
 
-      <groupId>sharepast</groupId>
+      <groupId>com.sharepast</groupId>
       <artifactId>sp-assembly</artifactId>
       <version>${sp.version}</version>
       <classifier>bin</classifier>
@@ -28,15 +28,15 @@
 
       <exclusions>
         <exclusion>
-          <groupId>sharepast</groupId>
+          <groupId>com.sharepast</groupId>
           <artifactId>sp-dal</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>sharepast</groupId>
+          <groupId>com.sharepast</groupId>
           <artifactId>sp-gui</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>sharepast</groupId>
+          <groupId>com.sharepast</groupId>
           <artifactId>sp-util</artifactId>
         </exclusion>
         <exclusion>

@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>sharepast</groupId>
+        <groupId>com.sharepast</groupId>
         <artifactId>sp-parent-pom</artifactId>
         <version>1-SNAPSHOT</version>
     </parent>
@@ -38,7 +38,7 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <dependencies>
                     <dependency>
-                        <groupId>sharepast</groupId>
+                        <groupId>com.sharepast</groupId>
                         <artifactId>sp-db-changes</artifactId>
                         <version>${project.version}</version>
                         <scope>system</scope>

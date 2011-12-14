@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="AspectJ" name="AspectJ">
+      <configuration>
+        <option name="overrideAspectPath" value="true" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/sp-util/target/classes" />
     <output-test url="file://$MODULE_DIR$/sp-util/target/test-classes" />
-    <exclude-output />
     <content url="file://$MODULE_DIR$/sp-util">
       <sourceFolder url="file://$MODULE_DIR$/sp-util/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sp-util/src/main/resources" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/sp-util/target" />
+      <sourceFolder url="file://$MODULE_DIR$/sp-util/target/generated-sources/annotations" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-util/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-util/target/maven-archiver" />
+      <excludeFolder url="file://$MODULE_DIR$/sp-util/target/surefire" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -52,7 +61,6 @@
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-spring:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.osgi:org.osgi.core:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.jaxb:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.1" level="project" />
     <orderEntry type="library" name="Maven: javax.xml.stream:stax-api:1.0-2" level="project" />
@@ -61,18 +69,18 @@
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.servlet:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.xml:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.freemarker:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.spring:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.json:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.lib.org.json:2.0" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.crypto:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.httpclient:2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.james:apache-mime4j:0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.1.1" level="project" />
     <orderEntry type="library" name="Maven: net.jcip:jcip-annotations:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.james:apache-mime4j:0.6" level="project" />
     <orderEntry type="library" name="Maven: org.restlet.jee:org.restlet.ext.ssl:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.jsslutils:jsslutils:1.0.5" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:0.9.24" level="project" />
