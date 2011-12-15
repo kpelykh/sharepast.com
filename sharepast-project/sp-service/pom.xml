@@ -10,8 +10,8 @@
     </parent>
 
     <artifactId>sp-service</artifactId>
-    <name>SP Data Services</name>
-    <description>SP Service</description>
+    <name>SP Services layer</name>
+    <description>SP Service layer</description>
 
     <dependencies>
         <dependency>

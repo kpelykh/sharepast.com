@@ -5,7 +5,7 @@
 
     <changeSet author="konstantin.pelykh" id="initial-data-1">
         <comment>Business GeoLocation Data</comment>
-        <loadData tableName="geographic_location" file="database/appdb/initial/geographic_location.csv">
+        <loadData tableName="geographic_location" file="com/sharepast/database/initial/geographic_location.csv">
             <column name="id" type="NUMERIC"/>
             <column name="postal_code" type="STRING"/>
             <column name="city" type="STRING"/>

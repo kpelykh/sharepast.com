@@ -8,13 +8,22 @@
     </parent>
 
     <artifactId>sp-db-changes</artifactId>
-    <name>SP Database schema</name>
+    <name>SP DB Liquibase</name>
     <version>1-SNAPSHOT</version>
 
     <properties>
         <lqb.driver>com.mysql.jdbc.Driver</lqb.driver>
         <lqb.driver.scheme>mysql</lqb.driver.scheme>
         <lqb.verbose>true</lqb.verbose>
+
+        <!-- default settings for database -->
+        <lqb.verbose>true</lqb.verbose>
+        <lqb.host>localhost</lqb.host>
+        <lqb.port>3306</lqb.port>
+        <lqb.schema.app>sp_development</lqb.schema.app>
+        <lqb.user>root</lqb.user>
+        <lqb.password>root</lqb.password>
+
     </properties>
 
     <dependencies>
@@ -53,20 +62,6 @@
     <profiles>
 
         <profile>
-            <id>localhost</id>
-            <properties>
-                <lqb.driver>com.mysql.jdbc.Driver</lqb.driver>
-                <lqb.driver.scheme>mysql</lqb.driver.scheme>
-                <lqb.verbose>true</lqb.verbose>
-                <lqb.host>localhost</lqb.host>
-                <lqb.port>3306</lqb.port>
-                <lqb.schema.app>appdb</lqb.schema.app>
-                <lqb.user>app</lqb.user>
-                <lqb.password>app</lqb.password>
-            </properties>
-        </profile>
-
-        <profile>
             <id>db-update-sp</id>
             <build>
                 <defaultGoal>liquibase:update</defaultGoal>
@@ -80,7 +75,7 @@
                             <username>${lqb.user}</username>
                             <password>${lqb.password}</password>
                             <url>jdbc:${lqb.driver.scheme}://${lqb.host}:${lqb.port}/${lqb.schema.app}</url>
-                            <changeLogFile>${basedir}/src/main/changelogs/database/appdb/master.xml</changeLogFile>
+                            <changeLogFile>${basedir}/src/main/changelogs/com/sharepast/database/master.xml</changeLogFile>
                             <logging>info</logging>
                             <dropFirst>true</dropFirst>
                         </configuration>
@@ -89,12 +84,5 @@
             </build>
         </profile>
     </profiles>
-
-    <scm>
-        <connection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-db-changes</connection>
-        <developerConnection>scm:svn:https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-db-changes
-        </developerConnection>
-        <url>https://pl3.projectlocker.com/kpelykh/memoly/svn/sp-db-changes</url>
-    </scm>
 
 </project>
