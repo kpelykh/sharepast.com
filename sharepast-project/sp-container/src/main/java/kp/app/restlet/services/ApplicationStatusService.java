@@ -1,22 +1,31 @@
 package kp.app.restlet.services;
 
+import kp.app.constants.LogonConstants;
+import kp.app.resources.LoginResource;
 import kp.app.restlet.exceptions.ClientResourceException;
 import kp.app.restlet.freemarker.AbstractConfigurableResource;
 import kp.app.restlet.freemarker.JsonRepresentationFactory;
 import kp.app.restlet.freemarker.RepresentationFactory;
 import kp.app.security.LogonUtils;
-import org.apache.shiro.authc.AuthenticationException;
+import kp.app.util.Util;
+import org.apache.shiro.ShiroException;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.restlet.Request;
 import org.restlet.Response;
+import org.restlet.data.Form;
 import org.restlet.data.MediaType;
+import org.restlet.data.Reference;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.service.StatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import java.util.*;
 
@@ -27,17 +36,51 @@ public class ApplicationStatusService extends StatusService {
 
     private static List<MediaType> canAccept = new ArrayList<MediaType>(3);
 
+    @Autowired
+    private ReloadableResourceBundleMessageSource messageSource;
+
     static {
         canAccept = new ArrayList<MediaType>(3);
         canAccept.add(MediaType.TEXT_HTML);
         canAccept.add(MediaType.APPLICATION_JSON);
         canAccept.add(MediaType.APPLICATION_JAVA_OBJECT);
     }
+
     /**
      * holds the map status templates
      */
     private LinkedHashMap<Status, RepresentationFactory> statusTemplateFactories;
     private RepresentationFactory defaultTemplateFactory;
+
+
+    private List<String> throwable2list(Throwable throwable) {
+
+        List<String> errors = new ArrayList<String>();
+        
+        if (throwable != null) {
+            if (throwable instanceof UnauthorizedException) {
+                errors.add(messageSource.getMessage("unauthorized.exception", null, Locale.getDefault()));
+            }
+            if (throwable instanceof IncorrectCredentialsException) {
+                errors.add(messageSource.getMessage("incorrect.credentials.exception", null, Locale.getDefault()));
+            } else if (throwable instanceof UnauthenticatedException) {
+                errors.add(messageSource.getMessage("unauthenticated.exception", null, Locale.getDefault()));
+            } else if (throwable instanceof UnknownAccountException) {
+                errors.add(messageSource.getMessage("unknown.account.exception", null, Locale.getDefault()));
+            } else if (throwable instanceof CredentialsException) {
+                errors.add(messageSource.getMessage("credentials.exception", null, Locale.getDefault()));
+            } else if (throwable instanceof LockedAccountException) {
+                errors.add(messageSource.getMessage("locked.account.exception", null, Locale.getDefault()));
+            } else if (throwable instanceof ExcessiveAttemptsException) {
+                errors.add(messageSource.getMessage("excessive.attempts.exception", null, Locale.getDefault()));
+            } else if (throwable instanceof AuthenticationException) {
+                errors.add(messageSource.getMessage("authentication.exception", null, Locale.getDefault()));
+            } else {
+                errors.add(messageSource.getMessage("general.exception", null, Locale.getDefault()));
+            }
+        }
+        return errors;
+    }
 
     @Override
     public Representation getRepresentation(Status status, Request request, Response response) {
@@ -46,23 +89,43 @@ public class ApplicationStatusService extends StatusService {
 
         Throwable throwable = status.getThrowable();
         ClientResourceException cre = null;
-        if (throwable != null && ClientResourceException.class.isAssignableFrom(throwable.getClass()))
+        if (throwable != null && ClientResourceException.class.isAssignableFrom(throwable.getClass())) {
             cre = (ClientResourceException) throwable;
+        }
 
         dataModel.put("HTTPRequest", request);
 
+        if (status.equals(Status.CLIENT_ERROR_UNAUTHORIZED)) {
+            throwable = (Throwable) request.getAttributes().get("shiro.auth.exception");
+            dataModel.put(LogonConstants.LOGON_USER_NAME, response.getAttributes().get(LogonConstants.LOGON_USER_NAME) );
+            dataModel.put(LogonConstants.REMEMBER_ME, response.getAttributes().get(LogonConstants.REMEMBER_ME) );
+
+            Reference ref = LogonUtils.getLogonReference(request);
+            //Used on the login page for redirecting user to the page which he tried to access before login
+            if (request.getAttributes().get(LogonConstants.LOGON_TARGET_URI_NAME) == null) {
+                dataModel.put(LogonConstants.LOGON_TARGET_URI_NAME, Util.encodeForUrl(request.getResourceRef().getPath()));
+            } else {
+                dataModel.put(LogonConstants.LOGON_TARGET_URI_NAME, request.getAttributes().get(LogonConstants.LOGON_TARGET_URI_NAME));
+            }
+
+            if (request.getAttributes().get(LogonConstants.LOGON_TARGET_QUERY_NAME) == null) {
+                dataModel.put(LogonConstants.LOGON_TARGET_QUERY_NAME, Util.encodeForUrl(request.getResourceRef().getQuery()));
+            } else {
+                dataModel.put(LogonConstants.LOGON_TARGET_QUERY_NAME, request.getAttributes().get(LogonConstants.LOGON_TARGET_QUERY_NAME));
+            }
+
+        }
+        
         if (throwable != null) {
             if (cre != null)
                 cre.log(LOG);
             else
                 LOG.error("status with exception", throwable);
 
-            Map<String, Object> errorModel = new HashMap<String, Object>(3);
+            dataModel.put("error", throwable2list(throwable));
+            dataModel.put("code", status.getCode());
 
-            dataModel.put("error", errorModel);
-            errorModel.put("code", status.getCode());
-
-            errorModel.put("traces", obtainStackTrace(throwable));
+            dataModel.put("traces", obtainStackTrace(throwable));
 
             String[] messages;
             LinkedList<String> messageList = new LinkedList<String>();
@@ -70,7 +133,7 @@ public class ApplicationStatusService extends StatusService {
             messageList.add(throwable.getMessage());
             messages = new String[messageList.size()];
             messageList.toArray(messages);
-            errorModel.put("messages", messages);
+            dataModel.put("messages", messages);
 
             return createRepresentation(status, preferedMediaType, dataModel);
         } else
@@ -78,29 +141,26 @@ public class ApplicationStatusService extends StatusService {
 
     }
 
-  class StatusResource extends AbstractConfigurableResource
-  {
-  }
-
-    private Representation createRepresentation (Status status, MediaType preferedMediaType, Map<String, Object> dataModel)
-  {
-    AbstractConfigurableResource resource = new StatusResource();
-    Representation res;
-
-    if (MediaType.APPLICATION_JSON.equals(preferedMediaType))
-      res = JSON_FACTORY.createRepresentation(preferedMediaType, dataModel, resource);
-    else
-    {
-      RepresentationFactory representationFactory = getStatusTemplateFactories().get(status);
-
-      if (representationFactory == null)
-        representationFactory = getDefaultTemplateFactory();
-
-      res = representationFactory.createRepresentation(preferedMediaType, dataModel, resource);
+    class StatusResource extends AbstractConfigurableResource {
     }
 
-    return res;
-  }
+    private Representation createRepresentation(Status status, MediaType preferedMediaType, Map<String, Object> dataModel) {
+        AbstractConfigurableResource resource = new StatusResource();
+        Representation res;
+
+        if (MediaType.APPLICATION_JSON.equals(preferedMediaType))
+            res = JSON_FACTORY.createRepresentation(preferedMediaType, dataModel, resource);
+        else {
+            RepresentationFactory representationFactory = getStatusTemplateFactories().get(status);
+
+            if (representationFactory == null)
+                representationFactory = getDefaultTemplateFactory();
+
+            res = representationFactory.createRepresentation(preferedMediaType, dataModel, resource);
+        }
+
+        return res;
+    }
 
     private String[] obtainStackTrace(Throwable throwable) {
         String[] lines;
@@ -170,24 +230,14 @@ public class ApplicationStatusService extends StatusService {
             } else {
                 result = re.getStatus();
             }
-        } else if (throwable instanceof UnauthorizedException) {
+        } else if (throwable instanceof ShiroException) {
             LOG.warn(throwable.getMessage());
-            LogonUtils.redirectToNoPrivileges(request, response);
-            response.setStatus(Status.REDIRECTION_TEMPORARY, throwable);
-            result = Status.REDIRECTION_TEMPORARY;
-        } else if (throwable instanceof UnauthenticatedException) {
-            LOG.warn(throwable.getMessage());
-            LogonUtils.redirectToLogon(request, response);
-            response.setStatus(Status.CLIENT_ERROR_UNAUTHORIZED, throwable);
-            result = Status.CLIENT_ERROR_UNAUTHORIZED;
-        } else if (throwable instanceof AuthenticationException) {
-            LOG.warn(throwable.getMessage());
-            LogonUtils.redirectToLogon(request, response);
-            response.setStatus(Status.REDIRECTION_TEMPORARY, throwable);
-            result = Status.REDIRECTION_TEMPORARY;
+            result = new Status(Status.CLIENT_ERROR_UNAUTHORIZED, throwable);
         } else {
             result = new Status(Status.SERVER_ERROR_INTERNAL, throwable);
         }
+        //DisabledAccountException, ExcessiveAttemptsException, ExpiredCredentialsException, IncorrectCredentialsException, LockedAccountException,
+        //UnknownAccountException
 
 
         return result;

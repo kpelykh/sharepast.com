@@ -45,9 +45,15 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
     private volatile boolean interceptingLogout;
 
     /**
-     * The URI path of the HTML login form to use to challenge the user.
+     * The name of the query parameter containing the URI to redirect the
+     * browser to after login or logout.
      */
-    private volatile String loginFormPath;
+    private volatile String redirectQueryName;
+
+    /**
+     * The name of the HTML login form field containing the secret.
+     */
+    private volatile String secretFormName;
 
     /**
      * The login URI path to intercept.
@@ -58,12 +64,6 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
      * The logout URI path to intercept.
      */
     private volatile String logoutPath;
-
-    @Autowired
-    private LoginResource loginResource;
-    
-    @Autowired
-    private ReloadableResourceBundleMessageSource messageSource;
 
     private int httpPort = 9090;
     private int httpsPort = 9091;
@@ -76,17 +76,6 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
         this.httpsPort = httpsPort;
     }
 
-
-    /**
-     * The name of the query parameter containing the URI to redirect the
-     * browser to after login or logout.
-     */
-    private volatile String redirectQueryName;
-
-    /**
-     * The name of the HTML login form field containing the secret.
-     */
-    private volatile String secretFormName;
 
     /**
      * Constructor. Use the {@link org.restlet.data.ChallengeScheme#HTTP_COOKIE} pseudo-scheme.
@@ -126,32 +115,25 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
      */
     protected boolean attemptRedirect(Request request, Response response) {
 
-        Form form = (Form) request.getAttributes().get("form");
-        if (form != null) {
-            String targetUri = form.getFirstValue(LogonConstants.LOGON_TARGET_URI_NAME, false);
-            Reference ref = new Reference(request.getResourceRef(), targetUri);
-            String origQuery = form.getFirstValue(LogonConstants.LOGON_TARGET_QUERY_NAME, false);
-            if (!Util.isEmpty(origQuery)) {
-                origQuery = Util.decodeFromUrl(origQuery);
+        Form loginForm = (Form) request.getAttributes().get("form");
 
-                String[] qs = Util.chopString(origQuery, "&");
-                if (!Util.isEmpty(qs))
-                    for (String q : qs) {
-                        String[] qqs = Util.chopString(q, "=");
-                        if (Util.isEmpty(qqs[0]))
-                            continue;
+        Subject subject = SecurityUtils.getSubject();
 
-                        ref.addQueryParameter(qqs[0], qqs.length > 1 ? Util.encodeForUrl(qqs[1]) : null);
-                    }
-            }
-
+        if (loginForm != null && !Util.isEmpty(loginForm.getFirstValue(LogonConstants.LOGON_TARGET_URI_NAME))) {
+            Reference ref = Util.form2reference(request, loginForm);
             response.redirectSeeOther(ref);
+            return true;
+        }
+
+
+        if (subject.isAuthenticated() && request.getResourceRef().getPath().contains(getLoginPath())) {
+            Reference targetUri = LogonUtils.getHomeReference(request);
+            response.redirectSeeOther(targetUri);
             return true;
         }
 
         return false;
     }
-
 
     /**
      * Sets or update the credentials cookie.
@@ -161,15 +143,8 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
         super.authenticated(request, response);
         // Attempt to redirect
         if (!attemptRedirect(request, response)) {
-            if (request.getResourceRef().getPath().contains(getLoginPath()) && Method.GET.equals(request.getMethod())) {
-                Reference targetUri = LogonUtils.getHomeReference(request);
-
-                // Attempt to redirect
-                response.redirectSeeOther(targetUri);
-            } else {
                 //proceed for all secured urls
                 return CONTINUE;
-            }
         }
         return STOP;
     }
@@ -180,7 +155,12 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
      */
     @Override
     protected int beforeHandle(Request request, Response response) {
-        if (isLoggingIn(request, response)) {
+
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated() && request.getResourceRef().getPath().contains(getLoginPath())) {
+            Reference targetUri = LogonUtils.getHomeReference(request);
+            response.redirectSeeOther(targetUri);
+        } else if (isLoggingIn(request, response)) {
             login(request, response);
         } else if (isLoggingOut(request, response)) {
             return logout(request, response);
@@ -197,15 +177,6 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
      */
     public String getIdentifierFormName() {
         return identifierFormName;
-    }
-
-    /**
-     * Returns the URI path of the HTML login form to use to challenge the user.
-     *
-     * @return The URI path of the HTML login form to use to challenge the user.
-     */
-    public String getLoginFormPath() {
-        return loginFormPath;
     }
 
     /**
@@ -314,6 +285,14 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
                 secret != null ? secret.getValue() : null);
         request.setChallengeResponse(cr);
         request.getAttributes().put("form", form);
+
+        if (form.getFirstValue(LogonConstants.LOGON_TARGET_URI_NAME) != null)
+            request.getAttributes().put(LogonConstants.LOGON_TARGET_URI_NAME, form.getFirstValue(LogonConstants.LOGON_TARGET_URI_NAME));
+
+        if (form.getFirstValue(LogonConstants.LOGON_TARGET_QUERY_NAME) != null)
+            request.getAttributes().put(LogonConstants.LOGON_TARGET_QUERY_NAME, form.getFirstValue(LogonConstants.LOGON_TARGET_QUERY_NAME));
+
+
     }
 
     /**
@@ -342,55 +321,6 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
 
 
         return STOP;
-    }
-
-
-    @Override
-    protected int unauthenticated(Request request, Response response) {
-        Form form = (Form) request.getAttributes().get("form");
-
-        Map<String, Object> dm = new HashMap<String, Object>(8);
-        if (form != null) {
-            dm.putAll(form.getValuesMap());
-        }
-
-        Throwable throwable = (Throwable) request.getAttributes().get("shiro.auth.exception");
-        if (throwable != null) {                        
-            if (throwable instanceof UnauthorizedException) {
-                dm.put("error", messageSource.getMessage("unauthorized.exception", null, Locale.getDefault()));
-            }
-            if (throwable instanceof IncorrectCredentialsException) {
-                dm.put("error", messageSource.getMessage("incorrect.credentials.exception", null, Locale.getDefault()));
-            } else if (throwable instanceof UnauthenticatedException) {
-                dm.put("error", messageSource.getMessage("unauthenticated.exception", null, Locale.getDefault()));
-            } else if (throwable instanceof UnknownAccountException) {
-                dm.put("error", messageSource.getMessage("unknown.account.exception", null, Locale.getDefault()));
-            } else if (throwable instanceof CredentialsException) {
-                dm.put("error", messageSource.getMessage("credentials.exception", null, Locale.getDefault()));
-            } else if (throwable instanceof LockedAccountException) {
-                dm.put("error", messageSource.getMessage("locked.account.exception", null, Locale.getDefault()));
-            } else if (throwable instanceof ExcessiveAttemptsException) {
-                dm.put("error", messageSource.getMessage("excessive.attempts.exception", null, Locale.getDefault()));
-            } else if (throwable instanceof AuthenticationException) {
-                dm.put("error", messageSource.getMessage("authentication.exception", null, Locale.getDefault()));
-            } else {
-                dm.put("error", messageSource.getMessage("general.exception", null, Locale.getDefault()));
-            }
-        }
-
-        renderForm(response, Status.CLIENT_ERROR_UNAUTHORIZED, dm);
-
-        return super.unauthenticated(request, response);
-
-    }
-
-    private void renderForm(Response response, Status status, Map<String, Object> dataModel) {
-        if (dataModel.get(LogonConstants.LOGON_TARGET_URI_NAME) == null) {
-            dataModel.put(LogonConstants.LOGON_TARGET_URI_NAME, response.getRequest().getResourceRef().getPath());
-        }
-
-        response.setEntity(loginResource.getRepresentationTemplates().get(MediaType.TEXT_HTML).createRepresentation(MediaType.TEXT_HTML, dataModel, loginResource));
-        response.setStatus(status);
     }
 
     /**
@@ -442,16 +372,6 @@ public class ShiroAuthenticator extends ChallengeAuthenticator {
      */
     public void setInterceptingLogout(boolean intercepting) {
         this.interceptingLogout = intercepting;
-    }
-
-    /**
-     * Sets the URI path of the HTML login form to use to challenge the user.
-     *
-     * @param loginFormPath The URI path of the HTML login form to use to challenge the
-     *                      user.
-     */
-    public void setLoginFormPath(String loginFormPath) {
-        this.loginFormPath = loginFormPath;
     }
 
     /**

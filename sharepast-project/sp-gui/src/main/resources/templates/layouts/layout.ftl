@@ -63,10 +63,14 @@ ${link}
 
 <section id="login-register">
     <div class="text-links">
-        <#if util.isRemembered || util.isAuthenticated>
+        <#if util.isAuthenticated>
             Logged in as
-            <a href="${util.getUserProfileUrl(user)}">${user.username}</a>
+            <a href="${util.getUserProfileUrl(user)}">${user.username}</a> |
             <a href="/logout">Logout</a>
+       <#elseif util.isRemembered && !util.isAuthenticated>
+            Hi,
+            <a href="${util.getUserProfileUrl(user)}">${user.username}</a>
+            <a href="/logout">(Not you?)</a>
         <#else>
             <a href="/users/new">Register</a> |
             <a href="/login">Login</a>

@@ -39,6 +39,7 @@
         <property name="sessionDAO">
             <bean id="enterpriseCacheSessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO"/>
         </property>
+        <!--<property name="globalSessionTimeout" value="60000"/>-->
     </bean>
 
     <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">

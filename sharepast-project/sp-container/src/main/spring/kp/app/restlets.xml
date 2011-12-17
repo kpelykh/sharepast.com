@@ -61,6 +61,7 @@
         <property name="attachments">
             <map>
 
+                <!-- the only place where we render login page is ShiroAuthenticator -->
                 <entry key="/login" value-ref="shiroAuthorizer"/>
                 <entry key="/logout" value-ref="shiroAuthorizer"/>
 
@@ -83,10 +84,10 @@
     <bean id="shiroAuthorizer" class="kp.app.security.ShiroAuthenticator">
         <constructor-arg index="0" ref="appPlatform.childContext"/>
         <constructor-arg index="1" value="false"/>
-        <constructor-arg index="2" value="companion.ly"/>
+        <constructor-arg index="2" value="sharepast.com"/>
         <property name="verifier" ref="shiroVerifier"/>
         <property name="next" ref="appResourceRouter"/>
-        <property name="rechallenging" value="false"/>
+        <property name="rechallenging" value="true"/>
         <property name="httpPort" value="${kp.app.http.port}"/>
         <property name="httpsPort" value="${kp.app.https.port}"/>
 
@@ -97,19 +98,28 @@
     <bean id="applicationStatusService" class="kp.app.restlet.services.ApplicationStatusService">
         <property name="defaultTemplateFactory">
             <bean class="kp.app.restlet.freemarker.FreemarkerRepresentationFactory">
-                <property name="templateName" value="error/status.ftl"/>
+                <property name="templateName" value="error/error.ftl"/>
             </bean>
         </property>
         <property name="statusTemplates">
             <map>
                 <entry>
                     <key>
-                        <util:constant static-field="org.restlet.data.Status.CLIENT_ERROR_METHOD_NOT_ALLOWED"/>
+                        <util:constant static-field="org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED"/>
                     </key>
                     <bean class="kp.app.restlet.freemarker.FreemarkerRepresentationFactory">
-                        <property name="templateName" value="error/404.ftl"/>
+                        <property name="templateName" value="login.ftl"/>
                     </bean>
                 </entry>
+                <entry>
+                    <key>
+                        <util:constant static-field="org.restlet.data.Status.CLIENT_ERROR_FORBIDDEN"/>
+                    </key>
+                    <bean class="kp.app.restlet.freemarker.FreemarkerRepresentationFactory">
+                        <property name="templateName" value="login.ftl"/>
+                    </bean>
+                </entry>
+
                 <entry>
                     <key>
                         <util:constant static-field="org.restlet.data.Status.CLIENT_ERROR_NOT_FOUND"/>

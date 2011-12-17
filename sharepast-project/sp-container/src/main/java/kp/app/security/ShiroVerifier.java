@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Kostya
@@ -30,7 +32,7 @@ public class ShiroVerifier implements Verifier {
 
     @Override
     public int verify(Request request, Response response) {
-        int result = RESULT_VALID;
+        int result = RESULT_UNKNOWN;
 
         Subject subject = SecurityUtils.getSubject();
 
@@ -40,7 +42,11 @@ public class ShiroVerifier implements Verifier {
           return RESULT_MISSING;
         }
 
-        if( !subject.isRemembered() && !subject.isAuthenticated())
+        if (subject != null && subject.isAuthenticated()) {
+            return RESULT_VALID;
+        }
+
+        if( !subject.isAuthenticated())
         {
             String identifier = getIdentifier(request, response);
             char[] secret = getSecret(request, response);
@@ -53,8 +59,11 @@ public class ShiroVerifier implements Verifier {
             try {
                 if (verify(subject, request, identifier, secret, rememberMe)) {
                     request.getClientInfo().setUser(new User(identifier));
+                    return RESULT_VALID;
                 } else {
                     result = RESULT_INVALID;
+                    response.getAttributes().put(LogonConstants.LOGON_USER_NAME, identifier);
+                    response.getAttributes().put(LogonConstants.REMEMBER_ME, rememberMe);
                 }
             } catch (IllegalArgumentException iae) {
                 // The identifier is unknown.

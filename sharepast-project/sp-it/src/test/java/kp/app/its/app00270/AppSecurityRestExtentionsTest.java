@@ -155,7 +155,7 @@ public class AppSecurityRestExtentionsTest extends AbstractPlatformSupport {
       assertNotNull( response );
 
       // should fail as test user does not have the permission
-      assertEquals( response.getStatus(), Status.REDIRECTION_TEMPORARY );
+      assertEquals( response.getStatus(), Status.CLIENT_ERROR_UNAUTHORIZED );
   }
 
 
@@ -213,7 +213,7 @@ public class AppSecurityRestExtentionsTest extends AbstractPlatformSupport {
     assertNotNull( response );
 
     // should fail as test user does not have the permission
-    assertEquals( response.getStatus(), Status.REDIRECTION_TEMPORARY );
+    assertEquals( response.getStatus(), Status.CLIENT_ERROR_UNAUTHORIZED );
   }
 
 }

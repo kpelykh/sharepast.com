@@ -1,9 +1,13 @@
 package kp.app.util;
 
+import kp.app.constants.LogonConstants;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.restlet.Request;
+import org.restlet.data.Form;
+import org.restlet.data.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -185,6 +189,28 @@ public class Util {
             LOG.error(msg, e);
             throw new RuntimeException(msg);
         }
+    }
+
+
+    public static Reference form2reference(Request request, Form form) {
+        String targetUri = form.getFirstValue(LogonConstants.LOGON_TARGET_URI_NAME, false);
+        targetUri = Util.decodeFromUrl(targetUri);
+        Reference ref = new Reference(request.getResourceRef(), targetUri);
+        String origQuery = form.getFirstValue(LogonConstants.LOGON_TARGET_QUERY_NAME, false);
+        if (!Util.isEmpty(origQuery)) {
+            origQuery = Util.decodeFromUrl(origQuery);
+
+            String[] qs = Util.chopString(origQuery, "&");
+            if (!Util.isEmpty(qs))
+                for (String q : qs) {
+                    String[] qqs = Util.chopString(q, "=");
+                    if (Util.isEmpty(qqs[0]))
+                        continue;
+
+                    ref.addQueryParameter(qqs[0], qqs.length > 1 ? Util.encodeForUrl(qqs[1]) : null);
+                }
+        }
+        return ref;
     }
 
     /**

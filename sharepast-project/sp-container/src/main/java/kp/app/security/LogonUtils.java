@@ -4,10 +4,14 @@ import kp.app.constants.LogonConstants;
 import kp.app.util.Util;
 import org.restlet.Request;
 import org.restlet.Response;
+import org.restlet.data.Form;
 import org.restlet.data.Protocol;
 import org.restlet.data.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -78,8 +82,12 @@ public class LogonUtils {
 
         Reference ref = new Reference(Protocol.HTTP.getSchemeName(), host, httpPort, loginUri, null, null);
 
-        ref.addQueryParameter(LogonConstants.LOGON_TARGET_URI_NAME, Util.encodeForUrl(originalRef.getPath()));
-        ref.addQueryParameter(LogonConstants.LOGON_TARGET_QUERY_NAME, Util.encodeForUrl(originalRef.getQuery()));
+        if (!Util.isEmpty(originalRef.getPath())) {
+            ref.addQueryParameter(LogonConstants.LOGON_TARGET_URI_NAME, originalRef.getPath());
+        }
+        if (!Util.isEmpty(originalRef.getQuery())) {
+            ref.addQueryParameter(LogonConstants.LOGON_TARGET_QUERY_NAME, originalRef.getQuery());
+        }
 
         return ref;
     }

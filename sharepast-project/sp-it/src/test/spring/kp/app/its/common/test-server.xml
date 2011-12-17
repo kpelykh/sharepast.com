@@ -43,20 +43,6 @@
 
     <bean id="testApplicationStatusService" class="kp.app.restlet.services.ApplicationStatusService"/>
 
-    <bean name="loginResource" class="kp.app.resources.LoginResource" scope="prototype">
-        <property name="representationTemplates">
-          <map>
-            <entry>
-                <key>
-                  <util:constant static-field="org.restlet.data.MediaType.TEXT_HTML"/>
-                </key>
-                <bean class="kp.app.restlet.freemarker.FreemarkerRepresentationFactory">
-                    <property name="templateName" value="login.ftl"/>
-                </bean>
-            </entry>
-          </map>
-        </property>
-      </bean>
 
     <!-- TEST CONTAINER CONFIG -->
 

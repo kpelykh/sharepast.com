@@ -87,7 +87,7 @@ public class AbstractPlatformSupport {
         Configurator.getInstance().addConfiguration("kp/app/base.xml");
         Configurator.getInstance().addConfiguration("kp/app/cache.xml");
         Configurator.getInstance().addConfiguration("kp/app/security.xml");
-        Configurator.getInstance().addConfiguration("kp/app/persistence/app-hibernate.xml");
+        Configurator.getInstance().addConfiguration("kp/app/persistence/sp-hibernate.xml");
         Configurator.getInstance().addConfiguration("kp/app/security.xml");
         Configurator.getInstance().addConfiguration("kp/app/its/common/test-server.xml");
         Configurator.getInstance().addConfiguration("kp/app/service/services.xml");
