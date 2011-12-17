@@ -114,6 +114,7 @@
 
         <!--  mojo.codehaus.org plugins -->
         <exec.maven.plugin.version>1.2</exec.maven.plugin.version>
+        <versions.maven.plugin>1.2</versions.maven.plugin>
 
         <!--  other plugins -->
         <liquibase.maven.plugin.version>2.0.1</liquibase.maven.plugin.version>
@@ -647,6 +648,13 @@
 
         <pluginManagement>
             <plugins>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${versions.maven.plugin}</version>
+                </plugin>
+
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>aspectj-maven-plugin</artifactId>
@@ -714,6 +722,11 @@
         </pluginManagement>
 
         <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

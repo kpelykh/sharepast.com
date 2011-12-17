@@ -27,7 +27,7 @@
     <bean id="testShiroCookieAuthenticator" class="kp.app.security.ShiroAuthenticator">
         <constructor-arg index="0" value="null"/>
         <constructor-arg index="1" value="false"/>
-        <constructor-arg index="2" value="companion.ly"/>
+        <constructor-arg index="2" value="sharepast.com"/>
         <property name="verifier" ref="shiroVerifier"/>
         <property name="next" ref="testRouterApp00205Map"/>
         <property name="rechallenging" value="false"/>

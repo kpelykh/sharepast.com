@@ -1,5 +1,6 @@
 package kp.app.security;
 
+import kp.app.constants.AppConstants;
 import kp.app.dal.dao.UserDAO;
 import kp.app.dal.domain.user.User;
 import kp.app.dal.security.domain.AppSecurityContextNameEnum;
@@ -27,10 +28,9 @@ import java.util.List;
 public class AppRealm extends SimpleAccountRealm {
 
     protected UserDAO userDAO = null;
-    public static final String REALM_NAME = "companion.ly";
 
     public AppRealm() {
-        setName( REALM_NAME ); //This name must match the name in the User class's getPrincipals() method
+        setName( AppConstants.REALM_NAME ); //This name must match the name in the User class's getPrincipals() method
     }
 
     @Autowired

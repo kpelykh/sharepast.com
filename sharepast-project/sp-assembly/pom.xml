@@ -16,7 +16,7 @@
         tarballs and attaches to the main artifact to be published in Nexus repository
     </description>
 
-    <url>http://memo.ly</url>
+    <url>http://sharepast.com</url>
 
     <dependencies>
 

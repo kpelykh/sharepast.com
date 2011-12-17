@@ -1,13 +1,13 @@
 <#import "../libs/util.ftl" as util>
 
 <#-- variables, override these in the page -->
-<#assign title>Companion.ly</#assign>
+<#assign title>sharepast.com - Share the best of your past!</#assign>
 <#-- meta tags -->
 <#assign meta></#assign>
 <#assign link></#assign>
-<#assign meta_title>Companion.ly</#assign>
-<#assign meta_description>companion</#assign>
-<#assign meta_keywords>meet, invite, together, go, company, companion</#assign>
+<#assign meta_title>sharepast.com</#assign>
+<#assign meta_description>Share your past events, upload videos and photos, discuss them with your friends. Share your moments!</#assign>
+<#assign meta_keywords>memory, share, photo, friends, past, events</#assign>
 
 <#-- JS that goes at the end of the body -->
 <#-- use layout.addBodyJS to add to it -->
@@ -28,7 +28,7 @@
 <html class="no-js" lang="en"><!--<![endif]-->
 <!-- the "no-js" class is for Modernizr. -->
 
-<head id="www-companion-ly" data-template-set="html5-reset">
+<head id="www-sharepast-com" data-template-set="html5-reset">
 
     <meta charset="utf-8">
 
@@ -76,13 +76,13 @@ ${link}
             <a href="/login">Login</a>
         </#if>
     </div>
-    <a href="http://www.twitter.com/companionly" target="_blank">
+    <a href="http://www.twitter.com/sharepast" target="_blank">
         <img alt="Twitter-icon" border="0" class="twitter-icon" src="/img/twitter-icon.png"/>
     </a>
 </section>
 
 <nav class="top-nav">
-    <a href="/" class="companionly-logo"></a>
+    <a href="/" class="logo"></a>
 
     <ul>
         <li><a href="/app/home" class="active">Home</a></li>

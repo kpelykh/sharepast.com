@@ -17,19 +17,19 @@
                     <value type="java.lang.Boolean">${web.debug}</value>
                 </entry>
                 <!--<entry key="isProduction">
-                    <value type="java.lang.Boolean">${com.bizzy.production}</value>
+                    <value type="java.lang.Boolean">${com.sharepast.production}</value>
                 </entry>
                 <entry key="isStaging">
-                    <value type="java.lang.Boolean">${com.bizzy.staging}</value>
+                    <value type="java.lang.Boolean">${com.sharepast.staging}</value>
                 </entry>
                 <entry key="isQa">
-                    <value type="java.lang.Boolean">${com.bizzy.qa}</value>
+                    <value type="java.lang.Boolean">${com.sharepast.qa}</value>
                 </entry>
                 <entry key="isDevelopment">
-                    <value type="java.lang.Boolean">${com.bizzy.development}</value>
+                    <value type="java.lang.Boolean">${com.sharepast.development}</value>
                 </entry>
                 <entry key="hostName">
-                    <value type="java.lang.String">${com.bizzy.host.name}</value>
+                    <value type="java.lang.String">${com.sharepast.host.name}</value>
                 </entry>-->
             </map>
         </constructor-arg>

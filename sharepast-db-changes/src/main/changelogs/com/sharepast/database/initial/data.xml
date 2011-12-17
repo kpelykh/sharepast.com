@@ -38,8 +38,9 @@
         <comment>Admin User</comment>
         <insert tableName="users">
             <column name="id" valueNumeric="1"/>
-            <column name="username" value="thedude"/>
-            <column name="email" value="thedude@companion.ly"/>
+            <column name="username" value="test"/>
+            <column name="email" value="test@sharepast.com"/>
+            <!-- testme password -->
             <column name="password" value="O8w2ejSI4RPcpotn5fomL+T9LfSLG3L9MpKzA1iRGqs="/>
             <column name="first_name" value="The"/>
             <column name="last_name" value="Dude"/>
@@ -58,7 +59,7 @@
         </insert>
         <insert tableName="users">
             <column name="id" valueNumeric="2"/>
-            <column name="email" value="user@companion.ly"/>
+            <column name="email" value="user@sharepast.com"/>
             <column name="username" value="testuser"/>
 			<!-- password testme -->
             <column name="password" value="O8w2ejSI4RPcpotn5fomL+T9LfSLG3L9MpKzA1iRGqs="/>

@@ -1,7 +1,7 @@
 #! /bin/sh
 
 #
-# creates a local /bizzy/bin with maven, groovy, tc and jmeeter
+# creates a local /app/bin with maven, groovy, tc and jmeeter
 #
 
 OS=`uname -a | awk '{print $1}'`

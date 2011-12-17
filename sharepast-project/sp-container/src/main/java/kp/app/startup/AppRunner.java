@@ -50,7 +50,7 @@ public class AppRunner {
     }
 
     /**
-     * main entry point to the bizzy runner instance. It instantiates the server, configures all the routes and runs it
+     * main entry point to the runner instance. It instantiates the server, configures all the routes and runs it
      *
      * @param args
      * @throws Exception
