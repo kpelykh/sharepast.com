@@ -1,15 +1,14 @@
 <#import "libs/util.ftl" as util>
 
 <#assign link in layout>
-<link href="/css/users/forms.css" rel="stylesheet"/>
-<link href="/css/users/login.css" rel="stylesheet"/>
+    <link href="/css/users/login.css" rel="stylesheet"/>
 </#assign>
 
 <#if remember_me??>
+    <#assign rememberMe=remember_me />
 <#else>
-    <#assign remember_me=false>
+    <#assign rememberMe=false />
 </#if>
-
 
 <@layout.addBodyJS>
 $(function() {
@@ -21,56 +20,57 @@ $(function() {
 </@layout.addBodyJS>
 
 <@layout.defaultlayout >
-<section id="main">
-
-    <div class="form-container">
 
 
-        <div class="form-header">
-            <h4>Log in to your account</h4>
-        </div>
+<div class="content">
+    <div class="page-header">
+        <h1>Login to your account</h1>
+    </div>
 
-        <form method="post" id="new_user_session" class="new_user_session" action="/login">
-            <input type="hidden" name="targetUri" value="${targetUri!"/"}"/>
-            <input type="hidden" name="targetQuery" value="${targetQuery!""}"/>
-
+        <div class="login-form">
             <#if error??>
-                <div id="errorExplanation" class="errorExplanation">
-                    <ul>
+                <div class="row">
+                    <div class="alert-message warning">
                         <#list error as errorItem>
-                            <li>${errorItem}</li>
+                            <p>${errorItem}</p>
                         </#list>
-                    </ul>
+                    </div>
                 </div>
             </#if>
 
 
-            <div class="label-and-input">
-                <div class="label-container"><label for="user_session_username">Username</label></div>
-                <div class="input-container"><input type="text" size="30" value="${login!}" name="login"
-                                                    id="user_session_username"></div>
-            </div>
-            <div class="label-and-input">
-                <div class="label-container"><label for="user_session_password">Password</label></div>
-                <div class="input-container">
-                    <input type="password" size="30" name="password" id="user_session_password"/>
-                </div>
-            </div>
-            <div class="label-and-input">
-                <div class="label-container">&nbsp;</div>
-                <div class="input-container">
-                    <input type="checkbox" name="remember_me" ${remember_me?string("checked", "fsdfsad")} value="${remember_me?string}" id="remember_me_checkbox">
-                    <label for="remember_me_checkbox">Remember Me</label>
-                </div>
-            </div>
-            <p>
-                <input type="submit" value="Submit" name="commit" id="user_session_submit">
-                &nbsp;&nbsp;&nbsp;<a class="forgot-password-link" href="/password_resets/new">Forgot password?</a>
-            </p>
-        </form>
-    </div>
+            <form method="post" action="/login" class="span7">
+            <input type="hidden" name="targetUri" value="${targetUri!"/"}"/>
+            <input type="hidden" name="targetQuery" value="${targetQuery!""}"/>
 
-</section>
+            <fieldset>
+                <div class="clearfix">
+                    <label for="loginBox">Username</label>
+                    <div class="input">
+                        <input class="span3" id="loginBox" value="${login!}" name="login" type="text" />
+                    </div>
+                </div><!-- /clearfix -->
+
+                <div class="clearfix">
+                    <label for="passwordBox">Password</label>
+                    <div class="input">
+                        <input class="span3" id="passwordBox" name="password" type="password" />
+                    </div>
+                </div><!-- /clearfix -->
+
+                <div class="input span3">
+                    <input id="remember_me_checkbox"  ${rememberMe?string("checked", "fsdfsad")}
+                           value="${rememberMe?string}" name="remember_me" type="checkbox" />
+                    &nbsp;&nbsp;Remember me
+                </div>
+
+                <div class="actions">
+                    <input type="submit" class="btn primary" value="Login">
+                </div>
+            </fieldset>
+            </form>
+        </div>
+</div>
 
 </@layout.defaultlayout>
 

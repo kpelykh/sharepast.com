@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.sharepast.dal"/>
+
+    <!-- Connection Pooling -->
+
+    <bean id="appDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url.app}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="acquireRetryDelay" value="300"/>
+        <property name="acquireRetryAttempts" value="3"/>
+        <property name="minPoolSize" value="${jdbc.pool.size.min}"/>
+        <property name="maxPoolSize" value="${jdbc.pool.size.max}"/>
+        <property name="idleConnectionTestPeriod" value="14400"/>
+        <property name="unreturnedConnectionTimeout" value="25200"/>
+        <property name="acquireIncrement" value="2"/>
+    </bean>
+
+
+    <!-- Liquibase updates -->
+
+    <bean class="com.sharepast.liquibase.SpringLiquibase">
+        <property name="dataSource" ref="appDataSource"/>
+        <property name="changeLog" value="classpath:database/app/master.xml"/>
+        <property name="execute" value="${liquibase.execute}"/>
+    </bean>
+
+
+    <!-- Session and Transaction -->
+
+    <!-- enable the configuration of transactional behavior based on annotations -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="appDataSource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>com.sharepast.dal.domain</value>
+                <value>com.sharepast.dal.security.domain</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>
+                query.factory_class=org.hibernate.hql.ast.ASTQueryTranslatorFactory
+                hibernate.dialect=${hibernate.dialect}
+                hibernate.hbm2ddl.auto=${hibernate.hbm2ddl.auto}
+                hibernate.bytecode.use_reflection_optimizer=true
+                hibernate.connection.isolation=${hibernate.connection.isolation}
+                hibernate.connection.autocommit=${hibernate.connection.autocommit}
+                hibernate.connection.provider_class=org.hibernate.connection.C3P0ConnectionProvider
+                hibernate.jdbc.use_scrollable_resultset=true
+                hibernate.jdbc.use_streams_for_binary=false
+                hibernate.jdbc.batch_size=${hibernate.jdbc.batch_size}
+                hibernate.query.substitutions=true 1, false 0
+                hibernate.show_sql=${hibernate.show_sql}
+                hibernate.format_sql=${hibernate.format_sql}
+                hibernate.use_sql_comments=false
+                hibernate.generate_statistics=false
+                hibernate.cache.use_second_level_cache=${hibernate.cache.secondlevel.use}
+                hibernate.cache.use_query_cache=false
+                hibernate.cache.use_minimal_puts=true
+                hibernate.cache.use_structured_entries=false
+                hibernate.cache.provider_class=net.sf.ehcache.hibernate.EhCacheProvider
+                hibernate.cache.max_fetch_depth=3
+            </value>
+        </property>
+        <!--<property name="eventListeners">
+            <map>
+                <entry key="pre-insert">
+                    <bean class="com.sharepast.persistence.hibernate.HibernateInsertListener"/>
+                </entry>
+                <entry key="pre-delete">
+                    <bean class="com.sharepast.persistence.hibernate.HibernateDeleteListener"/>
+                </entry>
+            </map>
+        </property>-->
+    </bean>
+
+
+    <!-- ========================= TRANSACTION MANAGEMENT ========================= -->
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!--For @Transactional-->
+    <bean id="txAspect" class="org.springframework.transaction.aspectj.AnnotationTransactionAspect"
+            factory-method="aspectOf">
+        <property name="transactionManager">
+            <ref local="transactionManager"/>
+        </property>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!-- the transactional semantics... -->
+        <tx:attributes>
+            <!-- all methods starting with 'get' are read-only -->
+            <tx:method name="find*" propagation="REQUIRED" read-only="true"
+                       rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"
+                       rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:advice id="ormAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="got" propagation="REQUIRED" read-only="true" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+            <tx:method name="get" propagation="REQUIRED" read-only="true" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+            <tx:method name="list" propagation="REQUIRED" read-only="true" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+            <tx:method name="scroll" propagation="REQUIRED" read-only="true" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+            <tx:method name="sice" propagation="REQUIRED" read-only="true" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+            <tx:method name="persist" propagation="REQUIRED" read-only="false" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+            <tx:method name="delete" propagation="REQUIRED" read-only="false" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="hibernateMethodsPcut" expression="execution(* com.sharepast.dal.dao.*.*(..))"/>
+        <aop:pointcut id="ormMethodsPcut" expression="execution(* com.sharepast.persistence.orm.ORMDao.*(..))"/>
+        <aop:advisor advice-ref="ormAdvice" pointcut-ref="ormMethodsPcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="hibernateMethodsPcut"/>
+    </aop:config>
+
+</beans>

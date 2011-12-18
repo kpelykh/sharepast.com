@@ -10,19 +10,19 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.classic.html.HTMLLayout
 import ch.qos.logback.core.encoder.LayoutWrappingEncoder
-import ch.qos.logback.core.FileAppender;
 import ch.qos.logback.core.ConsoleAppender;
 
 import ch.qos.logback.core.rolling.RollingFileAppender;
-import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
+import com.sharepast.constants.AppConstants;
 
 def userHome = System.getProperty( 'user.home' )
 
-def env      = System.getProperty( 'kp.env', 'de' )
+def env      = System.getProperty( 'app.env', 'de' )
 def logDir   = System.getProperty( 'log.dir.rel', '/app/sharepast.com/logs' )
 
-def pool     = System.getProperty( 'kp.server.pool', 'app' )
-def server   = System.getProperty( 'kp.server.id', '001' )
+def pool     = System.getProperty( AppConstants.SYSTEM_PROPERTY_POOL , 'app' )
+def server   = System.getProperty( AppConstants.SYSTEM_PROPERTY_SERVER_ID, '001' )
 
 def logLevel = 'log.properties'
 

@@ -20,7 +20,7 @@
 
 package com.maxmind.geoip;
 
-import kp.app.util.Util;
+import com.sharepast.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

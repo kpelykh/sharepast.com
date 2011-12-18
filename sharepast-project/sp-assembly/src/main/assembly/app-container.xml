@@ -54,8 +54,8 @@
             <unpack>false</unpack>
             <excludes>
                 <!-- excluded because all web resources are available unpacked - see next dep. set -->
-                <exclude>kp.app:sp-gui</exclude>
-                <exclude>kp.app:sp-config</exclude>
+                <exclude>com.sharepast:sp-gui</exclude>
+                <exclude>com.sharepast:sp-config</exclude>
             </excludes>
         </dependencySet>
 
@@ -63,7 +63,7 @@
             <outputDirectory>webapp</outputDirectory>
             <unpack>true</unpack>
             <includes>
-                <include>kp.app:sp-gui</include>
+                <include>com.sharepast:sp-gui</include>
             </includes>
         </dependencySet>
 
@@ -71,7 +71,7 @@
             <outputDirectory>classes</outputDirectory>
             <unpack>true</unpack>
             <includes>
-                <include>kp:sp-config</include>
+                <include>com.sharepast:sp-config</include>
             </includes>
         </dependencySet>
 

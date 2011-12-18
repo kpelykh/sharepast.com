@@ -13,7 +13,7 @@
   <description>SP GUI resources</description>
 
    <build>
-    <resources>
+    <!--<resources>
       <resource>
         <directory>src/main/resources/templates</directory>
         <filtering>false</filtering>
@@ -22,7 +22,29 @@
         <directory>src/main/resources/static</directory>
         <filtering>false</filtering>
       </resource>
-    </resources>
+    </resources>-->
+
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>lesscss-maven-plugin</artifactId>
+            <configuration>
+                <sourceDirectory>${project.basedir}/src/main/resources/static/less</sourceDirectory>
+                <outputDirectory>${project.basedir}/src/main/resources/static/css</outputDirectory>
+                <includes>
+                    <include>bootstrap.less</include>
+                </includes>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+    </plugins>
   </build>
 
 </project>

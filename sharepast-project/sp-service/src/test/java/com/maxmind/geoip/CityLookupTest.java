@@ -1,6 +1,6 @@
 package com.maxmind.geoip;/* CityLookupTest.java */
 
-import kp.app.util.spring.Configurator;
+import com.sharepast.util.spring.Configurator;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -12,7 +12,7 @@ public class CityLookupTest {
 
     @BeforeClass
     public void configure() {
-        Configurator.getInstance().configure("kp/app/base.xml", "kp/app/service/geoip-location.xml");
+        Configurator.getInstance().configure("com/sharepast/base.xml", "com/sharepast/service/geoip-location.xml");
     }
 
     @AfterClass

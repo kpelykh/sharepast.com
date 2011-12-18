@@ -126,7 +126,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <mainClass>kp.app.startup.AppRunner</mainClass>
+                            <mainClass>com.sharepast.startup.AppRunner</mainClass>
                             <includeProjectDependencies>true</includeProjectDependencies>
                             <includePluginDependencies>false</includePluginDependencies>
                             <longClasspath>true</longClasspath>
@@ -166,7 +166,7 @@
                         </executions>
                         <configuration>
                             <executable>java</executable>
-                            <mainClass>kp.app.startup.AppRunner</mainClass>
+                            <mainClass>com.sharepast.startup.AppRunner</mainClass>
                             <includeProjectDependencies>true</includeProjectDependencies>
                             <includePluginDependencies>false</includePluginDependencies>
                             <classpathScope>runtime</classpathScope>
@@ -183,7 +183,7 @@
                                 <argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999</argument>
                                 <argument>-classpath</argument>
                                 <classpath/>
-                                <argument>kp.app.startup.AppRunner</argument>
+                                <argument>com.sharepast.startup.AppRunner</argument>
                                 <argument>--jms</argument>
                             </arguments>
                         </configuration>

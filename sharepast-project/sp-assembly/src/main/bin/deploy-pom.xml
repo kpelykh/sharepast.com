@@ -3,14 +3,14 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>kp</groupId>
+  <groupId>com.sharepast</groupId>
   <artifactId>sp-depoyer</artifactId>
   <version>1.0-beta-1-SNAPSHOT</version>
   <name>SP platform deployer</name>
   <packaging>pom</packaging>
 
   <properties>
-    <kp.version>${project.version}</kp.version>
+    <app.version>${project.version}</app.version>
 
     <maven.dependency.plugin.version>2.0</maven.dependency.plugin.version>
     <maven.antrun.plugin.version>1.3</maven.antrun.plugin.version>

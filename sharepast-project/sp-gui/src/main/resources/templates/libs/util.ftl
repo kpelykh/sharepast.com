@@ -12,7 +12,7 @@
 <#assign isAuthenticated=userMap.isAuthenticated >
 <#assign isRemembered=userMap.isRemembered>
 <!-- example of rreferencing static field from ftl -->
-<#--<#if .data_model[statics["kp.app.constants.LogonConstants"].LOGOUT_FLAG]??>
+<#--<#if .data_model[statics["com.sharepast.constants.LogonConstants"].LOGOUT_FLAG]??>
     <#assign isLoggedOut = true>
 </#if>-->
 
@@ -99,3 +99,4 @@
 <#function getUserProfileUrl user>
   <#return methods.url(resources.userProfile, {enums.ParamNameEnum.USER_ID.key: user.id?c}) />
 </#function>
+

@@ -2,22 +2,22 @@
 <suite name="App Integration Tests" annotations="JDK5" verbose="10">
     <test name="test02">
         <classes>
-            <class name="kp.app.its.app00105.RestUtilTest"/>
+            <class name="com.sharepast.its.app00105.RestUtilTest"/>
         </classes>
     </test>
     <test name="test01">
         <classes>
-            <class name="kp.app.its.app00200.SecurityFrameworkTest"/>
+            <class name="com.sharepast.its.app00200.SecurityFrameworkTest"/>
         </classes>
     </test>
     <test name="test02">
         <classes>
-            <class name="kp.app.its.app00205.LogonTest"/>
+            <class name="com.sharepast.its.app00205.LogonTest"/>
         </classes>
     </test>
     <test name="test03">
         <classes>
-            <class name="kp.app.its.app00270.AppSecurityRestExtentionsTest"/>
+            <class name="com.sharepast.its.app00270.AppSecurityRestExtentionsTest"/>
         </classes>
     </test>
 </suite>

@@ -1,7 +1,7 @@
 <#import "../libs/util.ftl" as util>
 
 <#-- variables, override these in the page -->
-<#assign title>sharepast.com - Share the best of your past!</#assign>
+<#assign title>sharepast.com - share the moments of your past!</#assign>
 <#-- meta tags -->
 <#assign meta></#assign>
 <#assign link></#assign>
@@ -15,89 +15,91 @@
 <#assign bodyJS >
 </#assign>
 
-
 <#-- head settings and tags common for pages -->
 <#macro htmlHead>
-<!DOCTYPE HTML>
-
-<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
-<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
-<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
-<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
-<!--[if gt IE 9]><!-->
-<html class="no-js" lang="en"><!--<![endif]-->
-<!-- the "no-js" class is for Modernizr. -->
-
-<head id="www-sharepast-com" data-template-set="html5-reset">
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-
-    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
     <title>${title}</title>
-
-    <meta name="title" content="${meta_title?js_string}">
     <meta name="description" content="${meta_description?html}">
-    <!-- Google will often use this as its description of your page/site. Make it good. -->
     <meta name="author" content="Konstantin Pelykh">
+    <meta name="title" content="${meta_title?js_string}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="${meta_keywords?js_string}"/>
 ${meta}
 
-    <link href="/favicon.ico" rel="shortcut icon">
-    <link href="/css/style.css" rel="stylesheet">
-${link}
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-    <!-- all our JS is at the bottom of the page, except for Modernizr. -->
-    <script src="/js/libs/modernizr-2.0.6.js"></script>
+<#if config.isProduction>
+    <link href="/css/bootstrap.css" rel="/css/bootstrap.css">
+<#else>
+    <link rel="stylesheet/less" href="/less/bootstrap.less">
+    <script src="/js/libs/less-1.1.5.min.js"></script>
+</#if>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+${link}
 </head>
 </#macro>
 
 
 <#-- Base Layout -->
-<#macro defaultlayout header="">
+<#macro defaultlayout header="" tab="">
 <@htmlHead />
 
 <body>
 
-<section id="login-register">
-    <div class="text-links">
-        <#if util.isAuthenticated>
-            Logged in as
-            <a href="${util.getUserProfileUrl(user)}">${user.username}</a> |
-            <a href="/logout">Logout</a>
-       <#elseif util.isRemembered && !util.isAuthenticated>
-            Hi,
-            <a href="${util.getUserProfileUrl(user)}">${user.username}</a>
-            <a href="/logout">(Not you?)</a>
-        <#else>
-            <a href="/users/new">Register</a> |
-            <a href="/login">Login</a>
-        </#if>
+<div class="topbar">
+    <div class="fill">
+        <div class="container">
+            <a class="brand" href="/">sharepast</a>
+
+            <ul class="nav">
+            <#if util.isAuthenticated>
+                <li <#if tab == "home">class="active"</#if>><a href="/app/home">Home</a></li>
+                <li <#if tab == "profile">class="active"</#if>><a href="${util.getUserProfileUrl(user)}">Profile</a></li>
+            </#if>
+            </ul>
+            <#if util.isAuthenticated>
+                <p class="pull-right">Logged in as <a href="${util.getUserProfileUrl(user)}">${user.username}</a> | <a href="/logout">Logout</a></p>
+            <#elseif util.isRemembered && !util.isAuthenticated>
+                <p class="pull-right"><a href="${util.getUserProfileUrl(user)}">${user.username}</a> <a href="/logout">(Not you?)</a></p>
+            <#else>
+                <p class="pull-right">
+                    <a href="/users/new">Register</a> |
+                    <a href="/login">Login</a>
+                </p>
+            </#if>
+        </div>
     </div>
-    <a href="http://www.twitter.com/sharepast" target="_blank">
-        <img alt="Twitter-icon" border="0" class="twitter-icon" src="/img/twitter-icon.png"/>
-    </a>
-</section>
+</div>
 
-<nav class="top-nav">
-    <a href="/" class="logo"></a>
-
-    <ul>
-        <li><a href="/app/home" class="active">Home</a></li>
-        <li><a href="/about">About</a></li>
-
-        <li><a href="/contact">Contact</a></li>
-    </ul>
-</nav>
-
+<div class="container">
     <#nested/>
 
-<footer>
-    <a href="/pages/privacy">Privacy policy</a> &#8226;
-    <a href="/pages/terms">Terms and conditions</a>
-</footer>
+    <footer>
+        <p>&copy; Sharepast 2011</p>
+
+        <p>
+            <a href="/pages/privacy">Privacy policy</a> |
+            <a href="/pages/terms">Terms and conditions</a> |
+            <a href="/about">About</a> |
+            <a href="/contact">Contact</a>
+        </p>
+
+        <#if !config.isProduction>
+            <p> ${build.version} ${build.timestamp} </p>
+        </#if>
+
+    </footer>
+
+</div> <!-- /container -->
+
 
 <!-- here comes the javascript -->
 
@@ -133,7 +135,6 @@ ${link}
 
 </body>
 </html>
-<#--</#compress>-->
 </#macro>
 
 

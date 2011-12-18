@@ -1,67 +1,62 @@
 <#import "../libs/util.ftl" as util>
 
-<#assign link in layout>
-<link href="/css/users/forms.css" rel="stylesheet"/>
-</#assign>
+<@layout.defaultlayout>
 
-
-<@layout.addBodyJS>
-$(function() {
-  $("#user_is_email_subscribed").click(function() {
-    $("#user_is_email_subscribed").val($("#user_is_email_subscribed").is(":checked"));
-  });
-});
-</@layout.addBodyJS>
-
-
-<@layout.defaultlayout >
-
-<section id="main">
-        <div class="form-container">
-
-	<div class="form-header">
-	  <h4>Register</h4>
-	</div>
-
-  <form method="post" id="new_user" class="new_user" action="/users/new">
-
-    <#if error??>
-        <div id="errorExplanation" class="errorExplanation">
-            <ul>
-                <#list error as errorItem>
-                    <li>${errorItem}</li>
-                </#list>
-            </ul>
-        </div>
-    </#if>
-
-    <div class="label-and-input">
-      <div class="label-container"><label for="user_username">Username</label></div>
-      <div class="input-container"><input type="text" size="30" name="username" id="user_username"/></div>
-    </div>
-    <div class="label-and-input">
-      <div class="label-container"><label for="user_email">Email</label></div>
-      <div class="input-container"><input type="text" size="30" name="email" id="user_email"/></div>
-    </div>
-    <div class="label-and-input">
-      <div class="label-container"><label for="user_password">Password</label></div>
-      <div class="input-container"><input type="password" size="30" name="password" id="user_password"/></div>
-    </div>
-    <div class="label-and-input">
-      <div class="label-container"><label for="user_password_confirmation">Password confirmation</label></div>
-      <div class="input-container"><input type="password" size="30" name="password_confirmation" id="user_password_confirmation"/></div>
-    </div>
-    <div class="label-and-input">
-      <input type="checkbox" value="1" name="is_email_subscribed" id="user_is_email_subscribed"/>
-      <label for="user_is_email_subscribed" class="email-subscription-label">Yes, I want to subscribe to email newsletters.</label>
+<div class="content">
+    <div class="page-header">
+        <h1>Register</h1>
     </div>
 
-	<p><input type="submit" value="Submit" name="commit" id="user_submit"></p>
+    <div class="registration-form">
+        <#if error??>
+            <div class="row">
+                <div class="alert-message warning">
+                    <#list error as errorItem>
+                        <p>${errorItem}</p>
+                    </#list>
+                </div>
+            </div>
+        </#if>
 
-  </form>
 
+        <form method="post" action="/users/new" class="span7">
+
+            <fieldset>
+                <div class="clearfix">
+                    <label for="user_username">Username</label>
+                    <div class="input">
+                        <input class="span3" id="user_username" value="${login!}" name="username" type="text" />
+                    </div>
+                </div><!-- /clearfix -->
+
+                <div class="clearfix">
+                    <label for="user_email">Email</label>
+                    <div class="input">
+                        <input class="span3" id="user_email" name="email" type="text" />
+                    </div>
+                </div><!-- /clearfix -->
+
+                <div class="clearfix">
+                    <label for="user_password">Password</label>
+                    <div class="input">
+                        <input class="span3" id="user_password" name="password" type="password" />
+                    </div>
+                </div><!-- /clearfix -->
+
+                <div class="clearfix">
+                    <label for="user_password_confirmation">Password confirmation</label>
+                    <div class="input">
+                        <input class="span3" id="user_password_confirmation" name="password_confirmation" type="password" />
+                    </div>
+                </div><!-- /clearfix -->
+
+                <div class="actions">
+                    <input type="submit" class="btn primary" value="Register">
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </div>
-</section>
 
 </@layout.defaultlayout>
 
