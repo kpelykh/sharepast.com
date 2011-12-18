@@ -65,6 +65,11 @@ public class LogonUtils {
         response.setLocationRef(ref);
     }
 
+    public static void redirectToRoot(Request request, Response response) {
+        Reference ref = getRootReference(request);
+        response.setLocationRef(ref);
+    }
+
     public static void redirectMissingPrivileges(Request request, Response response) {
        Reference originalRef = request.getResourceRef();
        String host = originalRef.getHostDomain();
@@ -99,6 +104,15 @@ public class LogonUtils {
         return ref;
     }
 
+    public static Reference getRootReference(Request request) {
+        Reference originalRef = request.getResourceRef();
+        String host = originalRef.getHostDomain();
+
+        Reference ref = new Reference(Protocol.HTTP.getSchemeName(), host, httpPort, rootUri, null, null);
+
+        return ref;
+    }
+
     public static String getApiPrefix() {
         return apiPrefix;
     }
@@ -111,6 +125,10 @@ public class LogonUtils {
         return loginUri;
     }
 
+    public static String getRootUri() {
+        return rootUri;
+    }
+    
     public static String getHomeUri() {
         return homeUri;
     }

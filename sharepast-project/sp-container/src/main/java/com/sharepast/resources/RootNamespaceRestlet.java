@@ -1,6 +1,10 @@
 package com.sharepast.resources;
 
+import com.sharepast.dal.domain.user.User;
+import com.sharepast.security.LogonUtils;
+import com.sharepast.security.SecurityDataUtil;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.Restlet;
@@ -22,24 +26,22 @@ public class RootNamespaceRestlet extends Restlet {
 
     @Autowired
     private RootResource rootResource;
+    
+    @Autowired
+    private SecurityDataUtil securityUtil;
 
     @Override
     public void handle(Request request, Response response) {
         System.out.println("Authenticated=" + SecurityUtils.getSubject().isAuthenticated());
-        renderRootPage(response);
-        /*Subject subject = SecurityUtils.getSubject();
-        if (subject != null && subject.isAuthenticated()) {
-            User user = SecurityDataUtil.getCurrentAccount();
-            if (user != null)
-                response.redirectTemporary(String.format("%s/home", LogonUtils.getApiPrefix(), user.getId()));
-            else {
-                response.redirectTemporary( ref404 );
-                renderRootPage(response);
-            }
-        } else {
-            renderRootPage(response);
-        }*/
 
+        Subject subject = SecurityUtils.getSubject();
+        if (subject != null && subject.isAuthenticated()) {
+            User user = securityUtil.getCurrentUser();
+            //response.redirectTemporary(String.format("%s/users/%d", LogonUtils.getApiPrefix(), user.getId()));
+            response.redirectTemporary(LogonUtils.getHomeUri());
+        } else {
+            response.redirectTemporary(LogonUtils.getRootUri());
+        }
     }
 
 

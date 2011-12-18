@@ -66,7 +66,13 @@
                 <entry key="/logout" value-ref="shiroAuthorizer"/>
 
                 <!-- root handling resource -->
-                <entry key="/" value-ref="rootNamespaceHandler"/>
+                <entry key="/">
+                    <bean class="com.sharepast.security.AppResourceFinder">
+                        <lookup-method name="create" bean="rootResource"/>
+                        <property name="name" value="#{rootResource.name}"/>
+                    </bean>
+                </entry>
+
 
                 <!-- all resources added to this path -->
                 <entry key="${api.prefix}" value-ref="shiroAuthorizer"/>
@@ -156,8 +162,6 @@
         </property>
     </bean>
 
-    <bean id="rootNamespaceHandler" class="com.sharepast.resources.RootNamespaceRestlet"/>
-
     <bean name="rootResource" class="com.sharepast.resources.RootResource" scope="prototype">
         <property name="representationTemplates">
             <map>
@@ -172,22 +176,6 @@
             </map>
         </property>
     </bean>
-
-     <bean name="loginResource" class="com.sharepast.resources.LoginResource" scope="prototype">
-        <property name="representationTemplates">
-            <map>
-                <entry>
-                    <key>
-                        <util:constant static-field="org.restlet.data.MediaType.TEXT_HTML"/>
-                    </key>
-                    <bean class="com.sharepast.restlet.freemarker.FreemarkerRepresentationFactory">
-                        <property name="templateName" value="login.ftl"/>
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
 
     <bean id="logon" class="com.sharepast.security.LogonUtils">
         <constructor-arg index="0" value="${api.prefix}"/>
