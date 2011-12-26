@@ -15,17 +15,17 @@
 
         <geoip.version>1.0</geoip.version>
 
-        <sp.env>de</sp.env>
+        <app.env>de</app.env>
 
         <!--  build configuration  -->
-        <sp.build.env>de</sp.build.env>
-        <sp.build.test.memory>800m</sp.build.test.memory>
+        <build.env>de</build.env>
+        <build.test.memory>800m</build.test.memory>
 
         <!--
-            special file: ~/.m2/environment-${sp.override}.properties
+            special file: ~/.m2/environment-${app.env.override}.properties
             override everything else for tests
         -->
-        <sp.override/>
+        <app.env.override/>
 
         <sp.db.changes.version>1</sp.db.changes.version>
 
@@ -772,17 +772,17 @@
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
                     <useFile>false</useFile>
-                    <argLine>-Xms${sp.build.test.memory} -Xmx${sp.build.test.memory} -XX:MaxPermSize=256m
+                    <argLine>-Xms${build.test.memory} -Xmx${build.test.memory} -XX:MaxPermSize=256m
                         -XX:+HeapDumpOnOutOfMemoryError -XX:+ShowMessageBoxOnError -XX:HeapDumpPath=../dump
                     </argLine>
                     <systemProperties>
                         <property>
-                            <name>sp.env</name>
-                            <value>${sp.env}</value>
+                            <name>app.env</name>
+                            <value>${app.env}</value>
                         </property>
                         <property>
-                            <name>sp.override</name>
-                            <value>${sp.override}</value>
+                            <name>app.env.override</name>
+                            <value>${app.env.override}</value>
                         </property>
                         <property>
                             <name>com.mchange.v2.log.MLog</name>

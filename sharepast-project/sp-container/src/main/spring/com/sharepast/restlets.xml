@@ -90,7 +90,9 @@
     <bean id="shiroAuthorizer" class="com.sharepast.security.ShiroAuthenticator">
         <constructor-arg index="0" ref="appPlatform.childContext"/>
         <constructor-arg index="1" value="false"/>
-        <constructor-arg index="2" value="sharepast.com"/>
+        <constructor-arg index="2">
+            <util:constant static-field="com.sharepast.constants.AppConstants.REALM_NAME"/>
+        </constructor-arg>
         <property name="verifier" ref="shiroVerifier"/>
         <property name="next" ref="appResourceRouter"/>
         <property name="rechallenging" value="true"/>

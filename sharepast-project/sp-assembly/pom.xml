@@ -16,7 +16,7 @@
         tarballs and attaches to the main artifact to be published in Nexus repository
     </description>
 
-    <url>http://sharepast.com</url>
+    <url>http://www.sharepast.com</url>
 
     <dependencies>
 
@@ -55,7 +55,7 @@
                                 </goals>
                                 <configuration>
                                     <descriptors>
-                                        <descriptor>src/main/assembly/sp-container.xml</descriptor>
+                                        <descriptor>src/main/assembly/container.xml</descriptor>
                                     </descriptors>
                                     <finalName>sp-container-${project.version}</finalName>
                                     <appendAssemblyId>true</appendAssemblyId>

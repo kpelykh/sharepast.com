@@ -16,7 +16,7 @@ public class AppConstants {
      * The 'app.override' property adds another environment file to the config properties
      * ~/.m2/environment-${app.override}.properties
      */
-    public static final String SYSTEM_PROPERTY_ENVIRONMENT_OVERRIDE = "app.override";
+    public static final String SYSTEM_PROPERTY_ENVIRONMENT_OVERRIDE = "app.env.override";
 
     /**
      * system properties that defines server pool

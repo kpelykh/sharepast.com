@@ -14,7 +14,6 @@ import ch.qos.logback.core.ConsoleAppender;
 
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
-import com.sharepast.constants.AppConstants;
 
 def userHome = System.getProperty( 'user.home' )
 
