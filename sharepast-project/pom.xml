@@ -21,7 +21,6 @@
     </scm>
 
     <modules>
-        <module>sp-parent-pom</module>
         <module>sp-util</module>
         <module>sp-config</module>
         <module>sp-dal</module>
