@@ -22,7 +22,7 @@
         <lqb.port>3306</lqb.port>
         <lqb.schema.app>sp_development</lqb.schema.app>
         <lqb.user>root</lqb.user>
-        <lqb.password>root</lqb.password>
+        <lqb.password>mysql</lqb.password>
 
     </properties>
 
@@ -74,7 +74,7 @@
                             <verbose>${lqb.verbose}</verbose>
                             <username>${lqb.user}</username>
                             <password>${lqb.password}</password>
-                            <url>jdbc:${lqb.driver.scheme}://${lqb.host}:${lqb.port}/${lqb.schema.app}</url>
+                            <url>jdbc:${lqb.driver.scheme}://${lqb.host}:${lqb.port}/${lqb.schema.app}?createDatabaseIfNotExist=true</url>
                             <changeLogFile>${basedir}/src/main/changelogs/com/sharepast/database/master.xml</changeLogFile>
                             <logging>info</logging>
                             <dropFirst>true</dropFirst>
