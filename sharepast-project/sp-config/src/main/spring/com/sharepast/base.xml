@@ -14,10 +14,18 @@
     <context:annotation-config/>
     <aop:aspectj-autoproxy/>
 
-    <bean id="allProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreResourceNotFound" value="true"/>
         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
         <property name="searchSystemEnvironment" value="true"/>
+        <property name="properties" ref="appProperties"/>
+    </bean>
+
+    <bean id="appProperties"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="singleton" value="true"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+
         <property name="locations">
             <list>
                 <value>classpath:configuration.properties</value>
@@ -27,10 +35,9 @@
         </property>
     </bean>
 
-    <bean id="appProperties"
+    <bean id="dynamicProperties"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="singleton" value="true"/>
-
         <property name="properties">
             <props>
                 <prop key="activemq.home">#{activemqHome.getURL().getFile()}</prop>

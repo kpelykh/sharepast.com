@@ -14,7 +14,7 @@
 
     <amq:broker brokerName="sp-broker" start="true" useJmx="true" persistent="true">
         <amq:persistenceAdapter>
-            <amq:amqPersistenceAdapter directory="#{appProperties['activemq.persist']}/data" maxFileLength="32mb"/>
+            <amq:amqPersistenceAdapter directory="#{dynamicProperties['activemq.persist']}/data" maxFileLength="32mb"/>
         </amq:persistenceAdapter>
         <amq:transportConnectors>
             <amq:transportConnector uri="${jms.url}"/>
@@ -49,23 +49,23 @@
                                 <list>
                                     <bean class="org.eclipse.jetty.webapp.WebAppContext">
                                         <property name="contextPath" value="/admin"/>
-                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps/admin"/>
+                                        <property name="resourceBase" value="#{dynamicProperties['activemq.base']}/webapps/admin"/>
                                         <property name="logUrlOnStart" value="true"/>
                                     </bean>
                                     <bean class="org.eclipse.jetty.webapp.WebAppContext">
                                         <property name="contextPath" value="/camel"/>
-                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps/camel"/>
+                                        <property name="resourceBase" value="#{dynamicProperties['activemq.base']}/webapps/camel"/>
                                         <property name="logUrlOnStart" value="true"/>
                                     </bean>
                                     <bean class="org.eclipse.jetty.webapp.WebAppContext">
                                         <property name="contextPath" value="/fileserver"/>
-                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps/fileserver"/>
+                                        <property name="resourceBase" value="#{dynamicProperties['activemq.base']}/webapps/fileserver"/>
                                         <property name="logUrlOnStart" value="true"/>
                                         <property name="parentLoaderPriority" value="true"/>
                                     </bean>
                                     <bean class="org.eclipse.jetty.webapp.WebAppContext">
                                         <property name="contextPath" value="/"/>
-                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps"/>
+                                        <property name="resourceBase" value="#{dynamicProperties['activemq.base']}/webapps"/>
                                         <property name="parentLoaderPriority" value="true"/>
                                     </bean>
                                     <bean class="org.eclipse.jetty.server.handler.ResourceHandler">
@@ -75,7 +75,7 @@
                                                 <value>index.html</value>
                                             </list>
                                         </property>
-                                        <property name="resourceBase" value="#{appProperties['activemq.base']}/webapps/"/>
+                                        <property name="resourceBase" value="#{dynamicProperties['activemq.base']}/webapps/"/>
                                     </bean>
                                 </list>
                             </property>

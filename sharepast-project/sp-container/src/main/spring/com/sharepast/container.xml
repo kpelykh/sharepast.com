@@ -23,7 +23,7 @@
                             <property name="requestLog">
                                 <bean class="org.eclipse.jetty.server.NCSARequestLog">
                                     <property name="retainDays" value="90"/>
-                                    <property name="filename" value="#{appProperties['log.dir']}/jetty.request.log.yyyy_mm_dd"/>
+                                    <property name="filename" value="#{dynamicProperties['log.dir']}/jetty.request.log.yyyy_mm_dd"/>
                                     <property name="append" value="true"/>
                                     <property name="extended" value="false"/>
                                     <property name="logTimeZone" value="GMT"/>
@@ -53,7 +53,7 @@
                 <bean class="org.eclipse.jetty.server.ssl.SslSocketConnector">
                     <property name="port" value="${https.port}"/>
                     <property name="maxIdleTime" value="3000"/>
-                    <property name="keystore" value="#{appProperties['config.path']}/${app.env}/${keystore.name}"/>
+                    <property name="keystore" value="#{dynamicProperties['config.path']}/${app.env}/${keystore.name}"/>
                     <property name="keyPassword" value="${keystore.key.pass}"/>
                     <property name="password" value="${keystore.pass}"/>
                 </bean>
@@ -63,7 +63,7 @@
 
     <bean id="webAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
         <property name="contextPath" value="/"/>
-        <property name="resourceBase" value="#{appProperties['jetty.resources']}"/>
+        <property name="resourceBase" value="#{dynamicProperties['jetty.resources']}"/>
         <property name="defaultsDescriptor" value="com/sharepast/jetty/webdefault.xml"/>
 
         <property name="servletHandler">
@@ -109,7 +109,7 @@
                                            value="classpath:/com/sharepast/dispatcher-servlet.xml"/>
                                 </map>
                             </property>
-                            <property name="initOrder" value="1"/>
+                            <property name="initOrder"z value="1"/>
                         </bean>
                     </list>
                 </property>
