@@ -16,63 +16,70 @@
         <property name="jdbcUrl" value="${jdbc.url.app}"/>
         <property name="user" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
-        <property name="acquireRetryDelay" value="300"/>
-        <property name="acquireRetryAttempts" value="3"/>
-        <property name="minPoolSize" value="${jdbc.pool.size.min}"/>
-        <property name="maxPoolSize" value="${jdbc.pool.size.max}"/>
-        <property name="idleConnectionTestPeriod" value="14400"/>
-        <property name="unreturnedConnectionTimeout" value="25200"/>
-        <property name="acquireIncrement" value="2"/>
+        <property name="testConnectionOnCheckin" value="true"/>
+        <property name="testConnectionOnCheckout" value="true"/>
     </bean>
 
 
     <!-- Liquibase updates -->
 
-    <bean class="com.sharepast.liquibase.SpringLiquibase">
-        <property name="dataSource" ref="appDataSource"/>
-        <property name="changeLog" value="classpath:database/app/master.xml"/>
-        <property name="execute" value="${liquibase.execute}"/>
-    </bean>
+    <bean id="dbMigrator" class="liquibase.integration.spring.SpringLiquibase">
+        <property name="dataSource" ref="appDataSource" />
+        <property name="changeLog" value="classpath:com/sharepast/database/master.xml" />
 
+    </bean>
 
     <!-- Session and Transaction -->
 
     <!-- enable the configuration of transactional behavior based on annotations -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+   <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" depends-on="dbMigrator">
         <property name="dataSource" ref="appDataSource"/>
         <property name="packagesToScan">
             <list>
                 <value>com.sharepast.dal.domain</value>
-                <value>com.sharepast.dal.security.domain</value>
             </list>
         </property>
         <property name="hibernateProperties">
-            <value>
-                query.factory_class=org.hibernate.hql.ast.ASTQueryTranslatorFactory
-                hibernate.dialect=${hibernate.dialect}
-                hibernate.hbm2ddl.auto=${hibernate.hbm2ddl.auto}
-                hibernate.bytecode.use_reflection_optimizer=true
-                hibernate.connection.isolation=${hibernate.connection.isolation}
-                hibernate.connection.autocommit=${hibernate.connection.autocommit}
-                hibernate.connection.provider_class=org.hibernate.connection.C3P0ConnectionProvider
-                hibernate.jdbc.use_scrollable_resultset=true
-                hibernate.jdbc.use_streams_for_binary=false
-                hibernate.jdbc.batch_size=${hibernate.jdbc.batch_size}
-                hibernate.query.substitutions=true 1, false 0
-                hibernate.show_sql=${hibernate.show_sql}
-                hibernate.format_sql=${hibernate.format_sql}
-                hibernate.use_sql_comments=false
-                hibernate.generate_statistics=false
-                hibernate.cache.use_second_level_cache=${hibernate.cache.secondlevel.use}
-                hibernate.cache.use_query_cache=false
-                hibernate.cache.use_minimal_puts=true
-                hibernate.cache.use_structured_entries=false
-                hibernate.cache.provider_class=net.sf.ehcache.hibernate.EhCacheProvider
-                hibernate.cache.max_fetch_depth=3
-            </value>
+            <props>
+
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.use_sql_comments">false</prop>
+                <prop key="hibernate.max_fetch_depth">1</prop>
+
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.connection.autocommit">${hibernate.connection.autocommit}</prop>
+                <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+                <prop key="hibernate.connection.isolation">${hibernate.connection.isolation}</prop>
+
+                <prop key="hibernate.generate_statistics">false</prop>
+                <prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.use_second_level_cache">false</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.use_minimal_puts">true</prop>
+                <prop key="hibernate.cache.use_structured_entries">false</prop>
+                <prop key="hibernate.cache.max_fetch_depth">3</prop>
+
+                <prop key="hibernate.c3p0.min_size">10</prop>
+                <prop key="hibernate.c3p0.max_size">100</prop>
+                <prop key="hibernate.c3p0.timeout">7200</prop>
+                <prop key="hibernate.c3p0.acquireRetryAttempts">30</prop>
+                <prop key="hibernate.c3p0.acquireIncrement">5</prop>
+                <prop key="hibernate.c3p0.idleConnectionTestPeriod">600</prop>
+                <prop key="hibernate.c3p0.initialPoolSize">20</prop>
+                <prop key="hibernate.c3p0.maxPoolSize">100</prop>
+                <prop key="hibernate.c3p0.maxIdleTime">300</prop>
+                <prop key="hibernate.c3p0.maxStatements">50</prop>
+                <prop key="hibernate.c3p0.minPoolSize">10</prop>
+                <prop key="hibernate.c3p0.preferredTestQuery">SELECT 1</prop>
+                <prop key="hibernate.c3p0.testConnectionOnCheckout">true</prop>
+
+            </props>
         </property>
         <!--<property name="eventListeners">
             <map>

@@ -2,8 +2,8 @@ package com.sharepast.security;
 
 import com.sharepast.constants.AppConstants;
 import com.sharepast.dal.dao.UserDAO;
+import com.sharepast.dal.domain.AppSecurityContextNameEnum;
 import com.sharepast.dal.domain.user.User;
-import com.sharepast.dal.security.domain.AppSecurityContextNameEnum;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.Permission;

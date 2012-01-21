@@ -1,4 +1,4 @@
-package com.sharepast.dal.security.domain;
+package com.sharepast.dal.domain;
 
 /**
  * Created by IntelliJ IDEA.

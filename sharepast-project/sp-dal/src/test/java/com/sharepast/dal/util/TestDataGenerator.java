@@ -1,14 +1,14 @@
 package com.sharepast.dal.util;
 
+import com.sharepast.dal.dao.SecurityPermissionDAO;
+import com.sharepast.dal.dao.SecurityRoleDAO;
 import com.sharepast.dal.dao.UserDAO;
+import com.sharepast.dal.domain.SecurityPermission;
+import com.sharepast.dal.domain.SecurityRole;
 import com.sharepast.dal.domain.user.Gender;
 import com.sharepast.dal.domain.user.User;
 import com.sharepast.dal.domain.user.UserStatus;
 import com.sharepast.dal.exceptions.BadPasswordException;
-import com.sharepast.dal.security.dao.SecurityPermissionDAO;
-import com.sharepast.dal.security.dao.SecurityRoleDAO;
-import com.sharepast.dal.security.domain.SecurityPermission;
-import com.sharepast.dal.security.domain.SecurityRole;
 import com.sharepast.persistence.orm.type.UTC;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

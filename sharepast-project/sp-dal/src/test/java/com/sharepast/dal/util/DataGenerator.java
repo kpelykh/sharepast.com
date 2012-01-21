@@ -1,8 +1,8 @@
 package com.sharepast.dal.util;
 
+import com.sharepast.dal.domain.SecurityRole;
 import com.sharepast.dal.domain.user.User;
 import com.sharepast.dal.exceptions.BadPasswordException;
-import com.sharepast.dal.security.domain.SecurityRole;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

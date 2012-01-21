@@ -1,8 +1,8 @@
-package com.sharepast.dal.security.dao.hibernate;
+package com.sharepast.dal.dao.hibernate;
 
+import com.sharepast.dal.dao.SecurityRoleDAO;
+import com.sharepast.dal.domain.SecurityRole;
 import com.sharepast.dal.domain.user.User;
-import com.sharepast.dal.security.dao.SecurityRoleDAO;
-import com.sharepast.dal.security.domain.SecurityRole;
 import com.sharepast.persistence.orm.hibernate.CriteriaDetails;
 import com.sharepast.persistence.orm.hibernate.HibernateDao;
 import org.hibernate.Criteria;

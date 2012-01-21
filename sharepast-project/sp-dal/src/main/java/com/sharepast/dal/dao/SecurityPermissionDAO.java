@@ -1,6 +1,6 @@
-package com.sharepast.dal.security.dao;
+package com.sharepast.dal.dao;
 
-import com.sharepast.dal.security.domain.SecurityPermission;
+import com.sharepast.dal.domain.SecurityPermission;
 import com.sharepast.persistence.orm.ORMDao;
 
 import java.util.List;

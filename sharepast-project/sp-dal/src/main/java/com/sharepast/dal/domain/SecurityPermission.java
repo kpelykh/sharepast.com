@@ -1,4 +1,4 @@
-package com.sharepast.dal.security.domain;
+package com.sharepast.dal.domain;
 
 import com.sharepast.persistence.Durable;
 import org.hibernate.annotations.Cache;

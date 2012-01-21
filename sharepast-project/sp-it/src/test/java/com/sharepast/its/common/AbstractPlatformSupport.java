@@ -87,7 +87,7 @@ public class AbstractPlatformSupport {
         Configurator.getInstance().addConfiguration("com/sharepast/base.xml");
         Configurator.getInstance().addConfiguration("com/sharepast/cache.xml");
         Configurator.getInstance().addConfiguration("com/sharepast/security.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/persistence/sp-hibernate.xml");
+        Configurator.getInstance().addConfiguration("com/sharepast/persistence/hibernate.xml");
         Configurator.getInstance().addConfiguration("com/sharepast/security.xml");
         Configurator.getInstance().addConfiguration("com/sharepast/its/common/test-server.xml");
         Configurator.getInstance().addConfiguration("com/sharepast/service/services.xml");

@@ -2,9 +2,9 @@ package com.sharepast.security;
 
 import com.sharepast.constants.AppConstants;
 import com.sharepast.dal.domain.user.User;
-import com.sharepast.dal.security.domain.AppSecurityContextNameEnum;
-import com.sharepast.dal.security.domain.SecurityPermission;
-import com.sharepast.dal.security.domain.SecurityRole;
+import com.sharepast.dal.domain.AppSecurityContextNameEnum;
+import com.sharepast.dal.domain.SecurityPermission;
+import com.sharepast.dal.domain.SecurityRole;
 import org.apache.shiro.authc.SimpleAccount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

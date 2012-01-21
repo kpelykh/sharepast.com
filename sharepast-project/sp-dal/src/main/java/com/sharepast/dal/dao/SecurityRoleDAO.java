@@ -1,6 +1,6 @@
-package com.sharepast.dal.security.dao;
+package com.sharepast.dal.dao;
 
-import com.sharepast.dal.security.domain.SecurityRole;
+import com.sharepast.dal.domain.SecurityRole;
 import com.sharepast.persistence.orm.ORMDao;
 
 import java.util.Set;

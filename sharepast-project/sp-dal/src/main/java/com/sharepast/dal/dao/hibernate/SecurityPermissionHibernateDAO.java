@@ -1,7 +1,7 @@
-package com.sharepast.dal.security.dao.hibernate;
+package com.sharepast.dal.dao.hibernate;
 
-import com.sharepast.dal.security.dao.SecurityPermissionDAO;
-import com.sharepast.dal.security.domain.SecurityPermission;
+import com.sharepast.dal.dao.SecurityPermissionDAO;
+import com.sharepast.dal.domain.SecurityPermission;
 import com.sharepast.persistence.orm.hibernate.CriteriaDetails;
 import com.sharepast.persistence.orm.hibernate.HibernateDao;
 import com.sharepast.persistence.orm.hibernate.QueryDetails;

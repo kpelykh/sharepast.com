@@ -1,7 +1,7 @@
 package com.sharepast.security;
 
 import com.sharepast.constants.ParamNameEnum;
-import com.sharepast.dal.security.domain.AppSecurityContextNameEnum;
+import com.sharepast.dal.domain.AppSecurityContextNameEnum;
 
 /**
  * Created by IntelliJ IDEA.

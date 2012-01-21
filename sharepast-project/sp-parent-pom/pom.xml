@@ -66,7 +66,7 @@
         <javax-servlet-jsp-version>2.1.v20100127</javax-servlet-jsp-version>
 
         <!-- Dependency Injection -->
-        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.version>3.1.0.RELEASE</spring.version>
         <c3p0.version>0.9.1.2</c3p0.version>
         <javassist.version>3.8.0.GA</javassist.version>
         <cglib.version>2.2</cglib.version>
@@ -77,7 +77,6 @@
         <!-- test related -->
         <testng.version>5.11</testng.version>
         <testng.classifier>jdk15</testng.classifier>
-        <org.easymock.version>2.3</org.easymock.version>
 
         <dozer.version>3.3.1</dozer.version>
 
@@ -92,21 +91,29 @@
         <mysql.version>5.1.10</mysql.version>
 
         <!-- hibernate components -->
-        <hibernate.version>3.5.4-Final</hibernate.version>
+        <hibernate.version>4.0.1.Final</hibernate.version>
         <hibernate.annotations.version>3.5.6-Final</hibernate.annotations.version>
-        <hibernate.validation.version>4.1.0.Final</hibernate.validation.version>
+        <hibernate.validation.version>4.2.0.Final</hibernate.validation.version>
 
-        <liquibase.version>2.0.1</liquibase.version>
+        <liquibase.version>2.0.3</liquibase.version>
 
         <org.restlet.jee.version>2.1-SNAPSHOT</org.restlet.jee.version>
 
         <!-- plugin versions: for for plugin management only! -->
 
         <!-- maven.apache.org plugins  -->
-        <maven.compiler.plugin.version>2.3.1</maven.compiler.plugin.version>
+        <maven.install.plugin>2.3.1</maven.install.plugin>
+        <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+        <maven.source.plugin.version>2.1.2</maven.source.plugin.version>
         <maven.jar.plugin.version>2.3.1</maven.jar.plugin.version>
-        <maven.surefire.plugin.version>2.7</maven.surefire.plugin.version>
-        <maven.dependency.plugin>2.1</maven.dependency.plugin>
+        <maven.resources.plugin.version>2.5</maven.resources.plugin.version>
+        <maven.assembly.plugin.version>2.2-beta-5</maven.assembly.plugin.version>
+        <maven.clean.plugin.version>2.4.1</maven.clean.plugin.version>
+        <maven.enforcer.plugin>1.0.1</maven.enforcer.plugin>
+        <maven.surefire.plugin.version>2.8</maven.surefire.plugin.version>
+        <maven.dependency.plugin>2.2</maven.dependency.plugin>
+        <maven.deploy.plugin.version>2.7</maven.deploy.plugin.version>
+        <maven.install.pluging.version>2.3.1</maven.install.pluging.version>
 
         <!--  mojo.codehaus.org plugins -->
         <exec.maven.plugin.version>1.2</exec.maven.plugin.version>
@@ -115,7 +122,7 @@
         <aspectj.maven.plugin.version>1.3.1</aspectj.maven.plugin.version>
 
         <!--  other plugins -->
-        <liquibase.maven.plugin.version>2.0.1</liquibase.maven.plugin.version>
+        <liquibase.maven.plugin.version>2.0.3</liquibase.maven.plugin.version>
         <sql.maven.plugin.version>1.3</sql.maven.plugin.version>
 
         <!-- ========================== -->
@@ -128,10 +135,10 @@
         <nexus.url>http://localhost:8081/nexus/content/repositories</nexus.url>
 
         <!-- distribution management  -->
-        <release.repo.id>app.releases.http</release.repo.id>
+        <release.repo.id>kp.releases.http</release.repo.id>
         <release.repo.url>${nexus.url}/releases</release.repo.url>
 
-        <snapshot.repo.id>app.snapshots.http</snapshot.repo.id>
+        <snapshot.repo.id>kp.snapshots.http</snapshot.repo.id>
         <snapshot.repo.url>${nexus.url}/snapshots</snapshot.repo.url>
 
         <!-- distribution management - 3rd party -->
@@ -186,30 +193,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>${aspectj.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>${aspectj.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjtools</artifactId>
-            <version>${aspectj.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
@@ -222,14 +205,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>${org.easymock.version}</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <dependencyManagement>
@@ -241,18 +216,17 @@
                 <version>${geoip.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.sun.jdmk</groupId>
                 <artifactId>jmxremote_optional</artifactId>
                 <version>${jdmk.version}</version>
             </dependency>
 
-            <!--<dependency>
+            <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
                 <version>${aspectj.version}</version>
-            </dependency>-->
+            </dependency>
 
             <dependency>
                 <groupId>org.aspectj</groupId>
@@ -338,12 +312,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-all</artifactId>
-                <version>${activemq.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.apache.xbean</groupId>
                 <artifactId>xbean-spring</artifactId>
                 <version>${xbean.version}</version>
@@ -353,24 +321,6 @@
               <groupId>opensymphony</groupId>
               <artifactId>sitemesh</artifactId>
               <version>${opensymphony.sitemesh}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j.version}</version>
             </dependency>
 
             <dependency>

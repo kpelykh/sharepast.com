@@ -22,7 +22,7 @@
         <lqb.port>3306</lqb.port>
         <lqb.schema.app>sp_development</lqb.schema.app>
         <lqb.user>root</lqb.user>
-        <lqb.password>mysql</lqb.password>
+        <lqb.password>root</lqb.password>
 
     </properties>
 
@@ -45,44 +45,21 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.sharepast</groupId>
-                        <artifactId>sp-db-changes</artifactId>
-                        <version>${project.version}</version>
-                        <scope>system</scope>
-                        <systemPath>${basedir}/target/sp-db-changes-${project.version}.jar</systemPath>
-                    </dependency>
-                </dependencies>
+                <configuration>
+                    <driver>${lqb.driver}</driver>
+                    <verbose>${lqb.verbose}</verbose>
+                    <username>${lqb.user}</username>
+                    <password>${lqb.password}</password>
+                    <url>jdbc:${lqb.driver.scheme}://${lqb.host}:${lqb.port}/${lqb.schema.app}?createDatabaseIfNotExist=true</url>
+                    <changeLogFile>${basedir}/src/main/changelogs/com/sharepast/database/master_rel.xml</changeLogFile>
+                    <logging>info</logging>
+                    <dropFirst>true</dropFirst>
+                </configuration>
             </plugin>
         </plugins>
 
+
     </build>
 
-    <profiles>
-
-        <profile>
-            <id>db-update-sp</id>
-            <build>
-                <defaultGoal>liquibase:update</defaultGoal>
-                <plugins>
-                    <plugin>
-                        <groupId>org.liquibase</groupId>
-                        <artifactId>liquibase-maven-plugin</artifactId>
-                        <configuration>
-                            <driver>${lqb.driver}</driver>
-                            <verbose>${lqb.verbose}</verbose>
-                            <username>${lqb.user}</username>
-                            <password>${lqb.password}</password>
-                            <url>jdbc:${lqb.driver.scheme}://${lqb.host}:${lqb.port}/${lqb.schema.app}?createDatabaseIfNotExist=true</url>
-                            <changeLogFile>${basedir}/src/main/changelogs/com/sharepast/database/master.xml</changeLogFile>
-                            <logging>info</logging>
-                            <dropFirst>true</dropFirst>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
