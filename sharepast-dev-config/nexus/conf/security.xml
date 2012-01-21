@@ -3,13 +3,6 @@
   <version>2.0.5</version>
   <users>
     <user>
-      <id>admin</id>
-      <firstName>Administrator</firstName>
-      <password>f865b53623b121fd34ee5426c792e5c33af8c227</password>
-      <status>active</status>
-      <email>changeme@yourcompany.com</email>
-    </user>
-    <user>
       <id>deployment</id>
       <firstName>Deployment</firstName>
       <lastName>User</lastName>
@@ -21,7 +14,7 @@
       <id>kpelykh</id>
       <firstName>Konstantin</firstName>
       <lastName>Pelykh</lastName>
-      <password>fe1ed3865a1969ecdd61c562f7725d7fb755ae01</password>
+      <password>f865b53623b121fd34ee5426c792e5c33af8c227</password>
       <status>active</status>
       <email>kpelykh@gmail.com</email>
     </user>
@@ -33,15 +26,15 @@
       <status>active</status>
       <email>changeme2@yourcompany.com</email>
     </user>
+    <user>
+      <id>admin</id>
+      <firstName>Administrator</firstName>
+      <password>f865b53623b121fd34ee5426c792e5c33af8c227</password>
+      <status>active</status>
+      <email>changeme@yourcompany.com</email>
+    </user>
   </users>
   <userRoleMappings>
-    <userRoleMapping>
-      <userId>admin</userId>
-      <source>default</source>
-      <roles>
-        <role>nx-admin</role>
-      </roles>
-    </userRoleMapping>
     <userRoleMapping>
       <userId>deployment</userId>
       <source>default</source>
@@ -64,6 +57,13 @@
         <role>anonymous</role>
         <role>nx-admin</role>
         <role>repository-any-read</role>
+      </roles>
+    </userRoleMapping>
+    <userRoleMapping>
+      <userId>admin</userId>
+      <source>default</source>
+      <roles>
+        <role>nx-admin</role>
       </roles>
     </userRoleMapping>
   </userRoleMappings>

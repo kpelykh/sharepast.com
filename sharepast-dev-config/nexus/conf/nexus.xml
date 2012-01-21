@@ -562,8 +562,8 @@
       <externalConfiguration>
         <repositoryPolicy>SNAPSHOT</repositoryPolicy>
         <checksumPolicy>WARN</checksumPolicy>
-        <fileTypeValidation>false</fileTypeValidation>
-        <downloadRemoteIndex>false</downloadRemoteIndex>
+        <fileTypeValidation>true</fileTypeValidation>
+        <downloadRemoteIndex>true</downloadRemoteIndex>
         <artifactMaxAge>1440</artifactMaxAge>
         <metadataMaxAge>1440</metadataMaxAge>
         <autoBlockActive>true</autoBlockActive>
@@ -703,7 +703,7 @@
     <hostname>smtp-host</hostname>
     <port>25</port>
     <username>smtp-username</username>
-    <password>{4jxOOjfPbUIHM57Vz3DuWKxTEz5jv27Xz8jbMd9UPdA=}</password>
+    <password>{FukeQT5W5qcH/OtHDqLjQr8qMEmKFUptclizJMJsS2M=}</password>
     <systemEmailAddress>system@nexus.org</systemEmailAddress>
   </smtpConfiguration>
   <errorReporting>
