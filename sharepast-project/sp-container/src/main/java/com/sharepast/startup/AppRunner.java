@@ -1,5 +1,6 @@
 package com.sharepast.startup;
 
+import com.sharepast.config.AppConfiguration;
 import com.sharepast.util.spring.Configurator;
 import com.sharepast.util.spring.StartupProperties;
 import org.apache.commons.cli.CommandLine;

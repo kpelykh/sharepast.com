@@ -29,7 +29,7 @@ public class JmsProducerTest {
         @BeforeClass
         public void prepareBeforeTest()
                 throws Exception {
-            Configurator.getInstance().configure("com/sharepast/base.xml", "com/sharepast/jms/jms-test.xml");
+            Configurator.getInstance().configure("com/sharepast/config/base.xml", "com/sharepast/jms/jms-test.xml");
         }
 
         @AfterClass

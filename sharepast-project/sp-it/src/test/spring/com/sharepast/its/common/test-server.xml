@@ -7,8 +7,8 @@
                             http://www.springframework.org/schema/context
                             http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-    <import resource="classpath:/com/sharepast/security.xml"/>
-    <import resource="classpath:/com/sharepast/freemarker.xml"/>
+    <import resource="classpath:/com/sharepast/config/security.xml"/>
+    <import resource="classpath:/com/sharepast/config/freemarker.xml"/>
 
     <import resource="classpath:/com/sharepast/its/app00105/test-server-00105.xml"/>
     <import resource="classpath:/com/sharepast/its/app00200/test-server-00200.xml"/>
@@ -60,7 +60,7 @@
                             <property name="requestLog">
                                 <bean class="org.eclipse.jetty.server.NCSARequestLog">
                                     <property name="retainDays" value="90"/>
-                                    <property name="filename" value="#{appProperties['log.dir']}/jetty.request.log.yyyy_mm_dd"/>
+                                    <property name="filename" value="#{dynamicProperties['log.dir']}/jetty.request.log.yyyy_mm_dd"/>
                                     <property name="append" value="true"/>
                                     <property name="extended" value="false"/>
                                     <property name="logTimeZone" value="GMT"/>
@@ -90,7 +90,7 @@
                 <bean class="org.eclipse.jetty.server.ssl.SslSocketConnector">
                     <property name="port" value="${https.port}"/>
                     <property name="maxIdleTime" value="3000"/>
-                    <property name="keystore" value="#{appProperties['config.path']}/${app.env}/${keystore.name}"/>
+                    <property name="keystore" value="#{dynamicProperties['config.path']}/${app.env}/${keystore.name}"/>
                     <property name="keyPassword" value="${keystore.key.pass}"/>
                     <property name="password" value="${keystore.pass}"/>
                 </bean>
@@ -100,7 +100,7 @@
 
     <bean id="testWebAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
         <property name="contextPath" value="/"/>
-        <property name="resourceBase" value="#{appProperties['jetty.resources']}"/>
+        <property name="resourceBase" value="#{dynamicProperties['jetty.resources']}"/>
         <property name="defaultsDescriptor" value="com/sharepast/jetty/webdefault.xml"/>
 
         <property name="servletHandler">
@@ -143,7 +143,7 @@
                                 <map>
                                     <entry key="targetRestletBeanName" value="testApplication"/>
                                     <entry key="contextConfigLocation"
-                                           value="classpath:/com/sharepast/dispatcher-servlet.xml"/>
+                                           value="classpath:/com/sharepast/config/dispatcher-servlet.xml"/>
                                 </map>
                             </property>
                             <property name="initOrder" value="1"/>

@@ -21,7 +21,7 @@ public class GeographicLocationDOTest {
     @BeforeClass
     public void prepareBeforeTest()
             throws Exception {
-        Configurator.getInstance().configure("com/sharepast/base.xml", "com/sharepast/persistence/hibernate.xml");
+        Configurator.getInstance().configure("com/sharepast/config/base.xml", "com/sharepast/config/persistence.xml");
 
     }
 

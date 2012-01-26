@@ -1,4 +1,4 @@
-package com.sharepast.startup;
+package com.sharepast.config;
 
 import com.sharepast.util.spring.Configurator;
 import org.slf4j.Logger;
@@ -26,24 +26,24 @@ public class AppConfiguration {
         {
             put(PLATFORM, new String[]{
                     // base
-                    "com/sharepast/base.xml",
-                    "com/sharepast/cache.xml",
-                    "com/sharepast/security.xml",
-                    "com/sharepast/jmx.xml",
-                    "com/sharepast/persistence/persistance.xml",
-                    "com/sharepast/service/services.xml",
-                    "com/sharepast/service/geoip-location.xml",
-                    "com/sharepast/jms/jms_producer.xml",
-                    "com/sharepast/container.xml",
-                    "com/sharepast/restlets.xml"
+                    "com/sharepast/config/base.xml",
+                    "com/sharepast/config/cache.xml",
+                    "com/sharepast/config/security.xml",
+                    "com/sharepast/config/jmx.xml",
+                    "com/sharepast/config/persistance.xml",
+                    "com/sharepast/config/services.xml",
+                    "com/sharepast/config/geoip-location.xml",
+                    "com/sharepast/config/jms_producer.xml",
+                    "com/sharepast/config/container.xml",
+                    "com/sharepast/config/restlets.xml"
             });
             put(JMS, new String[]{
                     // base
-                    "com/sharepast/base.xml",
-                    "com/sharepast/jmx.xml",
-                    "com/sharepast/persistence/persistance.xml",
-                    "com/sharepast/service/geoip-location.xml",
-                    "com/sharepast/jms/activemq.xml"
+                    "com/sharepast/config/base.xml",
+                    "com/sharepast/config/jmx.xml",
+                    "com/sharepast/config/persistance.xml",
+                    "com/sharepast/config/geoip-location.xml",
+                    "com/sharepast/config/activemq.xml"
             });
         }
     };

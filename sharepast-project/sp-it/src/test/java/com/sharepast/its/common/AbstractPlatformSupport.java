@@ -84,14 +84,14 @@ public class AbstractPlatformSupport {
         Assert.assertTrue(generatedHttpsPort < 65537, "Couldn't find a port below 65537");
         System.setProperty(StartupProperties.SYSTEM_PROPERTY_HTTPS_PORT.getKey(), "" + generatedHttpsPort);
 
-        Configurator.getInstance().addConfiguration("com/sharepast/base.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/cache.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/security.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/persistence/hibernate.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/security.xml");
+        Configurator.getInstance().addConfiguration("com/sharepast/config/base.xml");
+        Configurator.getInstance().addConfiguration("com/sharepast/config/cache.xml");
+        Configurator.getInstance().addConfiguration("com/sharepast/config/security.xml");
+        Configurator.getInstance().addConfiguration("com/sharepast/config/persistence.xml");
+        Configurator.getInstance().addConfiguration("com/sharepast/config/security.xml");
         Configurator.getInstance().addConfiguration("com/sharepast/its/common/test-server.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/service/services.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/service/geoip-location.xml");
+        Configurator.getInstance().addConfiguration("com/sharepast/config/services.xml");
+        Configurator.getInstance().addConfiguration("com/sharepast/config/geoip-location.xml");
 
         //Add here any test-specific configurations
         Configurator.getInstance().configure(getConfigurations());

@@ -12,7 +12,7 @@ public class CityLookupTest {
 
     @BeforeClass
     public void configure() {
-        Configurator.getInstance().configure("com/sharepast/base.xml", "com/sharepast/service/geoip-location.xml");
+        Configurator.getInstance().configure("com/sharepast/config/base.xml", "com/sharepast/config/geoip-location.xml");
     }
 
     @AfterClass

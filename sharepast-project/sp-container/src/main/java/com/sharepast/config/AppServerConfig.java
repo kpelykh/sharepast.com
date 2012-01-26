@@ -1,4 +1,4 @@
-package com.sharepast.spring;
+package com.sharepast.config;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
