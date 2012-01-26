@@ -2,11 +2,7 @@ package com.sharepast.persistence.orm.hibernate;
 
 import com.sharepast.persistence.Durable;
 import com.sharepast.persistence.orm.ORMDao;
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.ScrollMode;
-import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
+import org.hibernate.*;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,6 +1,7 @@
 package com.sharepast.dal.domain;
 
 import com.sharepast.persistence.Durable;
+import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -16,7 +17,7 @@ import javax.persistence.Table;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@org.hibernate.annotations.AccessType("field")
+@AccessType("field")
 @Table(name = "permissions")
 @Cache(usage= CacheConcurrencyStrategy.READ_WRITE)
 public class SecurityPermission extends Durable<Long> {

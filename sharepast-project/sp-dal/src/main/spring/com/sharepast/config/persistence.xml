@@ -23,11 +23,10 @@
 
     <!-- Liquibase updates -->
 
-    <bean id="dbMigrator" class="liquibase.integration.spring.SpringLiquibase">
+    <!--<bean id="dbMigrator" class="liquibase.integration.spring.SpringLiquibase">
         <property name="dataSource" ref="appDataSource" />
         <property name="changeLog" value="classpath:com/sharepast/database/master.xml" />
-
-    </bean>
+    </bean>-->
 
     <!-- Session and Transaction -->
 
@@ -35,7 +34,7 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" depends-on="dbMigrator">
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="appDataSource"/>
         <property name="packagesToScan">
             <list>
@@ -58,9 +57,9 @@
                 <prop key="hibernate.connection.isolation">${hibernate.connection.isolation}</prop>
 
                 <prop key="hibernate.generate_statistics">false</prop>
-                <prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                 <prop key="hibernate.cache.use_second_level_cache">false</prop>
-                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
                 <prop key="hibernate.cache.use_minimal_puts">true</prop>
                 <prop key="hibernate.cache.use_structured_entries">false</prop>
                 <prop key="hibernate.cache.max_fetch_depth">3</prop>
@@ -93,12 +92,14 @@
         </property>-->
     </bean>
 
+    <bean id="hibernateExceptionTranslator" class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
+
 
     <!-- ========================= TRANSACTION MANAGEMENT ========================= -->
 
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory">
             <ref local="sessionFactory"/>
         </property>

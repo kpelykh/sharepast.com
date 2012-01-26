@@ -30,7 +30,7 @@ public class AppConfiguration {
                     "com/sharepast/config/cache.xml",
                     "com/sharepast/config/security.xml",
                     "com/sharepast/config/jmx.xml",
-                    "com/sharepast/config/persistance.xml",
+                    "com/sharepast/config/persistence.xml",
                     "com/sharepast/config/services.xml",
                     "com/sharepast/config/geoip-location.xml",
                     "com/sharepast/config/jms_producer.xml",
@@ -41,7 +41,7 @@ public class AppConfiguration {
                     // base
                     "com/sharepast/config/base.xml",
                     "com/sharepast/config/jmx.xml",
-                    "com/sharepast/config/persistance.xml",
+                    "com/sharepast/config/persistence.xml",
                     "com/sharepast/config/geoip-location.xml",
                     "com/sharepast/config/activemq.xml"
             });
