@@ -4,9 +4,12 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.env.Environment;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -19,7 +22,7 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
  */
 
 @Configuration
-public class AppServerConfig {
+public class WebConfig {
 
     @Autowired
     private ApplicationContext appContext;
@@ -28,10 +31,10 @@ public class AppServerConfig {
     @Qualifier("jettyServer")
     private Server webServer;
 
-    @Autowired
+    @Autowired    
     private WebAppContext webAppContext;
 
-    /*
+     /*
        The idea is that DispatcherServlet's context is child context of  GenericWebApplicationContext
        which in turn is a child of ClassPathXmlApplicationContext.
        Explicitly invoking setParent() gives you the access to all beans from the web application context.
@@ -40,6 +43,7 @@ public class AppServerConfig {
 
     //Should be same as in StartupProperties.APP_SERVER_NAME
     @Bean
+    @Lazy
     public Server appHttpServer() {
 
         GenericWebApplicationContext webApplicationContext = new GenericWebApplicationContext();

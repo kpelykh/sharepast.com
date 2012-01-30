@@ -91,7 +91,7 @@
         <constructor-arg index="0" ref="appPlatform.childContext"/>
         <constructor-arg index="1" value="false"/>
         <constructor-arg index="2">
-            <util:constant static-field="com.sharepast.constants.AppConstants.REALM_NAME"/>
+            <util:constant static-field="com.sharepast.security.AppRealm.REALM_NAME"/>
         </constructor-arg>
         <property name="verifier" ref="shiroVerifier"/>
         <property name="next" ref="appResourceRouter"/>

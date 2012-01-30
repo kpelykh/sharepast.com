@@ -1,6 +1,5 @@
 package com.sharepast.security;
 
-import com.sharepast.constants.AppConstants;
 import com.sharepast.dal.dao.UserDAO;
 import com.sharepast.dal.domain.AppSecurityContextNameEnum;
 import com.sharepast.dal.domain.user.User;
@@ -27,10 +26,12 @@ import java.util.List;
 
 public class AppRealm extends SimpleAccountRealm {
 
+    public static final String REALM_NAME = "sharepast.com";
+
     protected UserDAO userDAO = null;
 
     public AppRealm() {
-        setName( AppConstants.REALM_NAME ); //This name must match the name in the User class's getPrincipals() method
+        setName( REALM_NAME ); //This name must match the name in the User class's getPrincipals() method
     }
 
     @Autowired

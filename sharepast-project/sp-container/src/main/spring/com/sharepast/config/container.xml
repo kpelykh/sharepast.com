@@ -6,9 +6,6 @@
                             http://www.springframework.org/schema/context
                             http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <context:component-scan base-package="com.sharepast.startup"/>
-    <context:component-scan base-package="com.sharepast.config"/>
-
     <bean id="jettyServer" class="org.eclipse.jetty.server.Server">
         <property name="gracefulShutdown" value="1000"/>
         <property name="stopAtShutdown" value="true"/>
@@ -23,7 +20,7 @@
                             <property name="requestLog">
                                 <bean class="org.eclipse.jetty.server.NCSARequestLog">
                                     <property name="retainDays" value="90"/>
-                                    <property name="filename" value="#{dynamicProperties['log.dir']}/jetty.request.log.yyyy_mm_dd"/>
+                                    <property name="filename" value="${log.dir}/jetty.request.log.yyyy_mm_dd"/>
                                     <property name="append" value="true"/>
                                     <property name="extended" value="false"/>
                                     <property name="logTimeZone" value="GMT"/>
@@ -53,7 +50,7 @@
                 <bean class="org.eclipse.jetty.server.ssl.SslSocketConnector">
                     <property name="port" value="${https.port}"/>
                     <property name="maxIdleTime" value="3000"/>
-                    <property name="keystore" value="#{dynamicProperties['config.path']}/${app.env}/${keystore.name}"/>
+                    <property name="keystore" value="${config.path}/${app.env}/${keystore.name}"/>
                     <property name="keyPassword" value="${keystore.key.pass}"/>
                     <property name="password" value="${keystore.pass}"/>
                 </bean>
@@ -63,7 +60,7 @@
 
     <bean id="webAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
         <property name="contextPath" value="/"/>
-        <property name="resourceBase" value="#{dynamicProperties['jetty.resources']}"/>
+        <property name="resourceBase" value="${jetty.resources}"/>
         <property name="defaultsDescriptor" value="com/sharepast/jetty/webdefault.xml"/>
 
         <property name="servletHandler">

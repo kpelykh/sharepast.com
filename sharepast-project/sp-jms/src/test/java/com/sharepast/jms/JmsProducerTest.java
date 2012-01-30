@@ -1,8 +1,8 @@
 package com.sharepast.jms;
 
+import com.sharepast.startup.Configurator;
 import com.sharepast.jms.test.TestQueueListener;
 import com.sharepast.jms.test.TestQueueSender;
-import com.sharepast.util.spring.Configurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
@@ -41,13 +41,13 @@ public class JmsProducerTest {
         public void checkJms()
                 throws Exception {
 
-            TestQueueSender jmsSender = Configurator.squeeze(TestQueueSender.class, "testQueueSender");
+            TestQueueSender jmsSender = Configurator.getInstance().getBean(TestQueueSender.class, "testQueueSender");
 
             class BasicThread2 implements Runnable {
                 TestQueueListener jmsListener = null;
 
                 BasicThread2() {
-                    jmsListener = Configurator.squeeze(TestQueueListener.class, "testQueueListener");
+                    jmsListener = Configurator.getInstance().getBean(TestQueueListener.class, "testQueueListener");
                 }
 
                 // This method is called when the thread runs

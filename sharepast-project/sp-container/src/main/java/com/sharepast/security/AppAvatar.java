@@ -1,6 +1,5 @@
 package com.sharepast.security;
 
-import com.sharepast.constants.AppConstants;
 import com.sharepast.dal.domain.user.User;
 import com.sharepast.dal.domain.AppSecurityContextNameEnum;
 import com.sharepast.dal.domain.SecurityPermission;
@@ -23,7 +22,7 @@ public class AppAvatar extends SimpleAccount {
     private static final Logger LOG = LoggerFactory.getLogger(AppAvatar.class);
 
     public AppAvatar(User user) {
-        super(user.getEmail(), user.getPassword(), AppConstants.REALM_NAME);
+        super(user.getEmail(), user.getPassword(), AppRealm.REALM_NAME);
 
         addObjectPermission(AppSecurityUtil.createContextPermission(AppSecurityContextNameEnum.ME, user.getId()));
 

@@ -1,8 +1,8 @@
 package com.sharepast.dal;
 
+import com.sharepast.startup.Configurator;
 import com.sharepast.dal.dao.GeographicLocationDAO;
 import com.sharepast.dal.domain.GeographicLocationDO;
-import com.sharepast.util.spring.Configurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
@@ -34,7 +34,7 @@ public class GeographicLocationDOTest {
     public void checkZipCode()
             throws Exception {
 
-        GeographicLocationDAO geoLocationDao = Configurator.squeeze(GeographicLocationDAO.class, "geographicLocationDao");
+        GeographicLocationDAO geoLocationDao = Configurator.getInstance().getBean(GeographicLocationDAO.class, "geographicLocationDao");
 
         stopWatch = new StopWatch("GeographicLocationDOTest");
         stopWatch.start("GeographicLocationDOTest");

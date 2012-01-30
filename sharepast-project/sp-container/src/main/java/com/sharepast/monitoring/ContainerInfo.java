@@ -1,8 +1,8 @@
 package com.sharepast.monitoring;
 
+import com.sharepast.startup.Configurator;
 import com.sharepast.startup.AppRunner;
 import com.sharepast.util.Build;
-import com.sharepast.util.spring.Configurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
@@ -52,7 +52,7 @@ public class ContainerInfo {
     }
 
     @ManagedAttribute(description = "configuration files that were used to start this instance")
-    public String[] getConfigurationResources() {
+    public Class[] getConfigurationResources() {
         return Configurator.getInstance().getConfigurations();
     }
 

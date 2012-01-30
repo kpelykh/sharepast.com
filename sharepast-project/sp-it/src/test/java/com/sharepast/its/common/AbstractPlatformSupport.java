@@ -1,11 +1,11 @@
 package com.sharepast.its.common;
 
+import com.sharepast.startup.Configurator;
 import com.sharepast.dal.domain.user.User;
 import com.sharepast.dal.exceptions.BadPasswordException;
 import com.sharepast.dal.util.DataGenerator;
 import com.sharepast.dal.util.TestDataGenerator;
 import com.sharepast.util.Util;
-import com.sharepast.util.spring.Configurator;
 import com.sharepast.util.spring.StartupProperties;
 import org.eclipse.jetty.server.Server;
 import org.restlet.Context;
@@ -97,11 +97,11 @@ public class AbstractPlatformSupport {
         Configurator.getInstance().configure(getConfigurations());
 
         // grab test data generator
-        testDataGenerator = Configurator.squeeze(DataGenerator.class, "testDataGenerator");
+        testDataGenerator = Configurator.getInstance().getBean(DataGenerator.class, "testDataGenerator");
         generateSuiteData();
 
         // HTTP
-        appHttpServer = Configurator.squeeze(Server.class, DEFAULT_SERVER_NAME);
+        appHttpServer = Configurator.getInstance().getBean(Server.class, DEFAULT_SERVER_NAME);
         Assert.assertNotNull(appHttpServer);
         httpPort = appHttpServer.getServer().getConnectors()[0].getPort();
         Assert.assertEquals(httpPort, generatedHttpPort);

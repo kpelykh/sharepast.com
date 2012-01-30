@@ -1,7 +1,7 @@
 package com.sharepast.startup;
 
-import com.sharepast.config.AppConfiguration;
-import com.sharepast.util.spring.Configurator;
+import com.sharepast.config.runners.JmsRunner;
+import com.sharepast.config.runners.PlatformRunner;
 import com.sharepast.util.spring.StartupProperties;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -76,8 +76,8 @@ public class AppRunner {
     public static void startPlatform()
             throws Exception {
         try {
-            new AppConfiguration(AppConfiguration.PLATFORM).configure();
-            httpServer = Configurator.squeeze(Server.class, StartupProperties.APP_SERVER_NAME.getKey());
+            Configurator.getInstance().configure(PlatformRunner.class);
+            httpServer = Configurator.getInstance().getBean(Server.class, StartupProperties.APP_SERVER_NAME.getKey());
         } catch (Throwable e) {
             e.printStackTrace();
             System.exit(-1);
@@ -90,7 +90,7 @@ public class AppRunner {
     public static void startJms()
             throws Exception {
         try {
-            new AppConfiguration(AppConfiguration.JMS).configure();
+            Configurator.getInstance().configure(JmsRunner.class);
         } catch (Throwable e) {
             e.printStackTrace();
             System.exit(-1);
@@ -110,7 +110,7 @@ public class AppRunner {
             status += 1;
         }
 
-        AppConfiguration.shutdown();
+        Configurator.getInstance().shutdown();
 
         System.exit(status);
     }
@@ -118,7 +118,7 @@ public class AppRunner {
 
     static class ShutdownHook extends Thread {
         public void run() {
-            AppConfiguration.shutdown();
+            Configurator.getInstance().shutdown();
         }
     }
 
