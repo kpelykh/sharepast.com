@@ -18,7 +18,7 @@ import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
 def userHome = System.getProperty( 'user.home' )
 
 def env      = System.getProperty( 'app.env', 'de' )
-def logDir   = System.getProperty( 'log.dir.rel', '/app/sharepast.com/logs' )
+def logDir   = System.getProperty( 'log.dir', '/app/sharepast.com/logs' )
 
 def pool     = System.getProperty( "app.server.pool" , 'app' )
 def server   = System.getProperty( "app.server.id", '001' )

@@ -176,8 +176,8 @@
                             <includePluginDependencies>false</includePluginDependencies>
                             <classpathScope>runtime</classpathScope>
                             <arguments>
-                                <argument>-Dactivemq.base.rel=../sp-jms/src/main/resources/activemq</argument>
-                                <argument>-Dactivemq.home.rel=../sp-jms/src/main/resources/activemq</argument>
+                                <!--<argument>-Dactivemq.base=../sp-jms/src/main/resources/activemq</argument>
+                                <argument>-Dactivemq.home=../sp-jms/src/main/resources/activemq</argument>-->
                                 <argument>-Xms256m</argument>
                                 <argument>-Xmx256m</argument>
                                 <argument>-Djava.awt.headless=true</argument>

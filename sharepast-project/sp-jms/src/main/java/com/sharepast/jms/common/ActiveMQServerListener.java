@@ -25,16 +25,16 @@ public class ActiveMQServerListener extends ContextListener {
     @Qualifier("activemq-server")
     private Server activeMQServer;
 
-    private @Value("#{activemq.home}") String activemqHome;
-    private @Value("#{activemq.base}") String activemqBase;
+    private @Value("#{path['activemq.home']}") String activemqHome;
+    private @Value("#{path['activemq.base']}") String activemqBase;
 
     @Override
     public void afterStartup(ApplicationContext context) {
         try {
-            if (StringUtils.isEmpty(System.getProperty("activemq.home")) && !StringUtils.isEmpty(activemqHome)) {
+            if (!StringUtils.isEmpty(activemqHome)) {
                 System.setProperty("activemq.home", activemqHome );
             }
-            if (StringUtils.isEmpty(System.getProperty("activemq.base")) && !StringUtils.isEmpty(activemqBase)) {
+            if (!StringUtils.isEmpty(activemqBase)) {
                 System.setProperty("activemq.base", activemqBase );
             }
             activeMQServer.start();

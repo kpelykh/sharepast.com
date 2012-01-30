@@ -14,7 +14,7 @@
 
     <amq:broker brokerName="sp-broker" start="true" useJmx="true" persistent="true">
         <amq:persistenceAdapter>
-            <amq:amqPersistenceAdapter directory="${activemq.persist}/data" maxFileLength="32mb"/>
+            <amq:amqPersistenceAdapter directory="#{path['activemq.persist']}/data" maxFileLength="32mb"/>
         </amq:persistenceAdapter>
         <amq:transportConnectors>
             <amq:transportConnector uri="${jms.url}"/>
