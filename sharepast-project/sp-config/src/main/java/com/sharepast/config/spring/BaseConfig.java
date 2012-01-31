@@ -1,5 +1,6 @@
 package com.sharepast.config.spring;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.*;
@@ -47,7 +48,8 @@ public class BaseConfig {
     }
 
     @Bean
-    public Properties pathPostProcess(Environment env, @Qualifier("properties") Properties properties) {
+    @Autowired
+    public static Properties pathPostProcess(Environment env, @Qualifier("properties") Properties properties) {
         properties.put("jetty.resources", convertRelPathToAbsolute(env.resolvePlaceholders(properties.getProperty("jetty.resources"))));
         properties.put("log.dir", convertRelPathToAbsolute(env.resolvePlaceholders(properties.getProperty("log.dir"))));
         properties.put("config.path", convertRelPathToAbsolute(env.resolvePlaceholders(properties.getProperty("config.path"))));
@@ -83,7 +85,7 @@ public class BaseConfig {
         return messageSource;
     }
 
-    private String convertRelPathToAbsolute(String relPath)  {
+    private static String convertRelPathToAbsolute(String relPath)  {
         FileSystemResource resource = new FileSystemResource(relPath);
         try {
             return resource.getURL().getFile();

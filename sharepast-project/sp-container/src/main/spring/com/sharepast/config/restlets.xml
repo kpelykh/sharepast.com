@@ -17,7 +17,9 @@
     <context:component-scan base-package="com.sharepast.security"/>
 
     <!-- system Component bean -->
-    <bean id="appPlatform" class="org.restlet.ext.spring.SpringComponent">
+    <!-- if we don't specify depends-on="ppc" then Directory constructor will be called during dep resolution
+    for pathPostProcess bean, and wrong 'web.resources' will be used to construct the object -->
+    <bean id="appPlatform" class="org.restlet.ext.spring.SpringComponent" depends-on="ppc">
         <property name="name" value="RESTful App Server component"/>
         <property name="owner" value="Konstantin Pelykh"/>
         <property name="author" value="Konstantin Pelykh"/>
