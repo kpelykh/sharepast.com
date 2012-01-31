@@ -114,7 +114,7 @@
     </bean>
 
     <bean id="freemarkerConfig" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-        <property name="templateLoaderPaths" value="file://#{path['web.resources']}/templates"/>
+        <property name="templateLoaderPaths" value="file://${web.resources}/templates"/>
         <property name="freemarkerVariables">
             <map>
                 <entry key="config" value-ref="freemarkerConfigConstants"/>

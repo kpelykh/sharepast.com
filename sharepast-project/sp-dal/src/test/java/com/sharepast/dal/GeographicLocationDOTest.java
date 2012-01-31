@@ -1,10 +1,15 @@
 package com.sharepast.dal;
 
-import com.sharepast.startup.Configurator;
+import com.sharepast.config.spring.BaseConfig;
+import com.sharepast.config.spring.BaseConfig;
 import com.sharepast.dal.dao.GeographicLocationDAO;
 import com.sharepast.dal.domain.GeographicLocationDO;
+import com.sharepast.util.spring.Configurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.util.StopWatch;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,10 +23,15 @@ public class GeographicLocationDOTest {
     private static final Logger LOG = LoggerFactory.getLogger(GeographicLocationDOTest.class);
     private StopWatch stopWatch;
 
+    @Configuration
+    @Import({BaseConfig.class})
+    @ImportResource({"com/sharepast/config/persistence.xml"})
+    static class TestGeoLocationConf {}
+
     @BeforeClass
     public void prepareBeforeTest()
             throws Exception {
-        Configurator.getInstance().configure("com/sharepast/config/base.xml", "com/sharepast/config/persistence.xml");
+        Configurator.getInstance().configure(TestGeoLocationConf.class);
 
     }
 

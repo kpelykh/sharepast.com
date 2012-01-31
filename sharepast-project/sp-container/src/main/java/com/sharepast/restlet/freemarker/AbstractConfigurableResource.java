@@ -1,6 +1,6 @@
 package com.sharepast.restlet.freemarker;
 
-import com.sharepast.startup.Configurator;
+import com.sharepast.util.spring.Configurator;
 import com.sharepast.restlet.spring.AppResourceRouteAssembler;
 import com.sharepast.security.LogonUtils;
 import org.restlet.Context;

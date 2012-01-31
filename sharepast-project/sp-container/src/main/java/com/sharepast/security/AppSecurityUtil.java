@@ -1,6 +1,6 @@
 package com.sharepast.security;
 
-import com.sharepast.startup.Configurator;
+import com.sharepast.util.spring.Configurator;
 import com.sharepast.dal.domain.AppSecurityContextNameEnum;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.permission.WildcardPermission;

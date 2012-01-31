@@ -1,7 +1,7 @@
 package com.sharepast.monitoring;
 
-import com.sharepast.startup.Configurator;
-import com.sharepast.startup.AppRunner;
+import com.sharepast.Bootstrapper;
+import com.sharepast.util.spring.Configurator;
 import com.sharepast.util.Build;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,7 @@ public class ContainerInfo {
             return String.format("started countdown %d millis ago. Delay is %d millis", std.shutdown, std.delay);
 
         try {
-            AppRunner.stopRunner();
+            Bootstrapper.stopRunner();
         } catch (Throwable the) {
         }
 

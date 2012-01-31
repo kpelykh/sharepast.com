@@ -25,8 +25,8 @@ public class ActiveMQServerListener extends ContextListener {
     @Qualifier("activemq-server")
     private Server activeMQServer;
 
-    private @Value("#{path['activemq.home']}") String activemqHome;
-    private @Value("#{path['activemq.base']}") String activemqBase;
+    private @Value("${activemq.home}") String activemqHome;
+    private @Value("${activemq.base}") String activemqBase;
 
     @Override
     public void afterStartup(ApplicationContext context) {

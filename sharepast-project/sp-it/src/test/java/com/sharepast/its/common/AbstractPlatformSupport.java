@@ -1,6 +1,8 @@
 package com.sharepast.its.common;
 
-import com.sharepast.startup.Configurator;
+import com.sharepast.config.spring.BaseConfig;
+import com.sharepast.config.spring.BaseConfig;
+import com.sharepast.util.spring.Configurator;
 import com.sharepast.dal.domain.user.User;
 import com.sharepast.dal.exceptions.BadPasswordException;
 import com.sharepast.dal.util.DataGenerator;
@@ -16,6 +18,9 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 import org.restlet.util.Series;
 import org.slf4j.Logger;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -46,13 +51,21 @@ public class AbstractPlatformSupport {
 
     protected static volatile DataGenerator testDataGenerator;
 
-    protected String[] getConfigurations() {
-        return new String[]{
-                "com/sharepast/its/app00105/test-server-00105.xml",
-                "com/sharepast/its/app00200/test-server-00200.xml",
-                "com/sharepast/its/app00205/test-server-00205.xml",
-                "com/sharepast/its/app00270/test-server-00270.xml"
-        };
+    @Configuration
+    @Import({BaseConfig.class, TestServerConfig.class})
+    @ImportResource({
+            "com/sharepast/config/cache.xml",
+            "com/sharepast/config/security.xml",
+            "com/sharepast/config/persistence.xml",
+            "com/sharepast/config/security.xml",
+            "com/sharepast/its/common/test-server.xml",
+            "com/sharepast/config/services.xml",
+            "com/sharepast/config/geoip-location.xml",
+            "com/sharepast/its/app00105/test-server-00105.xml",
+            "com/sharepast/its/app00200/test-server-00200.xml",
+            "com/sharepast/its/app00205/test-server-00205.xml",
+            "com/sharepast/its/app00270/test-server-00270.xml"})
+    static public class TestConfig {
     }
 
     protected void generateSuiteData()
@@ -84,17 +97,8 @@ public class AbstractPlatformSupport {
         Assert.assertTrue(generatedHttpsPort < 65537, "Couldn't find a port below 65537");
         System.setProperty(StartupProperties.SYSTEM_PROPERTY_HTTPS_PORT.getKey(), "" + generatedHttpsPort);
 
-        Configurator.getInstance().addConfiguration("com/sharepast/config/base.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/config/cache.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/config/security.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/config/persistence.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/config/security.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/its/common/test-server.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/config/services.xml");
-        Configurator.getInstance().addConfiguration("com/sharepast/config/geoip-location.xml");
-
         //Add here any test-specific configurations
-        Configurator.getInstance().configure(getConfigurations());
+        Configurator.getInstance().configure(TestConfig.class);
 
         // grab test data generator
         testDataGenerator = Configurator.getInstance().getBean(DataGenerator.class, "testDataGenerator");

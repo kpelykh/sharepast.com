@@ -1,7 +1,8 @@
-package com.sharepast.startup;
+package com.sharepast;
 
-import com.sharepast.config.runners.JmsRunner;
-import com.sharepast.config.runners.PlatformRunner;
+import com.sharepast.config.spring.runners.JmsRunner;
+import com.sharepast.config.spring.runners.PlatformRunner;
+import com.sharepast.util.spring.Configurator;
 import com.sharepast.util.spring.StartupProperties;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -20,8 +21,8 @@ import java.util.Locale;
  * Time: 11:23 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AppRunner {
-    private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(AppRunner.class);
+public class Bootstrapper {
+    private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(Bootstrapper.class);
 
     private static final String CLI_START_PLATFORM = "p";
     private static final String CLI_START_JMS = "j";

@@ -16,6 +16,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>sp-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>sp-dal</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -131,7 +137,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <mainClass>com.sharepast.startup.AppRunner</mainClass>
+                            <mainClass>com.sharepast.Bootstrapper</mainClass>
                             <includeProjectDependencies>true</includeProjectDependencies>
                             <includePluginDependencies>false</includePluginDependencies>
                             <longClasspath>true</longClasspath>
@@ -171,7 +177,7 @@
                         </executions>
                         <configuration>
                             <executable>java</executable>
-                            <mainClass>com.sharepast.startup.AppRunner</mainClass>
+                            <mainClass>com.sharepast.Bootstrapper</mainClass>
                             <includeProjectDependencies>true</includeProjectDependencies>
                             <includePluginDependencies>false</includePluginDependencies>
                             <classpathScope>runtime</classpathScope>
@@ -188,7 +194,7 @@
                                 <argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999</argument>
                                 <argument>-classpath</argument>
                                 <classpath/>
-                                <argument>com.sharepast.startup.AppRunner</argument>
+                                <argument>com.sharepast.Bootstrapper</argument>
                                 <argument>--jms</argument>
                             </arguments>
                         </configuration>

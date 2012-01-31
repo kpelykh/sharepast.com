@@ -20,7 +20,7 @@
                             <property name="requestLog">
                                 <bean class="org.eclipse.jetty.server.NCSARequestLog">
                                     <property name="retainDays" value="90"/>
-                                    <property name="filename" value="#{path['log.dir']}/jetty.request.log.yyyy_mm_dd"/>
+                                    <property name="filename" value="${log.dir}/jetty.request.log.yyyy_mm_dd"/>
                                     <property name="append" value="true"/>
                                     <property name="extended" value="false"/>
                                     <property name="logTimeZone" value="GMT"/>
@@ -50,7 +50,7 @@
                 <bean class="org.eclipse.jetty.server.ssl.SslSocketConnector">
                     <property name="port" value="${https.port}"/>
                     <property name="maxIdleTime" value="3000"/>
-                    <property name="keystore" value="#{path['config.path']}/${app.env}/${keystore.name}"/>
+                    <property name="keystore" value="${config.path}/${app.env}/${keystore.name}"/>
                     <property name="keyPassword" value="${keystore.key.pass}"/>
                     <property name="password" value="${keystore.pass}"/>
                 </bean>
@@ -60,7 +60,7 @@
 
     <bean id="webAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
         <property name="contextPath" value="/"/>
-        <property name="resourceBase" value="#{path['jetty.resources']}"/>
+        <property name="resourceBase" value="${jetty.resources}"/>
         <property name="defaultsDescriptor" value="com/sharepast/jetty/webdefault.xml"/>
 
         <property name="servletHandler">

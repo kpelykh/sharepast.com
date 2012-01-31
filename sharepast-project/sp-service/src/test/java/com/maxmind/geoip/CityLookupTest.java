@@ -1,6 +1,11 @@
 package com.maxmind.geoip;/* CityLookupTest.java */
 
-import com.sharepast.startup.Configurator;
+import com.sharepast.config.spring.BaseConfig;
+import com.sharepast.config.spring.BaseConfig;
+import com.sharepast.util.spring.Configurator;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -10,9 +15,14 @@ import org.testng.annotations.Test;
 @Test
 public class CityLookupTest {
 
+    @Configuration
+    @Import({BaseConfig.class})
+    @ImportResource({"com/sharepast/config/geoip-location.xml"})
+    static class TestCityLookupConf {}
+
     @BeforeClass
     public void configure() {
-        Configurator.getInstance().configure("com/sharepast/config/base.xml", "com/sharepast/config/geoip-location.xml");
+        Configurator.getInstance().configure(TestCityLookupConf.class);
     }
 
     @AfterClass

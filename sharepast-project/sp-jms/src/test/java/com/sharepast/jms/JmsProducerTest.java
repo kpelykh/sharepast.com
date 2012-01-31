@@ -1,10 +1,15 @@
 package com.sharepast.jms;
 
-import com.sharepast.startup.Configurator;
+import com.sharepast.config.spring.BaseConfig;
+import com.sharepast.config.spring.BaseConfig;
 import com.sharepast.jms.test.TestQueueListener;
 import com.sharepast.jms.test.TestQueueSender;
+import com.sharepast.util.spring.Configurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,10 +31,15 @@ public class JmsProducerTest {
         private static final Logger LOG = LoggerFactory.getLogger(JmsProducerTest.class);
         private String msg;
 
+        @Configuration
+        @Import({BaseConfig.class})
+        @ImportResource({"com/sharepast/jms/jms-test.xml"})
+        static class TestJmsProducerConf {}
+
         @BeforeClass
         public void prepareBeforeTest()
                 throws Exception {
-            Configurator.getInstance().configure("com/sharepast/config/base.xml", "com/sharepast/jms/jms-test.xml");
+            Configurator.getInstance().configure(TestJmsProducerConf.class);
         }
 
         @AfterClass

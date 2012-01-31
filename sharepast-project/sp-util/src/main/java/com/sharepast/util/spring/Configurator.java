@@ -1,11 +1,8 @@
-package com.sharepast.startup;
+package com.sharepast.util.spring;
 
 import com.sharepast.util.Build;
 import com.sharepast.util.Util;
 import com.sharepast.util.config.Environment;
-import com.sharepast.util.spring.ContextException;
-import com.sharepast.util.spring.ShutdownEvent;
-import com.sharepast.util.spring.StartupProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
