@@ -11,7 +11,7 @@ public enum StartupProperties {
       SYSTEM_PROPERTY_HTTP_PORT( "http.port" )
     , SYSTEM_PROPERTY_HTTPS_PORT( "https.port" )
 
-    , APP_SERVER_NAME( "appHttpServer" )
+    , APP_SERVER_NAME( "jettyServer" )
 
   , SYSTEM_PROPERTY_IS_PRODUCTION( "is.production.env", "false" )
   ;

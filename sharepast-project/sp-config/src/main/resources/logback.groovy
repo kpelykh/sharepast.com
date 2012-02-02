@@ -27,10 +27,10 @@ def logLevel = 'log.properties'
 
 def logLevelLocations = [ "$logLevel", "$env/$logLevel", "$env/$pool/$logLevel", "$env/$pool/$server/$logLevel", "$userHome/.m2/$logLevel" ]
 
-def filePattern    = '%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n'
-def htmlPattern    = '%d{HH:mm:ss.SSS}%thread%mdc%level%logger%msg'
-def errorPattern   = '%d{HH:mm:ss.SSS} [%thread] %-5level %class{40}:%line - %msg%n%throwable'
-def consolePattern = '%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n'
+def filePattern    = '%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%rEx%n'
+def htmlPattern    = '%d{HH:mm:ss.SSS}%thread%mdc%level%logger%msg%rEx%n'
+def errorPattern   = '%d{HH:mm:ss.SSS} [%thread] %-5level %class{40}:%line - %msg%rEx%n'
+def consolePattern = '%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%rEx%n'
 def defaultAppenders = ['all','err','errh']
 def defaultRootAppenders = ['console','all','err','errh']
 

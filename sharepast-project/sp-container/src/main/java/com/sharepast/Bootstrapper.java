@@ -1,7 +1,6 @@
 package com.sharepast;
 
-import com.sharepast.config.spring.runners.JmsRunner;
-import com.sharepast.config.spring.runners.PlatformRunner;
+import com.sharepast.runners.JmsRunner;
 import com.sharepast.util.spring.Configurator;
 import com.sharepast.util.spring.StartupProperties;
 import org.apache.commons.cli.CommandLine;
@@ -11,6 +10,7 @@ import org.apache.commons.cli.PosixParser;
 import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import com.sharepast.runners.PlatformRunner;
 
 import java.util.Locale;
 

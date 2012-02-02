@@ -10,7 +10,7 @@
         <property name="gracefulShutdown" value="1000"/>
         <property name="stopAtShutdown" value="true"/>
 
-        <property name="handler">
+        <!--<property name="handler">
             <bean class="org.eclipse.jetty.server.handler.HandlerCollection">
                 <property name="handlers">
                     <list>
@@ -30,7 +30,7 @@
                     </list>
                 </property>
             </bean>
-        </property>
+        </property>-->
 
         <property name="threadPool">
             <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
@@ -55,84 +55,6 @@
                     <property name="password" value="${keystore.pass}"/>
                 </bean>
             </list>
-        </property>
-    </bean>
-
-    <bean id="webAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
-        <property name="contextPath" value="/"/>
-        <property name="resourceBase" value="${jetty.resources}"/>
-        <property name="defaultsDescriptor" value="com/sharepast/jetty/webdefault.xml"/>
-
-        <property name="servletHandler">
-            <bean class="org.eclipse.jetty.servlet.ServletHandler">
-                <property name="startWithUnavailable" value="false"/>
-
-                <property name="filters">
-                    <list>
-                        <bean class="org.eclipse.jetty.servlet.FilterHolder">
-                            <property name="name" value="shiroFilter"/>
-                            <property name="filter">
-                                <bean class="com.sharepast.security.AppDelegatingFilterProxy"/>
-                            </property>
-                            <property name="initParameters">
-                                <map>
-                                    <entry key="targetFilterLifecycle" value="true"/>
-                                </map>
-                            </property>
-                        </bean>
-                        <bean class="org.eclipse.jetty.servlet.FilterHolder">
-                            <property name="name" value="UrlRewriteFilter"/>
-                            <property name="filter">
-                                <bean class="org.tuckey.web.filters.urlrewrite.UrlRewriteFilter"/>
-                            </property>
-                            <property name="initParameters">
-                                <map>
-                                    <entry key="confReloadCheckInterval" value="60"/>
-                                    <entry key="statusEnabledOnHosts" value="localhost"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-                <property name="servlets">
-                    <list>
-                        <bean class="org.eclipse.jetty.servlet.ServletHolder">
-                            <property name="name" value="dispatcher"/>
-                            <property name="className" value="com.sharepast.restlet.ext.servlet.AppRestletFrameworkServlet"/>
-                            <property name="initParameters">
-                                <map>
-                                    <entry key="targetRestletBeanName" value="application"/>
-                                    <entry key="contextConfigLocation"
-                                           value="classpath:/com/sharepast/config/dispatcher-servlet.xml"/>
-                                </map>
-                            </property>
-                            <property name="initOrder" value="1"/>
-                        </bean>
-                    </list>
-                </property>
-                <property name="filterMappings">
-                    <list>
-                        <!-- Shiro filter should be the first in the chain (or high enough
-                        in the chain such that nothing before it uses the session) -->
-                        <bean class="org.eclipse.jetty.servlet.FilterMapping">
-                            <property name="filterName" value="shiroFilter"/>
-                            <property name="pathSpec" value="/*"/>
-                        </bean>
-                        <bean class="org.eclipse.jetty.servlet.FilterMapping">
-                            <property name="filterName" value="UrlRewriteFilter"/>
-                            <property name="pathSpec" value="/*"/>
-                        </bean>
-                    </list>
-                </property>
-                <property name="servletMappings">
-                    <list>
-                        <bean class="org.eclipse.jetty.servlet.ServletMapping">
-                            <property name="servletName" value="dispatcher"/>
-                            <property name="pathSpec" value="/"/>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
         </property>
     </bean>
 

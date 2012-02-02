@@ -1,7 +1,6 @@
 package com.sharepast.jms;
 
-import com.sharepast.config.spring.BaseConfig;
-import com.sharepast.config.spring.BaseConfig;
+import com.sharepast.config.BaseConfig;
 import com.sharepast.jms.test.TestQueueListener;
 import com.sharepast.jms.test.TestQueueSender;
 import com.sharepast.util.spring.Configurator;

@@ -1,7 +1,6 @@
 package com.sharepast.its.common;
 
-import com.sharepast.config.spring.BaseConfig;
-import com.sharepast.config.spring.BaseConfig;
+import com.sharepast.config.BaseConfig;
 import com.sharepast.util.spring.Configurator;
 import com.sharepast.dal.domain.user.User;
 import com.sharepast.dal.exceptions.BadPasswordException;
