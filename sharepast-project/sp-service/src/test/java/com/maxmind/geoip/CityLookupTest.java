@@ -1,7 +1,7 @@
 package com.maxmind.geoip;/* CityLookupTest.java */
 
 import com.sharepast.config.BaseConfig;
-import com.sharepast.util.spring.Configurator;
+import com.sharepast.util.spring.SpringConfigurator;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
@@ -21,12 +21,12 @@ public class CityLookupTest {
 
     @BeforeClass
     public void configure() {
-        Configurator.getInstance().configure(TestCityLookupConf.class);
+        SpringConfigurator.getInstance().configure(TestCityLookupConf.class);
     }
 
     @AfterClass
     public void afterClass() {
-        Configurator.getInstance().shutdown();
+        SpringConfigurator.getInstance().shutdown();
     }
 
     /**
@@ -37,7 +37,7 @@ public class CityLookupTest {
 
         try {
 
-            LookupService geoIPservice = Configurator.getInstance().getBean(LookupService.class, "geoIPService");
+            LookupService geoIPservice = SpringConfigurator.getInstance().getBean(LookupService.class, "geoIPService");
 
             GeoIPLocation l1 = geoIPservice.getLocation("74.125.224.16");
             Assert.assertEquals(l1.getCountryCode(), "US", "Google server country code must resolve to US!");

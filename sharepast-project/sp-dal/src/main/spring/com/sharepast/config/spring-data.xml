@@ -1,44 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
-    <context:component-scan base-package="com.sharepast.dal"/>
-
-    <!-- Connection Pooling -->
-
-    <bean id="appDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${jdbc.driver}"/>
-        <property name="jdbcUrl" value="${jdbc.url.app}"/>
-        <property name="user" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-        <property name="testConnectionOnCheckin" value="true"/>
-        <property name="testConnectionOnCheckout" value="true"/>
-    </bean>
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 
-    <!-- Liquibase updates -->
+    <!-- A datasource that has pooling capabilities-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close"
+          p:driverClass="${jdbc.driver}"
+          p:jdbcUrl="${jdbc.db.url}"
+          p:user="${jdbc.username}"
+          p:password="${jdbc.password}"
+          p:acquireIncrement="5"
+          p:idleConnectionTestPeriod="60"
+          p:maxPoolSize="100"
+          p:maxStatements="50"
+          p:minPoolSize="10" />
 
-    <!--<bean id="dbMigrator" class="liquibase.integration.spring.SpringLiquibase">
-        <property name="dataSource" ref="appDataSource" />
-        <property name="changeLog" value="classpath:com/sharepast/database/master.xml" />
-    </bean>-->
 
-    <!-- Session and Transaction -->
-
-    <!-- enable the configuration of transactional behavior based on annotations -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-   <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="appDataSource"/>
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" depends-on="dbMigrator">
+        <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>com.sharepast.dal.domain</value>
+                <value>com.zettaset.domains</value>
+                <value>com.zettaset.domains.user</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -57,7 +50,6 @@
                 <prop key="hibernate.connection.isolation">${hibernate.connection.isolation}</prop>
 
                 <prop key="hibernate.generate_statistics">false</prop>
-                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                 <prop key="hibernate.cache.use_second_level_cache">false</prop>
                 <prop key="hibernate.cache.use_query_cache">false</prop>
                 <prop key="hibernate.cache.use_minimal_puts">true</prop>
@@ -80,30 +72,27 @@
 
             </props>
         </property>
-        <!--<property name="eventListeners">
-            <map>
-                <entry key="pre-insert">
-                    <bean class="com.sharepast.persistence.hibernate.HibernateInsertListener"/>
-                </entry>
-                <entry key="pre-delete">
-                    <bean class="com.sharepast.persistence.hibernate.HibernateDeleteListener"/>
-                </entry>
-            </map>
-        </property>-->
     </bean>
 
-    <bean id="hibernateExceptionTranslator" class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
+    <bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
+
+
+    <bean id="dbMigrator" class="com.sharepast.util.db.CustomSpringLiquibase" depends-on="hsqldbSchemaCreator">
+        <property name="dataSource" ref="dataSource" />
+        <property name="changeLog" value="classpath:com/sharepast/database/master.xml" />
+        <property name="dropFirst" value="${liquibase.dropFirst}"/>
+        <property name="execute" value="${liquibase.execute}"/>
+        <property name="preview" value="${liquibase.preview}"/>
+    </bean>
 
 
     <!-- ========================= TRANSACTION MANAGEMENT ========================= -->
 
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory">
-            <ref local="sessionFactory"/>
-        </property>
-    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+          p:dataSource-ref="dataSource" p:sessionFactory-ref="sessionFactory"/>
+
 
     <!--For @Transactional-->
     <bean id="txAspect" class="org.springframework.transaction.aspectj.AnnotationTransactionAspect"

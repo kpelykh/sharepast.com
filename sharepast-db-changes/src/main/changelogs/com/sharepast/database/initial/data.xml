@@ -3,7 +3,7 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet author="konstantin.pelykh" id="initial-data-1">
+    <!--<changeSet author="konstantin.pelykh" id="initial-data-1">
         <comment>Business GeoLocation Data</comment>
         <loadData tableName="geographic_location" file="com/sharepast/database/initial/geographic_location.csv">
             <column name="id" type="NUMERIC"/>
@@ -32,7 +32,7 @@
         <modifySql>
             <replace replace="''" with="NULL"/>
         </modifySql>
-    </changeSet>
+    </changeSet>-->
 
     <changeSet author="konstantin.pelykh" id="initial-data-2">
         <comment>Admin User</comment>

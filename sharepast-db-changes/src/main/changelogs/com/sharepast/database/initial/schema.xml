@@ -34,7 +34,7 @@
       </changeSet>
       <changeSet id="initial-schema-2" author="konstantin.pelykh">
         <createTable tableName="users">
-            <column name="id" type="BIGINT">
+            <column name="id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="username" type="VARCHAR(100)">
@@ -70,7 +70,7 @@
             <column name="longitude" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
-            <column name="altitude" type="FLOAT(12,0)">
+            <column name="altitude" type="FLOAT">
                 <constraints nullable="false"/>
             </column>
             <column name="line1" type="VARCHAR(255)"/>
@@ -85,11 +85,12 @@
             <column name="notification_preferences" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="created" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+            <!--<column name="created" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
-            </column>
+            </column>-->
             <column name="user_settings" type="VARCHAR(255)"/>
         </createTable>
+
         <createTable tableName="file">
             <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>

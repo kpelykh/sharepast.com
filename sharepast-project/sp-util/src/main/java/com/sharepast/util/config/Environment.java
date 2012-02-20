@@ -9,7 +9,9 @@ package com.sharepast.util.config;
  */
 public class Environment {
 
-  private static final String ENVIRONMENT_SYSTEM_PROPERTY = "app.env";
+  private static final String ENVIRONMENT_SYSTEM_PROPERTY = "com.sharepast.env";
+
+  public static boolean isTestActive = false;
 
   private static String current;
 

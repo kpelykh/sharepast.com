@@ -1,13 +1,12 @@
 package com.sharepast.its.common;
 
 import com.sharepast.config.BaseConfig;
-import com.sharepast.util.spring.Configurator;
+import com.sharepast.util.spring.SpringConfigurator;
 import com.sharepast.dal.domain.user.User;
 import com.sharepast.dal.exceptions.BadPasswordException;
 import com.sharepast.dal.util.DataGenerator;
 import com.sharepast.dal.util.TestDataGenerator;
 import com.sharepast.util.Util;
-import com.sharepast.util.spring.StartupProperties;
 import org.eclipse.jetty.server.Server;
 import org.restlet.Context;
 import org.restlet.Request;
@@ -89,22 +88,20 @@ public class AbstractPlatformSupport {
         int generatedHttpPort = Util.findFreeRandomPort();
         Assert.assertTrue(generatedHttpPort > 1024, "Couldn't find a port above 1024");
         Assert.assertTrue(generatedHttpPort < 65537, "Couldn't find a port below 65537");
-        System.setProperty(StartupProperties.SYSTEM_PROPERTY_HTTP_PORT.getKey(), "" + generatedHttpPort);
 
         int generatedHttpsPort = Util.findFreeRandomPort();
         Assert.assertTrue(generatedHttpsPort > 1024, "Couldn't find a port above 1024");
         Assert.assertTrue(generatedHttpsPort < 65537, "Couldn't find a port below 65537");
-        System.setProperty(StartupProperties.SYSTEM_PROPERTY_HTTPS_PORT.getKey(), "" + generatedHttpsPort);
 
         //Add here any test-specific configurations
-        Configurator.getInstance().configure(TestConfig.class);
+        SpringConfigurator.getInstance().configure(TestConfig.class);
 
         // grab test data generator
-        testDataGenerator = Configurator.getInstance().getBean(DataGenerator.class, "testDataGenerator");
+        testDataGenerator = SpringConfigurator.getInstance().getBean(DataGenerator.class, "testDataGenerator");
         generateSuiteData();
 
         // HTTP
-        appHttpServer = Configurator.getInstance().getBean(Server.class, DEFAULT_SERVER_NAME);
+        appHttpServer = SpringConfigurator.getInstance().getBean(Server.class, DEFAULT_SERVER_NAME);
         Assert.assertNotNull(appHttpServer);
         httpPort = appHttpServer.getServer().getConnectors()[0].getPort();
         Assert.assertEquals(httpPort, generatedHttpPort);

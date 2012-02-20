@@ -1,6 +1,6 @@
 package com.sharepast.restlet.freemarker;
 
-import com.sharepast.util.spring.Configurator;
+import com.sharepast.util.spring.SpringConfigurator;
 import com.sharepast.restlet.spring.AppResourceRouteAssembler;
 import com.sharepast.security.LogonUtils;
 import org.restlet.Context;
@@ -137,7 +137,7 @@ public abstract class AbstractConfigurableResource extends ServerResource implem
 
     public String prepareUri(String name, Map<String, ?> values) throws ResourceException {
 
-        AppResourceRouteAssembler appAssembler = Configurator.getInstance().getBean(AppResourceRouteAssembler.class, "appAssembler");
+        AppResourceRouteAssembler appAssembler = SpringConfigurator.getInstance().getBean(AppResourceRouteAssembler.class, "appAssembler");
         if (appAssembler.getUriMap() == null) {
             throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
         }

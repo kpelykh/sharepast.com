@@ -3,7 +3,7 @@ package com.sharepast.dal;
 import com.sharepast.config.BaseConfig;
 import com.sharepast.dal.dao.GeographicLocationDAO;
 import com.sharepast.dal.domain.GeographicLocationDO;
-import com.sharepast.util.spring.Configurator;
+import com.sharepast.util.spring.SpringConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -30,20 +30,20 @@ public class GeographicLocationDOTest {
     @BeforeClass
     public void prepareBeforeTest()
             throws Exception {
-        Configurator.getInstance().configure(TestGeoLocationConf.class);
+        SpringConfigurator.getInstance().configure(TestGeoLocationConf.class);
 
     }
 
     @AfterClass
     public void afterClass() {
-        Configurator.getInstance().shutdown();
+        SpringConfigurator.getInstance().shutdown();
     }
 
     @Test
     public void checkZipCode()
             throws Exception {
 
-        GeographicLocationDAO geoLocationDao = Configurator.getInstance().getBean(GeographicLocationDAO.class, "geographicLocationDao");
+        GeographicLocationDAO geoLocationDao = SpringConfigurator.getInstance().getBean(GeographicLocationDAO.class, "geographicLocationDao");
 
         stopWatch = new StopWatch("GeographicLocationDOTest");
         stopWatch.start("GeographicLocationDOTest");

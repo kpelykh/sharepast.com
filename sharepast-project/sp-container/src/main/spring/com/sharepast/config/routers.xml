@@ -82,7 +82,7 @@
     <!-- static file access - css, js, etc. -->
     <bean id="directoryRestlet" class="org.restlet.resource.Directory">
         <constructor-arg index="0" ref="appPlatform.childContext"/>
-        <constructor-arg index="1" value="file://${web.resources}/static"/>
+        <constructor-arg index="1" value="file://${web.resource.base}/static"/>
         <property name="listingAllowed" value="false"/>
         <property name="deeplyAccessible" value="true"/>
         <property name="negotiatingContent" value="true"/>

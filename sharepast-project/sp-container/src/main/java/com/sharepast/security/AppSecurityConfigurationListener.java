@@ -30,7 +30,7 @@ public class AppSecurityConfigurationListener extends ContextListener
       SecurityUtils.setSecurityManager( securityManager );
   }
 
-  public void beforeShutdown( ApplicationContext context )
+  public void shutdown( ApplicationContext context )
   {
     try
     {

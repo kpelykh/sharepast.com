@@ -37,13 +37,9 @@ public class EmainInitializationListener extends ContextListener
     }*/
   }
 
-  @Override
-  public void afterShutdown()
-  {
-  }
+    @Override
+    public void shutdown(ApplicationContext context) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-  @Override
-  public void beforeShutdown( ApplicationContext context )
-  {
-  }
 }

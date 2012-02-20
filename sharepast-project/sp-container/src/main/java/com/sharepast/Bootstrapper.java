@@ -1,7 +1,8 @@
 package com.sharepast;
 
+import com.sharepast.http.HttpServer;
 import com.sharepast.runners.JmsRunner;
-import com.sharepast.util.spring.Configurator;
+import com.sharepast.util.spring.SpringConfigurator;
 import com.sharepast.util.spring.StartupProperties;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import com.sharepast.runners.PlatformRunner;
 
+import java.util.Enumeration;
 import java.util.Locale;
 
 /**
@@ -31,7 +33,7 @@ public class Bootstrapper {
     /**
      * Platform HTTP server
      */
-    private static Server httpServer;
+    private static HttpServer httpServer;
 
     /**
      * create CLI options
@@ -77,21 +79,35 @@ public class Bootstrapper {
     public static void startPlatform()
             throws Exception {
         try {
-            Configurator.getInstance().configure(PlatformRunner.class);
-            httpServer = Configurator.getInstance().getBean(Server.class, StartupProperties.APP_SERVER_NAME.getKey());
+            SpringConfigurator.getInstance().configure(PlatformRunner.class);
+            httpServer = SpringConfigurator.getInstance().getBean(HttpServer.class);
         } catch (Throwable e) {
             e.printStackTrace();
             System.exit(-1);
         }
 
-        httpServer.start();
-        System.out.println("HTTP server " + httpServer.getState() + " on port " + httpServer.getConnectors()[0].getPort());
+        try {
+            httpServer.start();
+        } catch (Exception e) {
+            LOG.error("Error starting Jetty server", e);
+            System.exit(100);
+        }
+
+        Enumeration e = httpServer.getJettyServer().getAttributeNames();
+        LOG.info("HTTPServer attributes:");
+        while (e.hasMoreElements()) {
+            String name = (String) e.nextElement();
+            LOG.info("Name: %s, Value: %s", name, httpServer.getJettyServer().getAttribute(name));
+        }
+
+
+        System.out.println("HTTP server " + httpServer.getJettyServer().getState() + " on port " + httpServer.getJettyServer().getConnectors()[0].getPort());
     }
 
     public static void startJms()
             throws Exception {
         try {
-            Configurator.getInstance().configure(JmsRunner.class);
+            SpringConfigurator.getInstance().configure(JmsRunner.class);
         } catch (Throwable e) {
             e.printStackTrace();
             System.exit(-1);
@@ -99,27 +115,15 @@ public class Bootstrapper {
     }
 
     public static void stopRunner() throws Exception {
-        int status = 0;
+        SpringConfigurator.getInstance().shutdown();
 
-        try {
-            if (httpServer != null && httpServer.isStarted()) {
-                httpServer.stop();
-                System.out.println("stopped HTTP server on " + httpServer.getConnectors()[0].getPort());
-            }
-        } catch (Throwable th) {
-            LOG.error("cannot stop HTTP server", th);
-            status += 1;
-        }
-
-        Configurator.getInstance().shutdown();
-
-        System.exit(status);
+        System.exit(0);
     }
 
 
     static class ShutdownHook extends Thread {
         public void run() {
-            Configurator.getInstance().shutdown();
+            SpringConfigurator.getInstance().shutdown();
         }
     }
 

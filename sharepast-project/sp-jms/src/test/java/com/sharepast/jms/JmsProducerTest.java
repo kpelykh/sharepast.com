@@ -3,7 +3,7 @@ package com.sharepast.jms;
 import com.sharepast.config.BaseConfig;
 import com.sharepast.jms.test.TestQueueListener;
 import com.sharepast.jms.test.TestQueueSender;
-import com.sharepast.util.spring.Configurator;
+import com.sharepast.util.spring.SpringConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -38,25 +38,25 @@ public class JmsProducerTest {
         @BeforeClass
         public void prepareBeforeTest()
                 throws Exception {
-            Configurator.getInstance().configure(TestJmsProducerConf.class);
+            SpringConfigurator.getInstance().configure(TestJmsProducerConf.class);
         }
 
         @AfterClass
         public void afterClass() {
-            Configurator.getInstance().shutdown();
+            SpringConfigurator.getInstance().shutdown();
         }
 
         @Test
         public void checkJms()
                 throws Exception {
 
-            TestQueueSender jmsSender = Configurator.getInstance().getBean(TestQueueSender.class, "testQueueSender");
+            TestQueueSender jmsSender = SpringConfigurator.getInstance().getBean(TestQueueSender.class, "testQueueSender");
 
             class BasicThread2 implements Runnable {
                 TestQueueListener jmsListener = null;
 
                 BasicThread2() {
-                    jmsListener = Configurator.getInstance().getBean(TestQueueListener.class, "testQueueListener");
+                    jmsListener = SpringConfigurator.getInstance().getBean(TestQueueListener.class, "testQueueListener");
                 }
 
                 // This method is called when the thread runs

@@ -1,6 +1,6 @@
 package com.sharepast.security;
 
-import com.sharepast.util.spring.Configurator;
+import com.sharepast.util.spring.SpringConfigurator;
 import com.sharepast.dal.domain.AppSecurityContextNameEnum;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.permission.WildcardPermission;
@@ -40,7 +40,7 @@ public abstract class AppSecurityUtil extends SecurityUtils {
         if (realm == null)
             synchronized (AppSecurityUtil.class) {
                 if (realm == null)
-                    realm = Configurator.getInstance().getBean(AppRealm.class, "appRealm");
+                    realm = SpringConfigurator.getInstance().getBean(AppRealm.class, "appRealm");
             }
 
         return realm;

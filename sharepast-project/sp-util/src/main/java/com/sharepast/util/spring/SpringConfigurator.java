@@ -5,9 +5,11 @@ import com.sharepast.util.Util;
 import com.sharepast.util.config.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.StandardEnvironment;
+import org.springframework.util.Assert;
 
 import java.io.File;
 import java.util.*;
@@ -19,36 +21,15 @@ import java.util.*;
  * Time: 12:53 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Configurator {
+public class SpringConfigurator {
 
-    /**
-     * The 'app.override' property adds another environment file to the config properties
-     * /usr/lib/zts/conf/environment-${app.override}.properties
-     */
-    public static final String SYSTEM_PROPERTY_ENVIRONMENT_OVERRIDE = "com.zettaset.env.override";
+    private static final StandardEnvironment environment = new StandardEnvironment();
 
-    /**
-     * system properties that defines server pool
-     */
-    private static final String SYSTEM_PROPERTY_POOL = "com.sharepast.server.pool";
+    private static final String LINE_SEPARATOR = environment.getProperty("line.separator");
 
-    private static final String DEFAULT_POOL = "app";
+    private static final String FILE_SEPARATOR = environment.getProperty("file.separator");
 
-    private static final String DEFAULT_AREA = "development";
-
-    /**
-     * system properties that defines server inside pool
-     */
-    private static final String SYSTEM_PROPERTY_SERVER_ID = "com.sharepast.server.id";
-
-    private static final String DEFAULT_SERVER_ID = "0001";
-
-
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
-
-    private static final Logger LOG = LoggerFactory.getLogger(Configurator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SpringConfigurator.class);
 
     private AnnotationConfigApplicationContext appContext;
 
@@ -58,21 +39,26 @@ public class Configurator {
 
     private String threadName;
 
-    private static Configurator _instance = new Configurator();
+    private static SpringConfigurator _instance = new SpringConfigurator();
 
     private volatile boolean stopped = false;
 
-    private static final String env;
+    private volatile boolean contextInitialized = false;
 
-     static {
-        env = Environment.getCurrent();
-        if (Util.isEmpty(System.getProperty(SYSTEM_PROPERTY_ENVIRONMENT_OVERRIDE))) {
-            System.setProperty(SYSTEM_PROPERTY_ENVIRONMENT_OVERRIDE, env);
-        }
+    static {
         getInfo();
+        environment.setActiveProfiles(Environment.getCurrent());
     }
 
-    public static Configurator getInstance() {
+    public ApplicationContext getApplicationContext() {
+        return appContext;
+    }
+
+    public boolean isContextInitialized() {
+        return contextInitialized;
+    }
+
+    public static SpringConfigurator getInstance() {
         return _instance;
     }
 
@@ -82,15 +68,13 @@ public class Configurator {
 
         addConfiguration(configurations);
 
-        // prep pool environment
-        System.setProperty(SYSTEM_PROPERTY_POOL, System.getProperty(SYSTEM_PROPERTY_POOL, DEFAULT_POOL));
-        System.setProperty(SYSTEM_PROPERTY_SERVER_ID, System.getProperty(SYSTEM_PROPERTY_SERVER_ID, DEFAULT_SERVER_ID));
-
         appContext = new AnnotationConfigApplicationContext();
-        appContext.setEnvironment(new StandardEnvironment());
-        appContext.getEnvironment().setActiveProfiles(Environment.getCurrent());
+        appContext.setEnvironment(environment);
         appContext.register(getConfigurations());
         appContext.refresh();
+
+        contextInitialized = true;
+
 
         if (LOG.isDebugEnabled())
             LOG.debug("Processed configurations: {}", Arrays.toString(getConfigurations()));
@@ -114,61 +98,61 @@ public class Configurator {
     }
 
     public <T> T getBean(Class<T> clazz) {
+        Assert.notNull(appContext, "Spring context is not initialized");
         try {
             return appContext.getBean(clazz);
         } catch (Exception e) {
             String msg = "Unable to get bean of class " + clazz.getName();
             LOG.error(msg);
-            System.err.println(msg);
-            throw (RuntimeException) e;
         }
+        return null;
     }
 
 
     public Object getBean(String beanId) {
+        Assert.notNull(appContext, "Spring context is not initialized");
         try {
             return appContext.getBean(beanId);
         } catch (Exception e) {
             String msg = "Unable to get bean " + beanId;
             LOG.error(msg);
-            System.err.println(msg);
-            throw (RuntimeException) e;
         }
+        return null;
     }
 
     public <T> T getBean(Class<T> clazz, String beanId) {
+        Assert.notNull(appContext, "Spring context is not initialized");
         try {
             return clazz.cast(appContext.getBean(beanId, clazz));
         } catch (Exception e) {
             String msg = "Unable to get bean " + beanId + " of class " + clazz.getSimpleName();
             LOG.error(msg);
-            System.err.println(msg);
-            throw (RuntimeException) e;
         }
+        return null;
     }
 
     private String format(StackTraceElement[] stackTrace) {
         StringBuilder traceBuilder = new StringBuilder();
-        traceBuilder.append(System.getProperty("line.separator"));
-        traceBuilder.append(System.getProperty("line.separator"));
+        traceBuilder.append(environment.getProperty("line.separator"));
+        traceBuilder.append(environment.getProperty("line.separator"));
         traceBuilder.append("\tOriginating Thread: ");
         traceBuilder.append(threadName);
-        traceBuilder.append(System.getProperty("line.separator"));
-        traceBuilder.append(System.getProperty("line.separator"));
+        traceBuilder.append(environment.getProperty("line.separator"));
+        traceBuilder.append(environment.getProperty("line.separator"));
         traceBuilder.append("\t============= Originating Stack =============");
-        traceBuilder.append(System.getProperty("line.separator"));
+        traceBuilder.append(environment.getProperty("line.separator"));
 
         for (StackTraceElement element : stackTrace) {
             traceBuilder.append('\t');
             traceBuilder.append(element);
-            traceBuilder.append(System.getProperty("line.separator"));
+            traceBuilder.append(environment.getProperty("line.separator"));
         }
 
-        traceBuilder.append(System.getProperty("line.separator"));
+        traceBuilder.append(environment.getProperty("line.separator"));
         traceBuilder.append("\tException Thread: ");
         traceBuilder.append(Thread.currentThread().getName());
-        traceBuilder.append(System.getProperty("line.separator"));
-        traceBuilder.append(System.getProperty("line.separator"));
+        traceBuilder.append(environment.getProperty("line.separator"));
+        traceBuilder.append(environment.getProperty("line.separator"));
         traceBuilder.append("\t============== Exception Stack ==============");
 
         return traceBuilder.toString();
@@ -178,21 +162,21 @@ public class Configurator {
         StringBuilder taglineBuilder = new StringBuilder();
         StringBuilder localPropertyPath;
         char[] endLine;
-        endLine = new char[34 + Configurator.class.getSimpleName().length()];
+        endLine = new char[34 + SpringConfigurator.class.getSimpleName().length()];
         Arrays.fill(endLine, '=');
         localPropertyPath =
-                new StringBuilder(System.getProperty("user.home"))
+                new StringBuilder(environment.getProperty("user.home"))
                         .append(FILE_SEPARATOR)
                         .append(".m2")
                         .append(FILE_SEPARATOR)
                         .append("environment-")
-                        .append(System.getProperty(SYSTEM_PROPERTY_ENVIRONMENT_OVERRIDE))
+                        .append(environment.getProperty(Environment.getCurrent()))
                         .append(".properties")
         ;
 
         taglineBuilder
                 .append("================ ")
-                .append(Configurator.class.getSimpleName())
+                .append(SpringConfigurator.class.getSimpleName())
                 .append(" ================")
                 .append(LINE_SEPARATOR).append(LINE_SEPARATOR)
                 .append("code version: ")
@@ -202,13 +186,7 @@ public class Configurator {
                 .append(Build.getTimestamp())
                 .append(LINE_SEPARATOR)
                 .append("current environment: ")
-                .append(env)
-                .append(LINE_SEPARATOR)
-                .append("override environment: ")
-                .append(System.getProperty(SYSTEM_PROPERTY_ENVIRONMENT_OVERRIDE))
-                .append(LINE_SEPARATOR)
-                .append("is production: ")
-                .append(StartupProperties.SYSTEM_PROPERTY_IS_PRODUCTION.get())
+                .append(Environment.getCurrent())
                 .append(LINE_SEPARATOR)
         ;
 
@@ -233,7 +211,7 @@ public class Configurator {
 
             Thread shutter = new Thread() {
                 public void run() {
-                    if (appContext != null) {
+                    if (appContext != null && contextInitialized) {
                         stopped = true;
                         appContext.publishEvent( new ShutdownEvent( this ) );
                         appContext.close();
@@ -255,8 +233,8 @@ public class Configurator {
             }
 
             if (shutter.isAlive()) {
-                System.out.println("Configurator did not shut down in 10 seconds, forcing it to quit");
-                System.out.println("Configurator shutdown dump follows\n========================");
+                System.out.println("SpringConfigurator did not shut down in 10 seconds, forcing it to quit");
+                System.out.println("SpringConfigurator shutdown dump follows\n========================");
                 StackTraceElement[] st = shutter.getStackTrace();
                 if (st != null)
                     for (StackTraceElement ste : st)

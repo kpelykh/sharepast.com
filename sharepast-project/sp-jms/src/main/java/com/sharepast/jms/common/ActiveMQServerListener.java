@@ -43,13 +43,6 @@ public class ActiveMQServerListener extends ContextListener {
         }
     }
 
-    @Override
-    public void beforeShutdown(ApplicationContext context) {
-    }
-
-    @Override
-    public void afterShutdown() {
-    }
 
     @Override
     public void shutdown(ApplicationContext context) {

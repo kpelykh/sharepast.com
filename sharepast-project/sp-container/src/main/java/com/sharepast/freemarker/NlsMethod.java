@@ -1,9 +1,12 @@
 package com.sharepast.freemarker;
 
+import com.sharepast.util.spring.SpringConfigurator;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Locale;
@@ -19,7 +22,7 @@ public class NlsMethod
         implements TemplateMethodModelEx {
 
     @Autowired
-    private ReloadableResourceBundleMessageSource messageSource;
+    private MessageSource messageSource;
 
     public Object exec(List arguments)
             throws TemplateModelException {

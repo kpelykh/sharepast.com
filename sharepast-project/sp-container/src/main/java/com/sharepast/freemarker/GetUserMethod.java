@@ -7,6 +7,7 @@ import freemarker.template.TemplateModelException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Map;
  * Time: 11:51 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class GetUserMethod implements TemplateMethodModelEx {
 
     @Autowired

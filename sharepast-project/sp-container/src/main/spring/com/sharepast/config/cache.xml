@@ -8,7 +8,7 @@
     <!-- Cache manager -->
 	<bean id="ehcacheManager"
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:${app.env}/ehcache.xml" />
+		<property name="configLocation" value="classpath:${com.sharepast.env}/ehcache.xml" />
         <property name="shared" value="true"/>
     </bean>
 

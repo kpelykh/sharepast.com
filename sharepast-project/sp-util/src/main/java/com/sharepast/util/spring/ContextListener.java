@@ -8,6 +8,7 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
+import org.springframework.web.context.WebApplicationContext;
 
 public abstract class ContextListener
 implements ApplicationContextAware, ApplicationListener
@@ -16,13 +17,11 @@ implements ApplicationContextAware, ApplicationListener
 
   public abstract void afterStartup( ApplicationContext context );
 
-  public abstract void beforeShutdown( ApplicationContext context );
+  public void beforeShutdown( ApplicationContext context ) {}
 
-  public abstract void afterShutdown();
+  public void afterShutdown() {};
 
-  public void shutdown( ApplicationContext context )
-  {
-  }
+  public abstract void shutdown( ApplicationContext context );
 
   public void setApplicationContext( ApplicationContext applicationContext )
   {
@@ -32,14 +31,18 @@ implements ApplicationContextAware, ApplicationListener
   public void onApplicationEvent( ApplicationEvent applicationEvent )
   {
     Class<? extends ApplicationEvent> cls = applicationEvent.getClass();
+    Class sourceClass = applicationEvent.getSource().getClass();
+
+    if (WebApplicationContext.class.isAssignableFrom(sourceClass))
+         return;
 
     if( ContextStartedEvent.class.isAssignableFrom( cls ) || ContextRefreshedEvent.class.isAssignableFrom( cls ) )
       afterStartup( applicationContext );
     else if( ContextStoppedEvent.class.isAssignableFrom( cls ) )
-      beforeShutdown( applicationContext );
+      beforeShutdown(applicationContext);
     else if( ContextClosedEvent.class.isAssignableFrom( cls ) )
       afterShutdown();
     else if( ShutdownEvent.class.isAssignableFrom( cls ) )
-      shutdown( applicationContext );
+      shutdown(applicationContext);
   }
 }

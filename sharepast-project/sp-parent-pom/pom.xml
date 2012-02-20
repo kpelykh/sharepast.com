@@ -15,17 +15,17 @@
 
         <geoip.version>1.0</geoip.version>
 
-        <app.env>de</app.env>
+        <com.sharepast.env>de</com.sharepast.env>
 
         <!--  build configuration  -->
         <build.env>de</build.env>
         <build.test.memory>800m</build.test.memory>
 
         <!--
-            special file: ~/.m2/environment-${app.env.override}.properties
+            special file: ~/.m2/environment-${com.sharepast.env.override}.properties
             override everything else for tests
         -->
-        <app.env.override/>
+        <com.sharepast.env.override/>
 
         <sp.db.changes.version>1</sp.db.changes.version>
 
@@ -88,6 +88,8 @@
 
         <!-- mysql jdbc driver -->
         <mysql.version>5.1.10</mysql.version>
+
+        <hsqldb.version>2.2.8</hsqldb.version>
 
         <!-- hibernate components -->
         <hibernate.version>4.0.1.Final</hibernate.version>
@@ -376,6 +378,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-annotations</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
               <groupId>org.eclipse.jetty</groupId>
               <artifactId>jetty-webapp</artifactId>
               <version>${jetty.version}</version>
@@ -438,6 +446,19 @@
 		    </dependency>
 
             <!-- persistence dependencies -->
+
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <classifier>jdk6debug</classifier>
+                <version>${hsqldb.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>mysql</groupId>
@@ -746,12 +767,8 @@
                     </argLine>
                     <systemProperties>
                         <property>
-                            <name>app.env</name>
-                            <value>${app.env}</value>
-                        </property>
-                        <property>
-                            <name>app.env.override</name>
-                            <value>${app.env.override}</value>
+                            <name>com.sharepast.env</name>
+                            <value>${com.sharepast.env}</value>
                         </property>
                         <property>
                             <name>com.mchange.v2.log.MLog</name>

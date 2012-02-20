@@ -8,6 +8,7 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import org.restlet.resource.ResourceException;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Map;
  * Time: 12:11 AM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class UrlMethod implements TemplateMethodModelEx {
 
     public Object exec(List arguments)
