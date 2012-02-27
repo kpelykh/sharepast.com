@@ -20,9 +20,8 @@ import org.springframework.context.annotation.ImportResource;
         HttpServer.class})
 @ImportResource({
         "classpath:com/sharepast/config/cache.xml",
-        "classpath:com/sharepast/config/security.xml",
+        "classpath:com/sharepast/config/security_spring.xml",
         "classpath:com/sharepast/config/jmx.xml",
-        "classpath:com/sharepast/config/services.xml",
         "classpath:com/sharepast/config/geoip-location.xml",
         "classpath:com/sharepast/config/jms_producer.xml"})
 public class PlatformRunner {

@@ -1,8 +1,8 @@
 package com.sharepast.dal;
 
 import com.sharepast.config.BaseConfig;
-import com.sharepast.dal.dao.GeographicLocationDAO;
-import com.sharepast.dal.domain.GeographicLocationDO;
+import com.sharepast.dao.GeographicLocationDAO;
+import com.sharepast.domain.GeographicLocationDO;
 import com.sharepast.util.spring.SpringConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

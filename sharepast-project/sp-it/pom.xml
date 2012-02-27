@@ -43,10 +43,6 @@
                             <groupId>org.springframework</groupId>
                             <artifactId>spring-aspects</artifactId>
                         </aspectLibrary>
-                        <aspectLibrary>
-                            <groupId>org.apache.shiro</groupId>
-                            <artifactId>shiro-aspectj</artifactId>
-                        </aspectLibrary>
                     </aspectLibraries>
                     <source>${compiler.compatibility}</source>
                     <target>${compiler.compatibility}</target>

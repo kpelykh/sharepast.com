@@ -1,11 +1,11 @@
 package com.sharepast.its.common;
 
 import com.sharepast.config.BaseConfig;
+import com.sharepast.domain.user.User;
 import com.sharepast.util.spring.SpringConfigurator;
-import com.sharepast.dal.domain.user.User;
 import com.sharepast.dal.exceptions.BadPasswordException;
-import com.sharepast.dal.util.DataGenerator;
-import com.sharepast.dal.util.TestDataGenerator;
+import com.sharepast.dal.DataGenerator;
+import com.sharepast.dal.TestDataGenerator;
 import com.sharepast.util.Util;
 import org.eclipse.jetty.server.Server;
 import org.restlet.Context;

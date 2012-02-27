@@ -1,7 +1,7 @@
 package com.sharepast.its.app00205;
 
 import com.sharepast.constants.LogonConstants;
-import com.sharepast.dal.util.TestDataGenerator;
+import com.sharepast.dal.TestDataGenerator;
 import com.sharepast.its.common.AbstractPlatformSupport;
 import com.sharepast.its.common.IRequestModifier;
 import org.restlet.Request;

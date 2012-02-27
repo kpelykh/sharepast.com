@@ -27,6 +27,7 @@ import java.util.Properties;
 @Configuration
 @EnableAspectJAutoProxy
 @Import({PropertiesConfig.class})
+@ComponentScan(basePackages = {"com.sharepast.service", "com.sharepast.dao"})
 public class BaseConfig {
 
     @Bean

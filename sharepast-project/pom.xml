@@ -29,7 +29,7 @@
         <module>sp-assembly</module>
         <module>sp-service</module>
         <module>sp-jms</module>
-        <module>sp-it</module>
+        <!--<module>sp-it</module>-->
     </modules>
 
 </project>

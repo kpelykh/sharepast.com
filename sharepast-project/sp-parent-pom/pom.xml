@@ -29,9 +29,6 @@
 
         <sp.db.changes.version>1</sp.db.changes.version>
 
-        <!-- Shiro security -->
-        <shiro.version>1.1.0</shiro.version>
-
         <tuckey.urlrewritefilter.version>3.2.0</tuckey.urlrewritefilter.version>
 
         <!-- Log4J logging -->
@@ -73,6 +70,8 @@
         <!-- time utils -->
         <joda.time.version>1.6</joda.time.version>
 
+        <freemarker.version>2.3.18</freemarker.version>
+
         <!-- test related -->
         <testng.version>5.11</testng.version>
         <testng.classifier>jdk15</testng.classifier>
@@ -97,8 +96,6 @@
         <hibernate.validation.version>4.2.0.Final</hibernate.validation.version>
 
         <liquibase.version>2.0.3</liquibase.version>
-
-        <org.restlet.jee.version>2.1-SNAPSHOT</org.restlet.jee.version>
 
         <!-- plugin versions: for for plugin management only! -->
 
@@ -206,6 +203,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -245,30 +243,6 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
                 <version>${groovy.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.apache.shiro</groupId>
-              <artifactId>shiro-core</artifactId>
-              <version>${shiro.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.apache.shiro</groupId>
-              <artifactId>shiro-aspectj</artifactId>
-              <version>${shiro.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.apache.shiro</groupId>
-              <artifactId>shiro-ehcache</artifactId>
-              <version>${shiro.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.apache.shiro</groupId>
-              <artifactId>shiro-spring</artifactId>
-              <version>${shiro.version}</version>
             </dependency>
 
             <dependency>
@@ -330,6 +304,12 @@
                 <version>${tanukisoft.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
+
             <!--jetty dependencies-->
 
             <dependency>
@@ -388,62 +368,6 @@
               <artifactId>jetty-webapp</artifactId>
               <version>${jetty.version}</version>
             </dependency>
-
-            <!-- restlet -->
-
-            <dependency>
-              <groupId>org.restlet.jee</groupId>
-              <artifactId>org.restlet</artifactId>
-              <version>${org.restlet.jee.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.restlet.jee</groupId>
-              <artifactId>org.restlet.ext.json</artifactId>
-              <version>${org.restlet.jee.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.restlet.jee</groupId>
-              <artifactId>org.restlet.ext.crypto</artifactId>
-              <version>${org.restlet.jee.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.restlet.jee</groupId>
-              <artifactId>org.restlet.ext.servlet</artifactId>
-              <version>${org.restlet.jee.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.restlet.jee</groupId>
-              <artifactId>org.restlet.ext.freemarker</artifactId>
-              <version>${org.restlet.jee.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.restlet.jee</groupId>
-              <artifactId>org.restlet.ext.httpclient</artifactId>
-              <version>${org.restlet.jee.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.restlet.jee</groupId>
-              <artifactId>org.restlet.ext.xml</artifactId>
-              <version>${org.restlet.jee.version}</version>
-            </dependency>
-
-            <dependency>
-              <groupId>org.restlet.jee</groupId>
-              <artifactId>org.restlet.ext.spring</artifactId>
-              <version>${org.restlet.jee.version}</version>
-            </dependency>
-
-            <dependency>
-			    <groupId>org.restlet.jee</groupId>
-			    <artifactId>org.restlet.ext.jaxb</artifactId>
-                <version>${org.restlet.jee.version}</version>
-		    </dependency>
 
             <!-- persistence dependencies -->
 
@@ -591,6 +515,25 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+
+            <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>jstl</artifactId>
                 <version>1.1.2</version>
@@ -607,6 +550,8 @@
                 <artifactId>dozer</artifactId>
                 <version>${dozer.version}</version>
             </dependency>
+
+
 
             <dependency>
                 <groupId>net.sf.ehcache</groupId>

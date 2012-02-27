@@ -1,12 +1,9 @@
 package com.sharepast.freemarker;
 
-import com.sharepast.dal.domain.user.User;
-import com.sharepast.security.SecurityDataUtil;
+import com.sharepast.domain.user.User;
+import com.sharepast.security.Subject;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -20,22 +17,15 @@ import java.util.Map;
  * Time: 11:51 PM
  * To change this template use File | Settings | File Templates.
  */
-@Component
 public class GetUserMethod implements TemplateMethodModelEx {
-
-    @Autowired
-    private SecurityDataUtil securityDataUtil;
 
     public Object exec (List arguments) throws TemplateModelException {
         Map<String, Object> result = new HashMap<String, Object>();
-        boolean isAuthenticated = false;
-        boolean isRemembered = false;
-        Subject subject = SecurityUtils.getSubject();
-        if (subject != null) {
-            isAuthenticated = subject.isAuthenticated();
-            isRemembered = subject.isRemembered();
-        }
-        User user = securityDataUtil.getCurrentUser();
+
+        boolean isAuthenticated = Subject.isAuthenticated();
+        boolean isRemembered = Subject.isRememberMe();
+
+        User user = Subject.getCurrentUser();
         result.put("user", user);
         result.put("isAuthenticated", isAuthenticated);
         result.put("isRemembered", isRemembered);

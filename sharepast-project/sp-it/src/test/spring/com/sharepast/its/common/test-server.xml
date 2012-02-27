@@ -19,7 +19,7 @@
     <context:component-scan base-package="com.sharepast.security"/>
     <context:component-scan base-package="com.sharepast.its.common"/>
 
-    <bean id="testDataGenerator" class="com.sharepast.dal.util.TestDataGenerator"/>
+    <bean id="testDataGenerator" class="com.sharepast.util.TestDataGenerator"/>
 
     <bean id="testSplitRouter" class="org.restlet.ext.spring.SpringRouter">
         <property name="attachments">

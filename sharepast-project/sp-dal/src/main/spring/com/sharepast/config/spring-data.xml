@@ -126,8 +126,8 @@
     </tx:advice>
 
     <aop:config>
-        <aop:pointcut id="hibernateMethodsPcut" expression="execution(* com.sharepast.dal.dao.*.*(..))"/>
-        <aop:pointcut id="ormMethodsPcut" expression="execution(* com.sharepast.persistence.orm.ORMDao.*(..))"/>
+        <aop:pointcut id="hibernateMethodsPcut" expression="execution(* com.sharepast.dao.*.*(..))"/>
+        <aop:pointcut id="ormMethodsPcut" expression="execution(* com.sharepast.persistence.ORMDao.*(..))"/>
         <aop:advisor advice-ref="ormAdvice" pointcut-ref="ormMethodsPcut"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="hibernateMethodsPcut"/>
     </aop:config>

@@ -41,7 +41,7 @@
             <column name="username" value="test"/>
             <column name="email" value="test@sharepast.com"/>
             <!-- testme password -->
-            <column name="password" value="O8w2ejSI4RPcpotn5fomL+T9LfSLG3L9MpKzA1iRGqs="/>
+            <column name="password" value="21232f297a57a5a743894a0e4a801fc3"/>
             <column name="first_name" value="The"/>
             <column name="last_name" value="Dude"/>
             <column name="user_status" value="ACTIVE"/>
@@ -56,13 +56,17 @@
             <column name="line1" value="1885 California Str"/>
             <column name="city" value="Mountain View"/>
             <column name="state" value="CA"/>
+            <column name="account_non_expired" value="Y"/>
+            <column name="account_non_locked" value="Y"/>
+            <column name="credentials_non_expired" value="Y"/>
+            <column name="enabled" value="Y"/>
         </insert>
         <insert tableName="users">
             <column name="id" valueNumeric="2"/>
             <column name="email" value="user@sharepast.com"/>
             <column name="username" value="testuser"/>
 			<!-- password testme -->
-            <column name="password" value="O8w2ejSI4RPcpotn5fomL+T9LfSLG3L9MpKzA1iRGqs="/>
+            <column name="password" value="21232f297a57a5a743894a0e4a801fc3"/>
             <column name="first_name" value="The"/>
             <column name="last_name" value="User"/>
             <column name="user_status" value="ACTIVE"/>
@@ -77,6 +81,10 @@
             <column name="line1" value="1885 California Str"/>
             <column name="city" value="Mountain View"/>
             <column name="state" value="CA"/>
+            <column name="account_non_expired" value="Y"/>
+            <column name="account_non_locked" value="Y"/>
+            <column name="credentials_non_expired" value="Y"/>
+            <column name="enabled" value="Y"/>
         </insert>
         <insert tableName="file">
             <column name="id" valueNumeric="1"/>
@@ -88,52 +96,78 @@
     </changeSet>
 
     <changeSet author="konstantin.pelykh" id="initial-data-3">
-        <comment>Security</comment>
+        <comment>Security Roles and permissions</comment>
+
         <insert tableName="roles">
-            <column name="id" value="1"/>
-            <column name="role_name" value="ADMIN_ROLE"/>
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="ROLE_ADMIN"/>
         </insert>
+
         <insert tableName="roles">
-            <column name="id" value="2"/>
-            <column name="role_name" value="USER_ROLE"/>
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="ROLE_USER"/>
         </insert>
-        <insert tableName="permissions">
-            <column name="id">1</column>
-            <column name="name">permission1</column>
-            <column name="description">sample description</column>
+
+        <!-- sample permissions -->
+
+        <insert tableName="permission">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="PERM_VIEW"/>
         </insert>
-        <insert tableName="permissions">
-            <column name="id">2</column>
-            <column name="name">permission2</column>
-            <column name="description">sample description</column>
+
+        <insert tableName="permission">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="PERM_DELETE"/>
         </insert>
-        <insert tableName="role_permissions">
-            <column name="role_id" value="1"/>
-            <column name="permission_id" value="1"/>
+
+        <insert tableName="permission">
+            <column name="id" valueNumeric="3"/>
+            <column name="name" value="PERM_CREATE"/>
         </insert>
-        <insert tableName="role_permissions">
-            <column name="role_id" value="1"/>
-            <column name="permission_id" value="2"/>
+
+        !-- mapping between permissions and roles -->
+
+        <!-- ROLE_ADMIN has permission to VIEW,DELETE,CREATE -->
+
+        <insert tableName="role_permission">
+            <column name="role_id" valueNumeric="1"/>
+            <column name="permission_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="role_permissions">
-            <column name="role_id" value="2"/>
-            <column name="permission_id" value="1"/>
+
+        <insert tableName="role_permission">
+            <column name="role_id" valueNumeric="1"/>
+            <column name="permission_id" valueNumeric="2"/>
         </insert>
-        <insert tableName="user_roles">
-            <column name="user_id" value="1"/>
-            <column name="role_id" value="1"/>
+
+        <insert tableName="role_permission">
+            <column name="role_id" valueNumeric="1"/>
+            <column name="permission_id" valueNumeric="3"/>
         </insert>
-        <insert tableName="user_roles">
-            <column name="user_id" value="1"/>
-            <column name="role_id" value="2"/>
+
+        <!-- ROLE_USER has permission to VIEW,DELETE -->
+
+        <insert tableName="role_permission">
+            <column name="role_id" valueNumeric="1"/>
+            <column name="permission_id" valueNumeric="1"/>
         </insert>
-        <insert tableName="user_roles">
-            <column name="user_id" value="2"/>
-            <column name="role_id" value="2"/>
+
+        <insert tableName="role_permission">
+            <column name="role_id" valueNumeric="1"/>
+            <column name="permission_id" valueNumeric="2"/>
         </insert>
-        <insert tableName="hibernate_sequence">
-            <column name="next_val" valueNumeric="5"/>
+
+        <!-- mapping between Users and roles -->
+
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="role_id" valueNumeric="1"/>
         </insert>
+
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="2"/>
+            <column name="role_id" valueNumeric="2"/>
+        </insert>
+
     </changeSet>
 
 </databaseChangeLog>

@@ -1,13 +1,8 @@
 package com.sharepast.util;
 
-import com.sharepast.constants.LogonConstants;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
-import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.restlet.Request;
-import org.restlet.data.Form;
-import org.restlet.data.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,43 +103,6 @@ public class Util {
         return null;
     }
 
-    /**
-     * hash provided array with SHA-256
-     */
-    public static String hashPassword(char[] password) {
-        if (password == null || password.length < 1)
-            return null;
-        return hashPassword(new String(password));
-    }
-
-    /**
-     * hash provided string with SHA-256
-     */
-    public static String hashPassword(String password) {
-        if (password == null)
-            return null;
-        int len = password.length();
-        StringBuilder sb = new StringBuilder(len + 16);
-        sb.append(password);
-
-        Sha256Hash hash = new Sha256Hash(sb.toString());
-        return hash.toBase64();
-    }
-
-    /**
-     * hash provided string with SHA-256
-     */
-    public static String hashPassword(String password, String salt) {
-        if (password == null)
-            return null;
-        int len = password.length();
-        StringBuilder sb = new StringBuilder(len + 16);
-        sb.append(password);
-
-        Sha256Hash hash = new Sha256Hash(sb.toString(), salt);
-        return hash.toBase64();
-    }
-
     public static final String slugify(String s) {
         if (s == null)
             return null;
@@ -189,28 +147,6 @@ public class Util {
             LOG.error(msg, e);
             throw new RuntimeException(msg);
         }
-    }
-
-
-    public static Reference form2reference(Request request, Form form) {
-        String targetUri = form.getFirstValue(LogonConstants.LOGON_TARGET_URI_NAME, false);
-        targetUri = Util.decodeFromUrl(targetUri);
-        Reference ref = new Reference(request.getResourceRef(), targetUri);
-        String origQuery = form.getFirstValue(LogonConstants.LOGON_TARGET_QUERY_NAME, false);
-        if (!Util.isEmpty(origQuery)) {
-            origQuery = Util.decodeFromUrl(origQuery);
-
-            String[] qs = Util.chopString(origQuery, "&");
-            if (!Util.isEmpty(qs))
-                for (String q : qs) {
-                    String[] qqs = Util.chopString(q, "=");
-                    if (Util.isEmpty(qqs[0]))
-                        continue;
-
-                    ref.addQueryParameter(qqs[0], qqs.length > 1 ? Util.encodeForUrl(qqs[1]) : null);
-                }
-        }
-        return ref;
     }
 
     /**

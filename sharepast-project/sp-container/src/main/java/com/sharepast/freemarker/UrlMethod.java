@@ -1,13 +1,10 @@
 package com.sharepast.freemarker;
 
-import com.sharepast.restlet.freemarker.AbstractConfigurableResource;
-import com.sharepast.restlet.freemarker.FreemarkerRepresentationFactory;
-import com.sharepast.util.restlet.RequestContextUtil;
 import freemarker.template.TemplateHashModelEx;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
-import org.restlet.resource.ResourceException;
+import groovy.util.ResourceException;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -21,7 +18,6 @@ import java.util.Map;
  * Time: 12:11 AM
  * To change this template use File | Settings | File Templates.
  */
-@Component
 public class UrlMethod implements TemplateMethodModelEx {
 
     public Object exec(List arguments)
@@ -35,15 +31,16 @@ public class UrlMethod implements TemplateMethodModelEx {
         TemplateHashModelEx hash = (TemplateHashModelEx) arguments.get(1);
         Map<String, Object> params = convertToMap(hash);
 
-        try
-        {
-          AbstractConfigurableResource resource = (AbstractConfigurableResource) RequestContextUtil.get(FreemarkerRepresentationFactory.TEMPLATE_PARAM_RESOURCE);
-          return resource.prepareUri( routeName, params );
-        }
-        catch ( ResourceException ex )
+        //try
+        //{
+          //AbstractConfigurableResource resource = (AbstractConfigurableResource) RequestContextUtil.get(FreemarkerRepresentationFactory.TEMPLATE_PARAM_RESOURCE);
+          //return resource.prepareUri( routeName, params );
+            return null;
+        //}
+        /*catch ( ResourceException ex )
         {
           throw new TemplateModelException( ex );
-        }
+        }*/
     }
 
     private static Map<String, Object> convertToMap(TemplateHashModelEx hash)

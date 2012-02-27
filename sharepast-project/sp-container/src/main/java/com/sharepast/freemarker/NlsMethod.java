@@ -18,6 +18,7 @@ import java.util.Locale;
  * Time: 9:56 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class NlsMethod
         implements TemplateMethodModelEx {
 

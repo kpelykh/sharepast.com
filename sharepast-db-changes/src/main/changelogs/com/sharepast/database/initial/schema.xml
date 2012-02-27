@@ -6,7 +6,7 @@
     <changeSet id="initial-schema-1" author="konstantin.pelykh">
         <comment>Initial tables</comment>
         <createTable tableName="geographic_location">
-            <column name="id" type="BIGINT">
+            <column name="id" type="long">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="postal_code" type="VARCHAR(255)">
@@ -34,22 +34,19 @@
       </changeSet>
       <changeSet id="initial-schema-2" author="konstantin.pelykh">
         <createTable tableName="users">
-            <column name="id" type="int">
+            <column name="id" type="long" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="username" type="VARCHAR(100)">
+            <column name="username" type="varchar(255)" defaultValue="NULL">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="email" type="VARCHAR(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="salt" type="VARCHAR(50)"/>
-            <column name="password" type="VARCHAR(255)">
+            <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="first_name" type="VARCHAR(50)"/>
             <column name="last_name" type="VARCHAR(50)"/>
-            <column name="alias" type="VARCHAR(50)"/>
+            <column name="password" type="varchar(255)" defaultValue="NULL" />
+            <column name="email" type="varchar(255)" defaultValue="NULL" />
             <column name="dob" type="DATE"/>
             <column name="dob_month" type="INT"/>
             <column name="dob_day" type="INT"/>
@@ -59,6 +56,11 @@
             <column name="privacy_preferences" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="notification_preferences" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_settings" type="VARCHAR(255)"/>
+
             <!-- Location embeded -->
             <column name="country" type="VARCHAR(3)"/>
             <column name="language" type="VARCHAR(3)"/>
@@ -82,17 +84,14 @@
             <column name="dma_id" type="INT"/>
             <!-- Location embeded end -->
 
-            <column name="notification_preferences" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <!--<column name="created" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>-->
-            <column name="user_settings" type="VARCHAR(255)"/>
+            <column name="account_non_expired" type="char(1)" defaultValue="NULL"/>
+            <column name="account_non_locked" type="char(1)" defaultValue="NULL"/>
+            <column name="credentials_non_expired" type="char(1)" defaultValue="NULL"/>
+            <column name="enabled" type="char(1)" defaultValue="NULL"/>
         </createTable>
 
         <createTable tableName="file">
-            <column name="id" type="BIGINT">
+            <column name="id" type="long" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
@@ -106,38 +105,64 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+          <addAutoIncrement tableName="user" columnName="id" columnDataType="long" startWith="50"/>
+          <addAutoIncrement tableName="file" columnName="id" columnDataType="long" startWith="50"/>
+
         <rollback>
             <dropTable tableName="users"/>
             <dropTable tableName="file"/>
         </rollback>
     </changeSet>
     <changeSet id="initial-schema-3" author="konstantin.pelykh">
-        <createTable tableName="hibernate_sequence">
-            <column name="next_val" type="BIGINT"/>
-        </createTable>
         <createTable tableName="roles">
-            <column name="id" type="BIGINT"/>
-            <column name="role_name" type="VARCHAR(100)"/>
-            <column name="description" type="VARCHAR(255)"/>
-        </createTable>
-        <createTable tableName="permissions">
-            <column name="id" type="BIGINT"/>
-            <column name="name" type="VARCHAR(100)"/>
-            <column name="description" type="VARCHAR(255)"/>
-        </createTable>
-        <createTable tableName="role_permissions">
-            <column name="role_id" type="BIGINT"/>
-            <column name="permission_id" type="BIGINT"/>
-        </createTable>
-        <createTable tableName="user_roles">
-            <column name="user_id" type="BIGINT"/>
-            <column name="role_id" type="BIGINT"/>
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)" defaultValue="NULL" />
         </createTable>
 
-        <addUniqueConstraint tableName="role_permissions" columnNames="role_id, permission_id"/>
-        <addPrimaryKey tableName="user_roles"
-                columnNames="user_id, role_id"
-                constraintName="pk_user_role"/>
+        <createTable tableName="permission">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)" defaultValue="NULL" />
+        </createTable>
+
+        <createTable tableName="user_role">
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="user_role"
+                       columnNames="user_id,role_id"
+                       constraintName="PK_USER_ROLE"/>
+
+        <createTable tableName="role_permission">
+            <column name="role_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="permission" columnName="id" columnDataType="int" startWith="50"/>
+        <addAutoIncrement tableName="roles" columnName="id" columnDataType="int" startWith="50"/>
+
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="role_id" constraintName="FK_USER_ROLE_ID" referencedTableName="roles"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id" constraintName="FK_USER_USER_ID" referencedTableName="zts_user"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="role_permission" baseColumnNames="role_id" constraintName="FK_PERM_ROLE_ID" referencedTableName="roles"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="role_permission" baseColumnNames="permission_id" constraintName="FK_PERM_PERM_ID" referencedTableName="permission"
+                                 referencedColumnNames="id"/>
+
     </changeSet>
 
 </databaseChangeLog>
