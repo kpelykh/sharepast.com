@@ -102,18 +102,18 @@
         </property>
     </bean>
 
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <!-- the transactional semantics... -->
+   <!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        &lt;!&ndash; the transactional semantics... &ndash;&gt;
         <tx:attributes>
-            <!-- all methods starting with 'get' are read-only -->
+            &lt;!&ndash; all methods starting with 'get' are read-only &ndash;&gt;
             <tx:method name="find*" propagation="REQUIRED" read-only="true"
                        rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
             <tx:method name="get*" propagation="REQUIRED" read-only="true"
                        rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
         </tx:attributes>
-    </tx:advice>
+    </tx:advice>-->
 
-    <tx:advice id="ormAdvice" transaction-manager="transactionManager">
+    <!--<tx:advice id="ormAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="got" propagation="REQUIRED" read-only="true" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
             <tx:method name="get" propagation="REQUIRED" read-only="true" rollback-for="com.sharepast.persistence.exceptions.ServiceException"/>
@@ -130,6 +130,6 @@
         <aop:pointcut id="ormMethodsPcut" expression="execution(* com.sharepast.persistence.ORMDao.*(..))"/>
         <aop:advisor advice-ref="ormAdvice" pointcut-ref="ormMethodsPcut"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="hibernateMethodsPcut"/>
-    </aop:config>
+    </aop:config>-->
 
 </beans>

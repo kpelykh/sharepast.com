@@ -125,7 +125,7 @@
             <column name="name" value="PERM_CREATE"/>
         </insert>
 
-        !-- mapping between permissions and roles -->
+        <!-- mapping between permissions and roles -->
 
         <!-- ROLE_ADMIN has permission to VIEW,DELETE,CREATE -->
 

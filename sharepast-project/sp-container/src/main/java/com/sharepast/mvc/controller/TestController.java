@@ -2,6 +2,7 @@ package com.sharepast.mvc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TestController {
     @RequestMapping("/login")
-    public String test() {
-        return "login";
+    public ModelAndView login() {
+        return new ModelAndView("/login");
     }
 }

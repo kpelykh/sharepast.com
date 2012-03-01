@@ -16,9 +16,10 @@
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/logout" access="permitAll"/>
 
-        <intercept-url pattern="/javascripts/**" access="permitAll"/>
-        <intercept-url pattern="/images/**" access="permitAll"/>
-        <intercept-url pattern="/stylesheets/**" access="permitAll"/>
+        <intercept-url pattern="/js/**" access="permitAll"/>
+        <intercept-url pattern="/img/**" access="permitAll"/>
+        <intercept-url pattern="/css/**" access="permitAll"/>
+        <intercept-url pattern="/less/**" access="permitAll"/>
         <intercept-url pattern="/*.html" access="permitAll"/>
         <intercept-url pattern="/*.ico" access="permitAll"/>
         <intercept-url pattern="/*.txt" access="permitAll"/>

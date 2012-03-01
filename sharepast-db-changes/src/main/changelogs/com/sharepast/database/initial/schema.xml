@@ -1,12 +1,12 @@
 <databaseChangeLog
      xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.1.xsd">
 
     <changeSet id="initial-schema-1" author="konstantin.pelykh">
         <comment>Initial tables</comment>
         <createTable tableName="geographic_location">
-            <column name="id" type="long">
+            <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="postal_code" type="VARCHAR(255)">
@@ -34,19 +34,18 @@
       </changeSet>
       <changeSet id="initial-schema-2" author="konstantin.pelykh">
         <createTable tableName="users">
-            <column name="id" type="long" autoIncrement="true">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="username" type="varchar(255)" defaultValue="NULL">
                 <constraints nullable="false" unique="true"/>
             </column>
+            <column name="password" type="varchar(255)" defaultValue="NULL" />
             <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="first_name" type="VARCHAR(50)"/>
             <column name="last_name" type="VARCHAR(50)"/>
-            <column name="password" type="varchar(255)" defaultValue="NULL" />
-            <column name="email" type="varchar(255)" defaultValue="NULL" />
             <column name="dob" type="DATE"/>
             <column name="dob_month" type="INT"/>
             <column name="dob_day" type="INT"/>
@@ -91,7 +90,7 @@
         </createTable>
 
         <createTable tableName="file">
-            <column name="id" type="long" autoIncrement="true">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
@@ -106,8 +105,8 @@
             </column>
         </createTable>
 
-          <addAutoIncrement tableName="user" columnName="id" columnDataType="long" startWith="50"/>
-          <addAutoIncrement tableName="file" columnName="id" columnDataType="long" startWith="50"/>
+          <addAutoIncrement tableName="users" columnName="id" columnDataType="BIGINT" startWith="50"/>
+          <addAutoIncrement tableName="file" columnName="id" columnDataType="BIGINT" startWith="50"/>
 
         <rollback>
             <dropTable tableName="users"/>
@@ -116,24 +115,24 @@
     </changeSet>
     <changeSet id="initial-schema-3" author="konstantin.pelykh">
         <createTable tableName="roles">
-            <column name="id" type="int" autoIncrement="true">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)" defaultValue="NULL" />
         </createTable>
 
         <createTable tableName="permission">
-            <column name="id" type="int" autoIncrement="true">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)" defaultValue="NULL" />
         </createTable>
 
         <createTable tableName="user_role">
-            <column name="user_id" type="int">
+            <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="role_id" type="int">
+            <column name="role_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -142,20 +141,20 @@
                        constraintName="PK_USER_ROLE"/>
 
         <createTable tableName="role_permission">
-            <column name="role_id" type="int">
+            <column name="role_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="permission_id" type="int">
+            <column name="permission_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addAutoIncrement tableName="permission" columnName="id" columnDataType="int" startWith="50"/>
-        <addAutoIncrement tableName="roles" columnName="id" columnDataType="int" startWith="50"/>
+        <addAutoIncrement tableName="permission" columnName="id" columnDataType="BIGINT" startWith="50"/>
+        <addAutoIncrement tableName="roles" columnName="id" columnDataType="BIGINT" startWith="50"/>
 
         <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="role_id" constraintName="FK_USER_ROLE_ID" referencedTableName="roles"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id" constraintName="FK_USER_USER_ID" referencedTableName="zts_user"
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id" constraintName="FK_USER_USER_ID" referencedTableName="users"
                                  referencedColumnNames="id"/>
 
         <addForeignKeyConstraint baseTableName="role_permission" baseColumnNames="role_id" constraintName="FK_PERM_ROLE_ID" referencedTableName="roles"

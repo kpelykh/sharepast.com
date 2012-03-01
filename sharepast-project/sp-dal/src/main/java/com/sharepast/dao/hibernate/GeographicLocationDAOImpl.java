@@ -10,12 +10,15 @@ import com.sharepast.persistence.hibernate.CriteriaDetails;
 import com.sharepast.persistence.hibernate.HibernateDao;
 import com.sharepast.persistence.hibernate.QueryDetails;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.List;
 
 @DependsOn("txAspect")
 @Repository("geographicLocationDao")
+@Transactional( propagation = Propagation.REQUIRED, rollbackFor = HibernateException.class)
 public class GeographicLocationDAOImpl extends HibernateDao<GeographicLocationDO> implements GeographicLocationDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(GeographicLocationDAOImpl.class);
