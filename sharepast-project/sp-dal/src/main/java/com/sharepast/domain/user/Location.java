@@ -16,7 +16,7 @@ public class Location implements Serializable {
     @Column(length = 3)
     private String country;
 
-    @Column(length = 3)
+    @Column(length = 3, name = "lang")
     private String language;
 
     @Column(name = "postal_code", length = 25)
@@ -33,7 +33,7 @@ public class Location implements Serializable {
     private double longitude;
 
     @Column
-    private float altitude;
+    private double altitude;
 
     @Column
     private String line1;
@@ -59,7 +59,7 @@ public class Location implements Serializable {
     public Location() {
     }
 
-    public Location(String country, String language, String postalCode, AppTimeZone timeZone, double latitude, double longitude, float altitude) {
+    public Location(String country, String language, String postalCode, AppTimeZone timeZone, double latitude, double longitude, double altitude) {
 
         this.country = country;
         this.language = language;
@@ -135,7 +135,7 @@ public class Location implements Serializable {
     }
 
 
-    public synchronized float getAltitude() {
+    public synchronized double getAltitude() {
 
         return altitude;
     }

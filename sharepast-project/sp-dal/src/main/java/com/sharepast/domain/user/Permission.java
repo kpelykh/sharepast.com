@@ -23,6 +23,9 @@ public class Permission extends IEntity<Long> implements GrantedAuthority {
     @Column(name = "name")
     private String name;
 
+    public Permission() {
+    }
+
     public Permission(String name) {
         this.name = name;
     }
@@ -30,6 +33,7 @@ public class Permission extends IEntity<Long> implements GrantedAuthority {
     public String getName() {
         return name;
     }
+
 
     //~ Methods ========================================================================================================
 

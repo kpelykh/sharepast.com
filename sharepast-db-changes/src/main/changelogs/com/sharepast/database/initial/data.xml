@@ -41,7 +41,7 @@
             <column name="username" value="test"/>
             <column name="email" value="test@sharepast.com"/>
             <!-- testme password -->
-            <column name="password" value="21232f297a57a5a743894a0e4a801fc3"/>
+            <column name="password" value="b49893997b6489283b68a010acf3fa02"/>
             <column name="first_name" value="The"/>
             <column name="last_name" value="Dude"/>
             <column name="user_status" value="ACTIVE"/>
@@ -56,6 +56,7 @@
             <column name="line1" value="1885 California Str"/>
             <column name="city" value="Mountain View"/>
             <column name="state" value="CA"/>
+            <column name="created" value="2012-03-01 20:30:10"/>
             <column name="account_non_expired" value="Y"/>
             <column name="account_non_locked" value="Y"/>
             <column name="credentials_non_expired" value="Y"/>
@@ -66,7 +67,7 @@
             <column name="email" value="user@sharepast.com"/>
             <column name="username" value="testuser"/>
 			<!-- password testme -->
-            <column name="password" value="21232f297a57a5a743894a0e4a801fc3"/>
+            <column name="password" value="b49893997b6489283b68a010acf3fa02"/>
             <column name="first_name" value="The"/>
             <column name="last_name" value="User"/>
             <column name="user_status" value="ACTIVE"/>
@@ -81,6 +82,7 @@
             <column name="line1" value="1885 California Str"/>
             <column name="city" value="Mountain View"/>
             <column name="state" value="CA"/>
+            <column name="created" value="2012-03-01 23:58:00"/>
             <column name="account_non_expired" value="Y"/>
             <column name="account_non_locked" value="Y"/>
             <column name="credentials_non_expired" value="Y"/>
@@ -92,6 +94,7 @@
             <column name="size" valueNumeric="24000"/>
             <column name="mime_type" value="image/jpg"/>
             <column name="location" value="http://zapisnaya.s3.amazonaws.com/public/LJ/MarinaLJ/20110127-Berries-9407LJ.jpg"/>
+            <column name="created" value="2012-02-01 10:24:10"/>
         </insert>
     </changeSet>
 

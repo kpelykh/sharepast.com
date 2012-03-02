@@ -30,7 +30,7 @@
 
         <form-login login-page="/login"
                     authentication-failure-url="/login?login_error=1"
-                    default-target-url="/services"/>
+                    default-target-url="/"/>
 
         <access-denied-handler error-page="/denied"/>
 

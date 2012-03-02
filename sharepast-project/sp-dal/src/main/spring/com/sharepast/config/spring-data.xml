@@ -30,8 +30,8 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>com.zettaset.domains</value>
-                <value>com.zettaset.domains.user</value>
+                <value>com.sharepast.domain</value>
+                <value>com.sharepast.domain.user</value>
             </list>
         </property>
         <property name="hibernateProperties">

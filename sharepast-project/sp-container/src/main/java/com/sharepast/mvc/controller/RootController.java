@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -23,8 +24,13 @@ public class RootController {
 
     private static final Logger logger = LoggerFactory.getLogger(RootController.class);
 
+    @RequestMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("/login");
+    }
+
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public String home(Locale locale, Model model) {
+    public ModelAndView home(Locale locale, Model model) {
         logger.info("Welcome home! the client locale is "+ locale.toString());
 
         Date date = new Date();
@@ -34,7 +40,7 @@ public class RootController {
 
         model.addAttribute("serverTime", formattedDate );
 
-        return "root";
+        return new ModelAndView("root");
     }
 
 

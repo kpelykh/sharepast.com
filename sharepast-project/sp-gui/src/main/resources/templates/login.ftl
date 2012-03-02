@@ -28,18 +28,16 @@ $(function() {
     </div>
 
         <div class="login-form">
-            <#if error??>
+            <#if Session.SPRING_SECURITY_LAST_EXCEPTION?exists>
                 <div class="row">
                     <div class="alert-message warning">
-                        <#list error as errorItem>
-                            <p>${errorItem}</p>
-                        </#list>
+                        <p>${Session.SPRING_SECURITY_LAST_EXCEPTION.getLocalizedMessage()}</p>
                     </div>
                 </div>
             </#if>
 
 
-            <form method="post" action="/login" class="span7">
+            <form method="post" action="/j_spring_security_check" class="span7">
             <input type="hidden" name="targetUri" value="${targetUri!"/"}"/>
             <input type="hidden" name="targetQuery" value="${targetQuery!""}"/>
 
@@ -47,14 +45,14 @@ $(function() {
                 <div class="clearfix">
                     <label for="loginBox">Username</label>
                     <div class="input">
-                        <input class="span3" id="loginBox" value="${login!}" name="login" type="text" />
+                        <input class="span3" id="loginBox" value="${login!}" name="j_username" type="text" />
                     </div>
                 </div><!-- /clearfix -->
 
                 <div class="clearfix">
                     <label for="passwordBox">Password</label>
                     <div class="input">
-                        <input class="span3" id="passwordBox" name="password" type="password" />
+                        <input class="span3" id="passwordBox" name="j_password" type="password" />
                     </div>
                 </div><!-- /clearfix -->
 

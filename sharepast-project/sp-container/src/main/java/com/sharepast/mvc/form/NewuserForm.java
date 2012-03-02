@@ -16,6 +16,7 @@ public class NewUserForm {
     @NotEmpty
     @Size(min = 1, max = 50)
     private String userName;
+
     @NotEmpty
     @Size(min = 1, max = 20)
     private String email;

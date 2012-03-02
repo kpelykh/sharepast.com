@@ -10,11 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
 
 @Repository("userDao")
+@Transactional( propagation = Propagation.REQUIRED)
 public final class UserDaoImpl extends HibernateDao<User> implements IUserDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserDaoImpl.class);

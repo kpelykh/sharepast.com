@@ -105,7 +105,7 @@ public class FreemarketConfig {
 
     @Bean
     TemplateMethodModelEx getUrlMethod() {
-        return new GetUserMethod();
+        return new UrlMethod();
     }
 
 }

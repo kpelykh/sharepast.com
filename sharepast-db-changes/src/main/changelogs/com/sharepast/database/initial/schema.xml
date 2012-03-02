@@ -62,7 +62,7 @@
 
             <!-- Location embeded -->
             <column name="country" type="VARCHAR(3)"/>
-            <column name="language" type="VARCHAR(3)"/>
+            <column name="lang" type="VARCHAR(3)"/>
             <column name="postal_code" type="VARCHAR(25)"/>
             <column name="time_zone" type="VARCHAR(25)"/>
             <column name="latitude" type="DOUBLE">
@@ -83,6 +83,9 @@
             <column name="dma_id" type="INT"/>
             <!-- Location embeded end -->
 
+            <column name="created" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
             <column name="account_non_expired" type="char(1)" defaultValue="NULL"/>
             <column name="account_non_locked" type="char(1)" defaultValue="NULL"/>
             <column name="credentials_non_expired" type="char(1)" defaultValue="NULL"/>

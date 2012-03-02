@@ -168,7 +168,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException, DataAccessException {
 
-        User domainUser = userDAO.findByUsername(username);
+        User domainUser = userDAO.findByEmail(username);
         if (domainUser == null) {
             throw new UsernameNotFoundException(String.format("Can't find user '%s'", username));
         }

@@ -5,6 +5,7 @@ import com.sharepast.domain.user.User;
 import com.sharepast.mvc.form.NewUserForm;
 import com.sharepast.security.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,7 +32,7 @@ public class UserController {
     private IUserDAO userDao;
 
     @Autowired
-    private ReloadableResourceBundleMessageSource messageSource;
+    private MessageSource messageSource;
 
 
     @RequestMapping(value = "/users/new", method = RequestMethod.GET)
@@ -81,7 +82,7 @@ public class UserController {
         Map<String, Object> dataModel = new HashMap<String, Object>();
         dataModel.put("userId", userId);
 
-        return new ModelAndView("profile");
+        return new ModelAndView("users/profile");
     }
 
 }
