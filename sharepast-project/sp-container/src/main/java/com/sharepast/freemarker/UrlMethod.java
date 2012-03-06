@@ -6,7 +6,11 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import groovy.util.ResourceException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriTemplate;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,16 +35,9 @@ public class UrlMethod implements TemplateMethodModelEx {
         TemplateHashModelEx hash = (TemplateHashModelEx) arguments.get(1);
         Map<String, Object> params = convertToMap(hash);
 
-        //try
-        //{
-          //AbstractConfigurableResource resource = (AbstractConfigurableResource) RequestContextUtil.get(FreemarkerRepresentationFactory.TEMPLATE_PARAM_RESOURCE);
-          //return resource.prepareUri( routeName, params );
-            return null;
-        //}
-        /*catch ( ResourceException ex )
-        {
-          throw new TemplateModelException( ex );
-        }*/
+        UriComponents url = UriComponentsBuilder.fromPath(routeName).build().expand(params).encode();
+        return url.toUriString();
+
     }
 
     private static Map<String, Object> convertToMap(TemplateHashModelEx hash)

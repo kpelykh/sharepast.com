@@ -97,6 +97,6 @@
 </#function>
 
 <#function getUserProfileUrl user>
-  <#return methods.url(resources.userProfile, {enums.ParamNameEnum.USER_ID.key: user.id?c}) />
+  <#return methods.url("/profile/{" + enums.ParamNameEnum.USER_ID.key + "}", {enums.ParamNameEnum.USER_ID.key: user.id?c}) />
 </#function>
 

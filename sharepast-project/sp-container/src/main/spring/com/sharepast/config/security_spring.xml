@@ -29,7 +29,7 @@
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
 
         <form-login login-page="/login"
-                    authentication-failure-url="/login?login_error=1"
+                    authentication-failure-url="/loginfailed"
                     default-target-url="/"/>
 
         <access-denied-handler error-page="/denied"/>

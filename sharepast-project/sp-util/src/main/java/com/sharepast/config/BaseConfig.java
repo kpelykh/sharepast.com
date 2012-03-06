@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ClassPathResource;
@@ -31,12 +32,11 @@ import java.util.Properties;
 public class BaseConfig {
 
     @Bean
-    @Autowired
     @DependsOn("pathPostProcess")
-    public static PropertySourcesPlaceholderConfigurer ppc(@Qualifier("properties") Properties properties){
+    public static PropertySourcesPlaceholderConfigurer ppc(ConfigurableEnvironment env){
         PropertySourcesPlaceholderConfigurer ppc = new PropertySourcesPlaceholderConfigurer();
-        ppc.setProperties(properties);
-        ppc.setIgnoreUnresolvablePlaceholders(true);
+        ppc.setPropertySources(env.getPropertySources());
+        ppc.setIgnoreUnresolvablePlaceholders(false);
         return ppc;
     }
 

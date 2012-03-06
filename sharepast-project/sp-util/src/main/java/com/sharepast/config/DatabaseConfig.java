@@ -1,11 +1,9 @@
 package com.sharepast.config;
 
-import com.sharepast.util.db.HsqldbSchemaCreator;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.env.Environment;
 
 import java.util.Properties;
 
@@ -21,8 +19,4 @@ import java.util.Properties;
 @ImportResource({"classpath*:com/sharepast/config/spring-data.xml"})
 public class DatabaseConfig {
 
-    @Bean
-    public HsqldbSchemaCreator hsqldbSchemaCreator(@Qualifier("properties") Properties properties) {
-        return new HsqldbSchemaCreator(properties);
-    }
 }

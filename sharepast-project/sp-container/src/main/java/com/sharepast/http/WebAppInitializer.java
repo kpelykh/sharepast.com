@@ -34,9 +34,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
         webApplicationContext.setParent(SpringConfigurator.getInstance().getApplicationContext());
         webApplicationContext.register(WebConfig.class);
 
-        //see http://jira.codehaus.org/browse/JETTY-467
-        servletContext.setInitParameter(SessionManager.__SessionIdPathParameterNameProperty, "none");
-
         // RequestContextListener is to add session scope in spring
         servletContext.addListener(RequestContextListener.class);
 

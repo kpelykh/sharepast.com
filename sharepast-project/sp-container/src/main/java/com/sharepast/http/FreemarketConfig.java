@@ -6,12 +6,16 @@ import com.sharepast.freemarker.UrlMethod;
 import com.sharepast.util.Build;
 import com.sharepast.util.spring.SpringConfigurator;
 import freemarker.ext.beans.BeansWrapper;
+import freemarker.template.TemplateMethodModel;
 import freemarker.template.TemplateMethodModelEx;
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
@@ -44,16 +48,18 @@ public class FreemarketConfig {
     }
 
     @Bean
-    FreeMarkerConfigurer freemarkerConfig(@Qualifier("properties") Properties properties) {
+    FreeMarkerConfigurer freemarkerConfig(Environment env) throws TemplateModelException {
         FreeMarkerConfigurer config = new FreeMarkerConfigurer();
         config.setTemplateLoaderPath("/templates/");
         config.setDefaultEncoding("UTF-8");
         Map<String,Object> variables = new HashMap<String,Object>();
-        variables.put("config", freemarkerConfigConstants(properties));
+        variables.put("config", freemarkerConfigConstants(env));
         variables.put("methods", freemarkerMethods());
         variables.put("statics", BeansWrapper.getDefaultInstance().getStaticModels());
         variables.put("build", build());
+        variables.put("enums", freemarkerEnums());
         config.setFreemarkerVariables(variables);
+
 
         Properties props = new Properties();
         props.setProperty("auto_import", "layouts/layout.ftl as layout,libs/util.ftl as util");
@@ -83,13 +89,20 @@ public class FreemarketConfig {
     }
 
     @Bean
-    Map freemarkerConfigConstants(Properties properties) {
+    Map freemarkerConfigConstants(Environment env) {
         Map<String, Object> constants = new HashMap<String, Object>();
-        constants.put("debug", Boolean.parseBoolean(properties.getProperty("web.debug")));
-        constants.put("isProduction", Boolean.parseBoolean(properties.getProperty("is.production.env")));
-        constants.put("isDevelopment", Boolean.parseBoolean(properties.getProperty("is.development.env")));
-        constants.put("hostName", properties.getProperty("com.sharepast.host.name"));
+        constants.put("debug", env.getProperty("web.debug", Boolean.class));
+        constants.put("isProduction", env.getProperty("is.production.env", Boolean.class));
+        constants.put("isDevelopment", env.getProperty("is.development.env", Boolean.class));
+        constants.put("hostName", env.getProperty("com.sharepast.host.name"));
         return constants;
+    }
+
+    @Bean
+    Map freemarkerEnums() throws TemplateModelException {
+      Map<String, Object> constants = new HashMap<String, Object>();
+      constants.put("ParamNameEnum", BeansWrapper.getDefaultInstance().getEnumModels().get("com.sharepast.constants.ParamNameEnum"));
+      return constants;
     }
 
 

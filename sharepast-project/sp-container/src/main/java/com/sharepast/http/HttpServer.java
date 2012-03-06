@@ -6,6 +6,7 @@ import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.SessionManager;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
@@ -71,6 +72,9 @@ public class HttpServer extends ContextListener implements DisposableBean {
         context.setDefaultsDescriptor(configs.getWebDefault());
         context.setResourceBase(configs.getResourceBase());
         context.setParentLoaderPriority(true);
+
+        //see http://jira.codehaus.org/browse/JETTY-467
+        context.setInitParameter(SessionManager.__SessionIdPathParameterNameProperty, "none");
 
         context.setConfigurations(new Configuration[]{
                 new SPAnnotationConfiguration(), new WebXmlConfiguration(),

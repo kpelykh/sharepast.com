@@ -77,7 +77,7 @@
     <bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
 
 
-    <bean id="dbMigrator" class="com.sharepast.util.db.CustomSpringLiquibase" depends-on="hsqldbSchemaCreator">
+    <bean id="dbMigrator" class="com.sharepast.util.db.CustomSpringLiquibase">
         <property name="dataSource" ref="dataSource" />
         <property name="changeLog" value="classpath:com/sharepast/database/master.xml" />
         <property name="dropFirst" value="${liquibase.dropFirst}"/>

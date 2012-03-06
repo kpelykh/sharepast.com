@@ -9,8 +9,13 @@ import freemarker.ext.beans.BeansWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestScope;
+import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -34,12 +39,23 @@ import java.util.Properties;
 @ComponentScan(basePackages =  {"com.sharepast.mvc.controller", "com.sharepast.servlet"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+    // explicitly register session and request scopes with AnnotationConfigApplicationContext
     @Bean
-    @Autowired
-    public static PropertySourcesPlaceholderConfigurer ppc(@Qualifier("properties") Properties properties){
+    public CustomScopeConfigurer configureSessionScope() {
+        CustomScopeConfigurer scopeConfigurer = new CustomScopeConfigurer();
+        Map<String, Object> scopes = new HashMap<String, Object>();
+        scopes.put(WebApplicationContext.SCOPE_SESSION, new SessionScope());
+        scopes.put(WebApplicationContext.SCOPE_REQUEST, new RequestScope());
+        scopeConfigurer.setScopes(scopes);
+        return scopeConfigurer;
+    }
+
+    @Bean
+    @DependsOn("pathPostProcess")
+    public static PropertySourcesPlaceholderConfigurer ppc(ConfigurableEnvironment env){
         PropertySourcesPlaceholderConfigurer ppc = new PropertySourcesPlaceholderConfigurer();
-        ppc.setProperties(properties);
-        ppc.setIgnoreUnresolvablePlaceholders(true);
+        ppc.setPropertySources(env.getPropertySources());
+        ppc.setIgnoreUnresolvablePlaceholders(false);
         return ppc;
     }
 
