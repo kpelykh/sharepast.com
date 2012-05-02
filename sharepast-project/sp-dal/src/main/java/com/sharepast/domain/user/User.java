@@ -1,9 +1,11 @@
 package com.sharepast.domain.user;
 
-import com.sharepast.dao.GeographicLocationDAO;
-import com.sharepast.persistence.exceptions.DataConsistencyException;
+import com.sharepast.dao.GeographicLocation;
+import com.sharepast.dao.GroupManager;
 import com.sharepast.domain.GeographicLocationDO;
 import com.sharepast.domain.IEntity;
+import com.sharepast.exception.DataConsistencyException;
+import com.sharepast.spring.SpringConfiguration;
 import com.sharepast.util.UTC;
 import com.sharepast.util.Util;
 import org.hibernate.annotations.Cache;
@@ -11,6 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateMidnight;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +31,7 @@ public class User extends IEntity<Long> implements UserDetails {
 
     @Transient
     @Autowired
-    private GeographicLocationDAO geoLocation;
+    private GeographicLocation geoLocation;
 
     @Embedded
     @AttributeOverrides( {
@@ -108,12 +111,12 @@ public class User extends IEntity<Long> implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_role",
+            name = "user_group",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            inverseJoinColumns = @JoinColumn(name = "group_id")
     )
-    @org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Role> roles = new HashSet<Role>(0);
+    private Set<Group> groups = new HashSet<Group>(0);
+
 
     /*@ElementCollection
     @javax.persistence.MapKeyColumn(name="attribute_name")
@@ -195,7 +198,7 @@ public class User extends IEntity<Long> implements UserDetails {
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
+        if (groups != null ? !groups.equals(user.groups) : user.groups != null) return false;
         if (!username.equals(user.username)) return false;
 
         return true;
@@ -213,7 +216,7 @@ public class User extends IEntity<Long> implements UserDetails {
         result = 31 * result + (accountNonLocked ? 1 : 0);
         result = 31 * result + (credentialsNonExpired ? 1 : 0);
         result = 31 * result + (enabled ? 1 : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (groups != null ? groups.hashCode() : 0);
         return result;
     }
 
@@ -250,28 +253,33 @@ public class User extends IEntity<Long> implements UserDetails {
         this.dateCreated = dateCreated;
     }
 
+    //This is BAD naming. This method should be called getGroups, but since we're using
+    //RoleHierarchyVoter, which takes only GrantedAuthority
+    //we have to make this ugly trick and wrap group name with SimpleGrantedAuthority
     public List<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-        for (Role role : roles) {
-            GrantedAuthority auth = new SimpleGrantedAuthority(role.getName());
+        for (Group group : groups) {
+            GrantedAuthority auth = new SimpleGrantedAuthority(group.getName());
             authorities.add(auth);
         }
 
         return authorities;
     }
 
-    public List<? extends GrantedAuthority> getPermissions() {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    public List<GrantedAuthority> getPermissions() {
+        Set<GrantedAuthority> permissions = new HashSet<GrantedAuthority>();
 
-        for (Role role : roles) {
-            for (Permission permission : role.getPermissions()) {
-                GrantedAuthority auth = new SimpleGrantedAuthority(permission.getName());
-                authorities.add(auth);
-            }
+        Collection<? extends GrantedAuthority> auths = SpringConfiguration.getInstance().getBean(RoleHierarchy.class).getReachableGrantedAuthorities(getAuthorities());
+
+        GroupManager groupManager = SpringConfiguration.getInstance().getBean(GroupManager.class);
+
+        for (GrantedAuthority authority : auths) {
+            if (!authority.getAuthority().equals("ROLE_ANONYMOUS"))
+                permissions.addAll(groupManager.findGroupAuthorities(authority.getAuthority()));
         }
 
-        return authorities;
+        return new ArrayList<GrantedAuthority>(permissions);
     }
 
     /*public boolean isAllowUsersSeeHistory() {
@@ -302,6 +310,7 @@ public class User extends IEntity<Long> implements UserDetails {
         return sb.toString();
     }
 
+
     public String getFullName() {
         String fullName = "";
 
@@ -320,19 +329,15 @@ public class User extends IEntity<Long> implements UserDetails {
         return fullName;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Group> getGroups() {
+        return groups;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public GeographicLocationDAO getGeoLocation() {
+    public GeographicLocation getGeoLocation() {
         return geoLocation;
     }
 
-    public void setGeoLocation(GeographicLocationDAO geoLocation) {
+    public void setGeoLocation(GeographicLocation geoLocation) {
         this.geoLocation = geoLocation;
     }
 

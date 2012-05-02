@@ -18,7 +18,7 @@ public abstract class IEntity<I extends Comparable<I>> implements Serializable, 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="id")
-    @Type(type="long")
+    @Type(type="int")
     private I id;
 
     public IEntity() {

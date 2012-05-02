@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                                 http://www.springframework.org/schema/security
+                                 http://www.springframework.org/schema/security/spring-security-3.1.xsd
+                                  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <context:component-scan base-package="com.sharepast.domain.user"/>
+
+    <http auto-config="true" use-expressions="true" access-decision-manager-ref="accessDecisionManager">
+
+        <intercept-url pattern="/login" access="permitAll"/>
+        <intercept-url pattern="/logout" access="permitAll"/>
+
+        <intercept-url pattern="/js/**" access="permitAll"/>
+        <intercept-url pattern="/img/**" access="permitAll"/>
+        <intercept-url pattern="/css/**" access="permitAll"/>
+        <intercept-url pattern="/less/**" access="permitAll"/>
+        <intercept-url pattern="/*.html" access="permitAll"/>
+        <intercept-url pattern="/*.ico" access="permitAll"/>
+        <intercept-url pattern="/*.txt" access="permitAll"/>
+
+        <intercept-url pattern="/denied" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+
+        <form-login login-page="/login"
+                    authentication-failure-url="/loginfailed"
+                    default-target-url="/"/>
+
+        <access-denied-handler error-page="/denied"/>
+
+        <logout invalidate-session="true"
+                logout-success-url="/login"
+                logout-url="/logout"/>
+
+        <remember-me key="5f4dcc3b5aa765d61d8327deb882cf99" user-service-ref="userService" token-validity-seconds="86400"/>
+    </http>
+
+    <!-- Authentication providers -->
+
+    <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
+
+    <beans:bean id="saltSource" class="org.springframework.security.authentication.dao.SystemWideSaltSource">
+        <beans:property name="systemWideSalt" value="sharepast"/>
+    </beans:bean>
+
+    <beans:bean id="passwordHelper" class="com.sharepast.util.security.PasswordHelper">
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
+        <beans:property name="saltSource" ref="saltSource"/>
+    </beans:bean>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userService">
+            <password-encoder ref="passwordEncoder">
+                <salt-source ref="saltSource"/>
+            </password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
+    <!-- Support for Hierarchy role voter -->
+
+    <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <beans:constructor-arg ref="roleHierarchy" />
+    </beans:bean>
+    <beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+        <beans:property name="hierarchy">
+            <beans:value>
+                ROLE_ADMIN > ROLE_USER
+                ROLE_USER > ROLE_ANONYMOUS
+            </beans:value>
+        </beans:property>
+    </beans:bean>
+
+    <global-method-security jsr250-annotations="disabled"
+                            secured-annotations="disabled"
+                            pre-post-annotations="enabled">
+        <expression-handler ref="methodSecurityExpressionHandler"/>
+    </global-method-security>
+
+    <!-- An expression handler used to secure methods.
+         This overrides the DefaultMethodSecurityExpressionHandler to include roleHierarchy.
+    -->
+    <beans:bean id = "methodSecurityExpressionHandler" class = "org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <beans:property name="roleHierarchy" ref="roleHierarchy"/>
+    </beans:bean>
+
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <beans:property name="decisionVoters">
+            <beans:list>
+                <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter">
+                    <beans:property name="expressionHandler">
+                        <beans:bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+                            <beans:property name="roleHierarchy" ref="roleHierarchy" />
+                        </beans:bean>
+                    </beans:property>
+                </beans:bean>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+
+    <beans:bean id="webSecurityExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+        <beans:property name="roleHierarchy" ref="roleHierarchy" />
+    </beans:bean>
+
+    <beans:bean id="customSecurityExpressionHandler" class="com.sharepast.util.security.CustomSecurityExpressionHandler">
+        <beans:property name="roleHierarchy" ref="roleHierarchy"/>
+    </beans:bean>
+
+    <!-- anonymous filter -->
+
+    <!--<beans:bean id="anonymousAuthFilter"
+          class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+        <beans:property name="key" value="foobar"/>
+        <beans:property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS"/>
+    </beans:bean>
+
+    <beans:bean id="anonymousAuthenticationProvider"
+          class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+        <beans:property name="key" value="foobar"/>
+    </beans:bean>-->
+
+
+</beans:beans>

@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @org.hibernate.annotations.AccessType("field")
 @Table(name = "file")
-public class FileDO extends IEntity<Long> {
+public class FileDO extends IEntity<Integer> {
 
     @Column(name = "name", nullable = false, unique = false, length = 255)
     private String name;

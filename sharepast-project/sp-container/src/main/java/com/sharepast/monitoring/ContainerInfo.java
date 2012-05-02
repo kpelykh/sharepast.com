@@ -1,7 +1,7 @@
 package com.sharepast.monitoring;
 
 import com.sharepast.Bootstrapper;
-import com.sharepast.util.spring.SpringConfigurator;
+import com.sharepast.spring.SpringConfiguration;
 import com.sharepast.util.Build;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class ContainerInfo {
 
     @ManagedAttribute(description = "configuration files that were used to start this instance")
     public Class[] getConfigurationResources() {
-        return SpringConfigurator.getInstance().getConfigurations();
+        return SpringConfiguration.getInstance().getConfigurations();
     }
 
     @ManagedOperation(description = "stop container without any delays. Kills all current requests")

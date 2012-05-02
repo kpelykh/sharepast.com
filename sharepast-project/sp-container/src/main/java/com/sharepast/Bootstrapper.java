@@ -2,13 +2,11 @@ package com.sharepast;
 
 import com.sharepast.http.HttpServer;
 import com.sharepast.runners.JmsRunner;
-import com.sharepast.util.spring.SpringConfigurator;
-import com.sharepast.util.spring.StartupProperties;
+import com.sharepast.spring.SpringConfiguration;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
-import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import com.sharepast.runners.PlatformRunner;
@@ -79,8 +77,8 @@ public class Bootstrapper {
     public static void startPlatform()
             throws Exception {
         try {
-            SpringConfigurator.getInstance().configure(PlatformRunner.class);
-            httpServer = SpringConfigurator.getInstance().getBean(HttpServer.class);
+            SpringConfiguration.getInstance().configure(PlatformRunner.class);
+            httpServer = SpringConfiguration.getInstance().getBean(HttpServer.class);
         } catch (Throwable e) {
             e.printStackTrace();
             System.exit(-1);
@@ -107,7 +105,7 @@ public class Bootstrapper {
     public static void startJms()
             throws Exception {
         try {
-            SpringConfigurator.getInstance().configure(JmsRunner.class);
+            SpringConfiguration.getInstance().configure(JmsRunner.class);
         } catch (Throwable e) {
             e.printStackTrace();
             System.exit(-1);
@@ -115,7 +113,7 @@ public class Bootstrapper {
     }
 
     public static void stopRunner() throws Exception {
-        SpringConfigurator.getInstance().shutdown();
+        SpringConfiguration.getInstance().shutdown();
 
         System.exit(0);
     }
@@ -123,7 +121,7 @@ public class Bootstrapper {
 
     static class ShutdownHook extends Thread {
         public void run() {
-            SpringConfigurator.getInstance().shutdown();
+            SpringConfiguration.getInstance().shutdown();
         }
     }
 

@@ -1,6 +1,5 @@
 package com.sharepast.domain.user;
 
-import com.sharepast.persistence.Flags;
 import org.hibernate.annotations.AccessType;
 
 import javax.persistence.Column;

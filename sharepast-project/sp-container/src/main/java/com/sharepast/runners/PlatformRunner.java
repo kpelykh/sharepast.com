@@ -1,7 +1,7 @@
 package com.sharepast.runners;
 
-import com.sharepast.config.BaseConfig;
-import com.sharepast.config.DatabaseConfig;
+import com.sharepast.spring.config.BaseConfig;
+import com.sharepast.spring.config.DatabaseConfig;
 import com.sharepast.http.HttpServer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

@@ -1,7 +1,6 @@
 package com.sharepast.http;
 
-import com.sharepast.util.spring.SpringConfigurator;
-import org.eclipse.jetty.server.SessionManager;
+import com.sharepast.spring.SpringConfiguration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -10,7 +9,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.*;
 import java.util.EnumSet;
-import java.util.EventListener;
 import java.util.Set;
 
 /**
@@ -31,7 +29,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
         AnnotationConfigWebApplicationContext webApplicationContext = new AnnotationConfigWebApplicationContext();
         webApplicationContext.setServletContext(servletContext);
-        webApplicationContext.setParent(SpringConfigurator.getInstance().getApplicationContext());
+        webApplicationContext.setParent(SpringConfiguration.getInstance().getApplicationContext());
         webApplicationContext.register(WebConfig.class);
 
         // RequestContextListener is to add session scope in spring

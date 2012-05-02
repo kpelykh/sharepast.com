@@ -94,7 +94,7 @@
                     <property name="lock">
                        <bean class="com.sharepast.security.UriLock">
                           <property name="authenticated" value="true"/>
-                          <property name="roles" value="some-role"/>
+                          <property name="groups" value="some-group"/>
                         </bean>
                     </property>
                   </bean>

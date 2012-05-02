@@ -3,18 +3,19 @@ package com.sharepast.service.impl;
 /**
  * Created by IntelliJ IDEA.
  * User: kpelykh
- * Date: 2/21/12
- * Time: 11:01 PM
+ * Date: 1/23/12
+ * Time: 12:15 PM
  * To change this template use File | Settings | File Templates.
  */
 
-import com.sharepast.dao.IUserDAO;
-import com.sharepast.domain.user.StaticRoles;
+import com.sharepast.dao.UserDAO;
+import com.sharepast.domain.user.StaticGroups;
 import com.sharepast.domain.user.User;
-import com.sharepast.exceptions.UsernameExistsException;
-import com.sharepast.persistence.ORMDao;
+import com.sharepast.exception.UsernameExistsException;
+import com.sharepast.security.Subject;
 import com.sharepast.service.AbstractService;
 import com.sharepast.service.IUserService;
+import com.sharepast.service.exception.ServiceException;
 import com.sharepast.util.security.PasswordHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,15 +38,15 @@ import org.springframework.util.Assert;
 /**
  * A custom service for retrieving users from a custom datasource, such as a database.
  * <p/>
- * This custom service must implement Spring's {@link UserDetailsService}
+ * This custom service must implement Spring's {@link org.springframework.security.core.userdetails.UserDetailsService}
  */
-@Service("userService")
+@Service
 public class UserService extends AbstractService<User> implements IUserService {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    private IUserDAO userDAO;
+    private UserDAO userDAO;
 
 
     @Autowired
@@ -61,7 +62,7 @@ public class UserService extends AbstractService<User> implements IUserService {
         return userDAO.findByUsername(username);
     }
 
-    public User createUser(User user) {
+    public User createUser(User user) throws UsernameExistsException {
         Assert.notNull(user);
 
         User userExist = userDAO.findByUsername(user.getUsername());
@@ -70,8 +71,8 @@ public class UserService extends AbstractService<User> implements IUserService {
             throw new UsernameExistsException(String.format("Username %s exists. Please select another username.", user.getUsername()));
         }
 
-        if ( user.getRoles().size() == 0 ) {
-            user.getRoles().add(StaticRoles.ROLE_USER.getRole());
+        if ( user.getGroups().size() == 0 ) {
+            user.getGroups().add(StaticGroups.ROLE_USER.getGroup());
         }
 
         // default attributes
@@ -82,7 +83,9 @@ public class UserService extends AbstractService<User> implements IUserService {
         user.setCredentialsNonExpired(true);
         user.setPassword(passwordHelper.encode(user.getPassword(), user));
 
-        return userDAO.persist(user);
+        userDAO.save(user);
+
+        return user;
 
     }
 
@@ -95,15 +98,41 @@ public class UserService extends AbstractService<User> implements IUserService {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void changePassword(String oldPassword, String newPassword) throws AuthenticationException, BadCredentialsException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public void changePassword(String username, String newPassword, boolean otheruser) throws AuthenticationException, ServiceException {
 
-        if (authentication == null) {
+        if (Subject.getCurrentUser() == null ) {
             // This would indicate bad coding somewhere
             throw new AccessDeniedException("Can't change password as no Authentication object found in context " +
                     "for current user.");
         }
-        User currentUser = (User) authentication.getPrincipal();
+
+        if (Subject.hasAdminRole()) {
+            User user = userDAO.findByUsername(username);
+            if (user == null) {
+                throw new ServiceException(String.format("User %s doesn't exist in database", username));
+            }
+
+            LOG.info("Changing password for user '" + username + "'");
+
+            String newPasswordHash = passwordHelper.encode(newPassword);
+            user.setPassword(newPasswordHash);
+            update(user);
+            LOG.info("Password successfully updated for for user '" + username + "'");
+        } else {
+            throw new AccessDeniedException("User has to be in admin role to change other user's password");
+        }
+
+
+    }
+
+    public void changePassword(String oldPassword, String newPassword) throws AuthenticationException, ServiceException {
+
+        if (Subject.getCurrentUser() == null) {
+            // This would indicate bad coding somewhere
+            throw new AccessDeniedException("Can't change password as no Authentication object found in context " +
+                    "for current user.");
+        }
+        User currentUser = Subject.getCurrentUser();
 
         if (currentUser.getPassword().equals(passwordHelper.encode(oldPassword))) {
             String username = currentUser.getUsername();
@@ -116,13 +145,14 @@ public class UserService extends AbstractService<User> implements IUserService {
             user.setPassword(newPasswordhash);
             update(user);
 
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             createNewAuthentication(authentication);
         } else {
             throw new BadCredentialsException("Old password is incorrect.");
         }
     }
 
-    public void changeUsername(String oldUsername, String newUsername) throws AuthenticationException, UsernameExistsException {
+    public void changeUsername(String oldUsername, String newUsername) throws AuthenticationException, ServiceException {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 
         if (!userDAO.isUsernameAvailable(newUsername)) {
@@ -160,37 +190,37 @@ public class UserService extends AbstractService<User> implements IUserService {
     // -- UserDetailsService implementation
 
     /**
-     * Returns a populated {@link UserDetails} object.
+     * Returns a populated {@link org.springframework.security.core.userdetails.UserDetails} object.
      * The username is first retrieved from the database and then mapped to
-     * a {@link UserDetails} object.
+     * a {@link org.springframework.security.core.userdetails.UserDetails} object.
      */
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException, DataAccessException {
 
-        User domainUser = userDAO.findByEmail(username);
-        if (domainUser == null) {
-            throw new UsernameNotFoundException(String.format("Can't find user '%s'", username));
-        }
+            User domainUser = userDAO.findByUsername(username);
+            if (domainUser == null) {
+                throw new UsernameNotFoundException(String.format("Can't find user '%s'", username));
+            }
 
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
+            boolean enabled = true;
+            boolean accountNonExpired = true;
+            boolean credentialsNonExpired = true;
+            boolean accountNonLocked = true;
 
-        return new org.springframework.security.core.userdetails.User(
-                domainUser.getUsername(),
-                domainUser.getPassword().toLowerCase(),
-                enabled,
-                accountNonExpired,
-                credentialsNonExpired,
-                accountNonLocked,
-                domainUser.getAuthorities());
+            return new org.springframework.security.core.userdetails.User(
+                    domainUser.getUsername(),
+                    domainUser.getPassword().toLowerCase(),
+                    enabled,
+                    accountNonExpired,
+                    credentialsNonExpired,
+                    accountNonLocked,
+                    domainUser.getAuthorities());
 
     }
 
     @Override
-    protected ORMDao<User, Long> getDao() {
+    protected GenericDAO<User, Integer> getDao() {
         return userDAO;
     }
 }

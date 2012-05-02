@@ -1,7 +1,5 @@
 package com.sharepast.domain.user;
 
-import com.sharepast.persistence.Flags;
-
 public enum UserNotificationFlags implements Flags {
 
   RECEIVE_PERSONAL_MESSAGES_NOTIFICATIONS('1', "cpm"),

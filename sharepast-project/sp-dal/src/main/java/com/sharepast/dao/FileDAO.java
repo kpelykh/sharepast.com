@@ -1,9 +1,9 @@
 package com.sharepast.dao;
 
 import com.sharepast.domain.FileDO;
-import com.sharepast.persistence.ORMDao;
+import com.sharepast.genericdao.hibernate.GenericDAO;
 
-public interface FileDAO extends ORMDao<FileDO, Long> {
+public interface FileDAO extends GenericDAO<FileDO, Integer> {
 
 
 }

@@ -1,7 +1,5 @@
 package com.sharepast.domain.user;
 
-import com.sharepast.persistence.Flags;
-
 public enum PrivacyPreferenceFlags implements Flags {
 
   HIDE_PROFILE_PICTURE('0'),

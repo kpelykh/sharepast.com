@@ -1,7 +1,5 @@
 package com.sharepast.domain.user;
 
-import com.sharepast.persistence.Flags;
-
 public enum UserSettingFlags implements Flags {
 
   SHOW_WELCOME_PAGE ('1', "swp");

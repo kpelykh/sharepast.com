@@ -1,6 +1,6 @@
 package com.sharepast.jms.common;
 
-import com.sharepast.util.spring.ContextListener;
+import com.sharepast.spring.ContextListener;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;

@@ -1,10 +1,10 @@
 package com.sharepast.security;
 
-import com.sharepast.domain.user.StaticRoles;
+import com.sharepast.domain.user.StaticGroups;
 import com.sharepast.domain.user.User;
 import com.sharepast.service.IUserService;
 import com.sharepast.util.security.CustomSecurityExpressionHandler;
-import com.sharepast.util.spring.SpringConfigurator;
+import com.sharepast.spring.SpringConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
@@ -14,7 +14,6 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -52,7 +51,7 @@ public class Subject {
     private static CustomSecurityExpressionHandler customSecurityExpressionHandler;
 
     static {
-        customSecurityExpressionHandler = SpringConfigurator.getInstance().getBean(CustomSecurityExpressionHandler.class, "customSecurityExpressionHandler");
+        customSecurityExpressionHandler = SpringConfiguration.getInstance().getBean(CustomSecurityExpressionHandler.class, "customSecurityExpressionHandler");
         Assert.notNull(customSecurityExpressionHandler);
     }
 
@@ -72,7 +71,7 @@ public class Subject {
         }
 
         if (principal instanceof org.springframework.security.core.userdetails.User) {
-            IUserService userDao = SpringConfigurator.getInstance().getBean(IUserService.class);
+            IUserService userDao = SpringConfiguration.getInstance().getBean(IUserService.class);
             User user = userDao.findUserByUsername(((org.springframework.security.core.userdetails.User)principal).getUsername());
             if (user == null) {
                 LOG.error(String.format("current subject is %s, but no user with this username!", principal.toString()));
@@ -87,7 +86,7 @@ public class Subject {
     }
 
     public static boolean hasAdminRole() {
-        return hasRole(StaticRoles.ROLE_ADMIN);
+        return hasRole(StaticGroups.ROLE_ADMIN);
     }
 
     public static boolean isRememberMe() {
@@ -108,13 +107,13 @@ public class Subject {
         return getSecurityExpressionRoot().isAuthenticated();
     }
 
-    public static boolean hasRole(StaticRoles role) {
+    public static boolean hasRole(StaticGroups role) {
         return getSecurityExpressionRoot().hasRole(role.name());
     }
 
-    public static boolean hasAnyRole(StaticRoles... roles) {
+    public static boolean hasAnyRole(StaticGroups... roles) {
         List<String> tmp = new ArrayList<String>();
-        for (StaticRoles role : roles) {
+        for (StaticGroups role : roles) {
             tmp.add(role.name());
         }
 

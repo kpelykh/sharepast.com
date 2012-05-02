@@ -1,6 +1,6 @@
 package com.sharepast.runners;
 
-import com.sharepast.config.BaseConfig;
+import com.sharepast.spring.config.BaseConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ImportResource;
 @Import(BaseConfig.class)
 @ImportResource({
         "com/sharepast/config/jmx.xml",
-        "com/sharepast/config/persistence.xml",
+        "com/sharepast/config/spring-data.xml",
         "com/sharepast/config/geoip-location.xml",
         "com/sharepast/config/activemq.xml"})
 public class JmsRunner {

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                                 http://www.springframework.org/schema/security
+                                 http://www.springframework.org/schema/security/spring-security-3.1.xsd
+
+                                  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <context:component-scan base-package="com.sharepast.domains.user"/>
+
+    <http auto-config="true" use-expressions="true" access-decision-manager-ref="accessDecisionManager">
+
+        <intercept-url pattern="/login" access="permitAll"/>
+        <intercept-url pattern="/logout" access="permitAll"/>
+        <intercept-url pattern="/install" access="permitAll"/>
+        <intercept-url pattern="/set_admin_password" access="permitAll"/>
+
+        <intercept-url pattern="/s/health_check" access="permitAll"/>
+        <intercept-url pattern="/javascripts/**" access="permitAll"/>
+        <intercept-url pattern="/images/**" access="permitAll"/>
+        <intercept-url pattern="/stylesheets/**" access="permitAll"/>
+        <intercept-url pattern="/*.html" access="permitAll"/>
+        <intercept-url pattern="/*.ico" access="permitAll"/>
+        <intercept-url pattern="/*.txt" access="permitAll"/>
+
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/denied" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+
+        <form-login login-page="/login"
+                    authentication-failure-url="/login"
+                    default-target-url="/services"/>
+
+        <access-denied-handler error-page="/denied"/>
+
+        <logout invalidate-session="true"
+                logout-success-url="/login"
+                logout-url="/logout"/>
+
+        <session-management>
+            <concurrency-control max-sessions="1"/>
+        </session-management>
+
+        <remember-me key="5f4dcc3b5aa765d61d8327deb882cf99" user-service-ref="userService" token-validity-seconds="86400"/>
+    </http>
+
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <beans:property name="decisionVoters">
+            <beans:list>
+                <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter">
+                    <beans:property name="expressionHandler" ref="webSecurityExpressionHandler"/>
+                </beans:bean>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+
+    <!--<beans:bean id="aspectJSecurityInterceptor"
+            class="org.springframework.security.access.intercept.aspectj.AspectJMethodSecurityInterceptor">
+            <beans:property name="authenticationManager" ref="authenticationManager" />
+            <beans:property name="accessDecisionManager" ref="accessDecisionManager" />
+            <beans:property name="securityMetadataSource">
+                <beans:bean class="org.springframework.security.access.annotation.SecuredAnnotationSecurityMetadataSource" />
+            </beans:property>
+    </beans:bean>-->
+
+    <!--<beans:bean
+        class="org.springframework.security.access.intercept.aspectj.aspect.AnnotationSecurityAspect" factory-method="aspectOf">
+        <beans:property name="securityInterceptor" ref="aspectJSecurityInterceptor" />
+    </beans:bean>-->
+
+
+    <!-- Authentication providers -->
+
+    <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
+
+    <beans:bean id="saltSource" class="org.springframework.security.authentication.dao.SystemWideSaltSource">
+        <beans:property name="systemWideSalt" value="zettaset"/>
+    </beans:bean>
+
+    <beans:bean id="passwordHelper" class="com.sharepast.utils.security.PasswordHelper">
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
+        <beans:property name="saltSource" ref="saltSource"/>
+    </beans:bean>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userService">
+            <password-encoder ref="passwordEncoder">
+                <salt-source ref="saltSource"/>
+            </password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
+    <!-- Support for Hierarchy group voter -->
+
+    <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <beans:constructor-arg ref="roleHierarchy" />
+    </beans:bean>
+    <beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+        <beans:property name="hierarchy">
+            <beans:value>
+                ROLE_ADMIN > ROLE_USER
+                ROLE_USER > ROLE_ANONYMOUS
+            </beans:value>
+        </beans:property>
+    </beans:bean>
+
+    <!-- To enable Method Security Expressions and custom PermissionEvaluator we need to add the following -->
+    <global-method-security jsr250-annotations="disabled"
+                            secured-annotations="disabled"
+                            pre-post-annotations="enabled"
+                            mode="aspectj">
+        <expression-handler ref="methodSecurityExpressionHandler"/>
+    </global-method-security>
+
+    <!-- Declare a custom PermissionEvaluator interface -->
+    <beans:bean class="com.sharepast.spring.security.ZtsPermissionEvaluator" id="ztsPermissionEvaluator"/>
+
+    <!-- An expression handler used to secure methods.
+         This overrides the DefaultMethodSecurityExpressionHandler to include roleHierarchy. -->
+    <beans:bean id = "methodSecurityExpressionHandler" class = "org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <!-- To use hasPermission() expressions, we have to configure a PermissionEvaluator -->
+        <!-- See 15.3.2 Built-In Expression
+              @http://static.springsource.org/spring-security/site/docs/3.0.x/reference/el-access.html#el-permission-evaluator -->
+        <beans:property name="permissionEvaluator" ref="ztsPermissionEvaluator" />
+        <beans:property name="roleHierarchy" ref="roleHierarchy"/>
+    </beans:bean>
+
+
+    <beans:bean id="webSecurityExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+        <beans:property name="permissionEvaluator" ref="ztsPermissionEvaluator" />
+        <beans:property name="roleHierarchy" ref="roleHierarchy" />
+    </beans:bean>
+
+    <!-- exposes SecurityExpressionRoot in Subject class -->
+    <beans:bean id="customSecurityExpressionHandler" class="com.sharepast.utils.security.CustomSecurityExpressionHandler">
+        <beans:property name="permissionEvaluator" ref="ztsPermissionEvaluator" />
+        <beans:property name="roleHierarchy" ref="roleHierarchy"/>
+    </beans:bean>
+
+    <!-- anonymous filter -->
+
+    <!--<beans:bean id="anonymousAuthFilter"
+          class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+        <beans:property name="key" value="foobar"/>
+        <beans:property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS"/>
+    </beans:bean>
+
+    <beans:bean id="anonymousAuthenticationProvider"
+          class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+        <beans:property name="key" value="foobar"/>
+    </beans:bean>-->
+
+
+</beans:beans>

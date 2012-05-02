@@ -1,14 +1,6 @@
 package com.sharepast.http;
 
 
-import com.sharepast.freemarker.GetUserMethod;
-import com.sharepast.freemarker.NlsMethod;
-import com.sharepast.freemarker.UrlMethod;
-import com.sharepast.util.Build;
-import freemarker.ext.beans.BeansWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -19,12 +11,9 @@ import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Created by IntelliJ IDEA.

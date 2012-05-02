@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @org.hibernate.annotations.AccessType("field")
 @Table(name = "geographic_location")
-public class GeographicLocationDO extends IEntity<Long> {
+public class GeographicLocationDO extends IEntity<Integer> {
 
     @Column(name = "postal_code", nullable = false)
     private String postalCode;

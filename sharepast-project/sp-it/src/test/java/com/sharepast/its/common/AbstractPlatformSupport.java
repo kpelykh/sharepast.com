@@ -54,7 +54,7 @@ public class AbstractPlatformSupport {
     @ImportResource({
             "com/sharepast/config/cache.xml",
             "com/sharepast/config/security.xml",
-            "com/sharepast/config/persistence.xml",
+            "com/sharepast/config/spring-data.xml",
             "com/sharepast/config/security.xml",
             "com/sharepast/its/common/test-server.xml",
             "com/sharepast/config/services.xml",

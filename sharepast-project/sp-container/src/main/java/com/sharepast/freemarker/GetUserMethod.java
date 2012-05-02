@@ -4,7 +4,6 @@ import com.sharepast.domain.user.User;
 import com.sharepast.security.Subject;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;

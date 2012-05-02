@@ -6,7 +6,7 @@
     <changeSet id="initial-schema-1" author="konstantin.pelykh">
         <comment>Initial tables</comment>
         <createTable tableName="geographic_location">
-            <column name="id" type="BIGINT">
+            <column name="id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="postal_code" type="VARCHAR(255)">
@@ -34,7 +34,7 @@
       </changeSet>
       <changeSet id="initial-schema-2" author="konstantin.pelykh">
         <createTable tableName="users">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="username" type="varchar(255)" defaultValue="NULL">
@@ -93,7 +93,7 @@
         </createTable>
 
         <createTable tableName="file">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
@@ -108,8 +108,8 @@
             </column>
         </createTable>
 
-          <addAutoIncrement tableName="users" columnName="id" columnDataType="BIGINT" startWith="50"/>
-          <addAutoIncrement tableName="file" columnName="id" columnDataType="BIGINT" startWith="50"/>
+          <addAutoIncrement tableName="users" columnName="id" columnDataType="int" startWith="50"/>
+          <addAutoIncrement tableName="file" columnName="id" columnDataType="int" startWith="50"/>
 
         <rollback>
             <dropTable tableName="users"/>
@@ -117,25 +117,25 @@
         </rollback>
     </changeSet>
     <changeSet id="initial-schema-3" author="konstantin.pelykh">
-        <createTable tableName="roles">
-            <column name="id" type="BIGINT" autoIncrement="true">
+        <createTable tableName="groups">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)" defaultValue="NULL" />
         </createTable>
 
         <createTable tableName="permission">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)" defaultValue="NULL" />
         </createTable>
 
         <createTable tableName="user_role">
-            <column name="user_id" type="BIGINT">
+            <column name="user_id" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="role_id" type="BIGINT">
+            <column name="role_id" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -144,23 +144,23 @@
                        constraintName="PK_USER_ROLE"/>
 
         <createTable tableName="role_permission">
-            <column name="role_id" type="BIGINT">
+            <column name="role_id" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="permission_id" type="BIGINT">
+            <column name="permission_id" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addAutoIncrement tableName="permission" columnName="id" columnDataType="BIGINT" startWith="50"/>
-        <addAutoIncrement tableName="roles" columnName="id" columnDataType="BIGINT" startWith="50"/>
+        <addAutoIncrement tableName="permission" columnName="id" columnDataType="int" startWith="50"/>
+        <addAutoIncrement tableName="groups" columnName="id" columnDataType="int" startWith="50"/>
 
-        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="role_id" constraintName="FK_USER_ROLE_ID" referencedTableName="roles"
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="role_id" constraintName="FK_USER_ROLE_ID" referencedTableName="groups"
                                  referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id" constraintName="FK_USER_USER_ID" referencedTableName="users"
                                  referencedColumnNames="id"/>
 
-        <addForeignKeyConstraint baseTableName="role_permission" baseColumnNames="role_id" constraintName="FK_PERM_ROLE_ID" referencedTableName="roles"
+        <addForeignKeyConstraint baseTableName="role_permission" baseColumnNames="role_id" constraintName="FK_PERM_ROLE_ID" referencedTableName="groups"
                                  referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="role_permission" baseColumnNames="permission_id" constraintName="FK_PERM_PERM_ID" referencedTableName="permission"
                                  referencedColumnNames="id"/>
