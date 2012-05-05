@@ -1,9 +1,9 @@
 package com.sharepast.mvc.controller;
 
-import com.sharepast.dao.IUserDAO;
+import com.sharepast.dao.UserDAO;
 import com.sharepast.domain.user.User;
 import com.sharepast.mvc.form.NewUserForm;
-import com.sharepast.security.Subject;
+import com.sharepast.service.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ import java.util.*;
 public class UserController {
 
     @Autowired
-    private IUserDAO userDao;
+    private UserDAO userDao;
 
     @Autowired
     private MessageSource messageSource;

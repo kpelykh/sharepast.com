@@ -1,18 +1,21 @@
-package java.com.sharepast.test.jms;
+package com.sharepast.tests.jms;
 
+import com.sharepast.jms.spring.JmsHttpServer;
 import com.sharepast.spring.config.BaseConfig;
 import com.sharepast.spring.SpringConfiguration;
+import com.sharepast.spring.web.AbstractHttpServer;
+import com.sharepast.tests.common.SpringContextSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
-import org.testng.annotations.AfterClass;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import java.util.concurrent.CountDownLatch;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,45 +25,49 @@ import static org.testng.Assert.assertNotNull;
  * To change this template use File | Settings | File Templates.
  */
 
-@Test(enabled = true)
-public class JmsProducerTest {
+public class JmsProducerTest extends SpringContextSupport {
 
         private static final Logger LOG = LoggerFactory.getLogger(JmsProducerTest.class);
         private String msg;
 
+        TestQueueSender jmsSender;
+
+        CountDownLatch latch = new CountDownLatch(1);
+
         @Configuration
-        @Import({BaseConfig.class})
-        @ImportResource({"com/sharepast/jms/jms-test.xml"})
+        @Import({BaseConfig.class, TestQueueListener.class, TestQueueSender.class})
+        @ImportResource({"com/sharepast/test/jms/jms-test.xml"})
         static class TestJmsProducerConf {}
 
-        @BeforeClass
-        public void prepareBeforeTest()
-                throws Exception {
-            SpringConfiguration.getInstance().configure(TestJmsProducerConf.class);
+        @Override
+        public Class getConfiguration() {
+            return TestJmsProducerConf.class;
         }
 
-        @AfterClass
-        public void afterClass() {
-            SpringConfiguration.getInstance().shutdown();
+        @BeforeClass
+        public void setUp() throws Exception {
+            AbstractHttpServer jmsServer = SpringConfiguration.getInstance().getBean(JmsHttpServer.class);
+            Assert.assertNotNull(jmsServer);
+            jmsServer.start();
         }
+
 
         @Test
         public void checkJms()
                 throws Exception {
 
-            TestQueueSender jmsSender = SpringConfiguration.getInstance().getBean(TestQueueSender.class, "testQueueSender");
+            jmsSender = SpringConfiguration.getInstance().getBean(TestQueueSender.class, "testQueueSender");
+            Assert.assertNotNull(jmsSender);
 
             class BasicThread2 implements Runnable {
-                TestQueueListener jmsListener = null;
 
-                BasicThread2() {
-                    jmsListener = SpringConfiguration.getInstance().getBean(TestQueueListener.class, "testQueueListener");
-                }
 
                 // This method is called when the thread runs
                 public void run() {
+                    TestQueueListener jmsListener = SpringConfiguration.getInstance().getBean(TestQueueListener.class, "testQueueListener");
                     Assert.assertNotNull(jmsListener);
                     msg = jmsListener.getMsg();
+                    latch.countDown();
                 }
             }
 
@@ -72,7 +79,7 @@ public class JmsProducerTest {
 
             Thread.sleep(1000);
             thread.start();
-            Thread.sleep(1000);
+            latch.await();
 
             Assert.assertEquals(msg, "Test Message");
         }

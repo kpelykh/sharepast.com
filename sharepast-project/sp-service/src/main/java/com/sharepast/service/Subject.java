@@ -1,10 +1,9 @@
-package com.sharepast.security;
+package com.sharepast.service;
 
 import com.sharepast.domain.user.StaticGroups;
 import com.sharepast.domain.user.User;
-import com.sharepast.service.IUserService;
-import com.sharepast.util.security.CustomSecurityExpressionHandler;
 import com.sharepast.spring.SpringConfiguration;
+import com.sharepast.util.security.CustomSecurityExpressionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
@@ -23,35 +22,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class Subject {
-    /*if (throwable != null) {
-        if (throwable instanceof UnauthorizedException) {
-            errors.add(messageSource.getMessage("unauthorized.exception", null, Locale.getDefault()));
-        }
-        if (throwable instanceof IncorrectCredentialsException) {
-            errors.add(messageSource.getMessage("incorrect.credentials.exception", null, Locale.getDefault()));
-        } else if (throwable instanceof UnauthenticatedException) {
-            errors.add(messageSource.getMessage("unauthenticated.exception", null, Locale.getDefault()));
-        } else if (throwable instanceof UnknownAccountException) {
-            errors.add(messageSource.getMessage("unknown.account.exception", null, Locale.getDefault()));
-        } else if (throwable instanceof CredentialsException) {
-            errors.add(messageSource.getMessage("credentials.exception", null, Locale.getDefault()));
-        } else if (throwable instanceof LockedAccountException) {
-            errors.add(messageSource.getMessage("locked.account.exception", null, Locale.getDefault()));
-        } else if (throwable instanceof ExcessiveAttemptsException) {
-            errors.add(messageSource.getMessage("excessive.attempts.exception", null, Locale.getDefault()));
-        } else if (throwable instanceof AuthenticationException) {
-            errors.add(messageSource.getMessage("authentication.exception", null, Locale.getDefault()));
-        } else {
-            errors.add(messageSource.getMessage("general.exception", null, Locale.getDefault()));
-        }
-    }
-    */
+
     private static final Logger LOG = LoggerFactory.getLogger(Subject.class);
 
     private static CustomSecurityExpressionHandler customSecurityExpressionHandler;
 
     static {
-        customSecurityExpressionHandler = SpringConfiguration.getInstance().getBean(CustomSecurityExpressionHandler.class, "customSecurityExpressionHandler");
+        customSecurityExpressionHandler = SpringConfiguration.getInstance().getBean(CustomSecurityExpressionHandler.class);
         Assert.notNull(customSecurityExpressionHandler);
     }
 
@@ -72,7 +49,7 @@ public class Subject {
 
         if (principal instanceof org.springframework.security.core.userdetails.User) {
             IUserService userDao = SpringConfiguration.getInstance().getBean(IUserService.class);
-            User user = userDao.findUserByUsername(((org.springframework.security.core.userdetails.User)principal).getUsername());
+            User user = userDao.findUserByUsername(((org.springframework.security.core.userdetails.User) principal).getUsername());
             if (user == null) {
                 LOG.error(String.format("current subject is %s, but no user with this username!", principal.toString()));
                 return null;
@@ -109,6 +86,14 @@ public class Subject {
 
     public static boolean hasRole(StaticGroups role) {
         return getSecurityExpressionRoot().hasRole(role.name());
+    }
+
+    public static boolean hasPermission(Object obj, String permission) {
+        return getSecurityExpressionRoot().hasPermission(obj, permission);
+    }
+
+    public static boolean hasPermission(String permission) {
+        return getSecurityExpressionRoot().hasPermission(null, permission);
     }
 
     public static boolean hasAnyRole(StaticGroups... roles) {

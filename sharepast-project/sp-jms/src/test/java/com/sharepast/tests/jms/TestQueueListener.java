@@ -1,4 +1,4 @@
-package java.com.sharepast.test.jms;
+package com.sharepast.tests.jms;
 
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.stereotype.Component;

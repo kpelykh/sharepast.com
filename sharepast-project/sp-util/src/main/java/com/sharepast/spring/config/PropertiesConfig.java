@@ -64,8 +64,10 @@ public class PropertiesConfig {
 
         properties.put("web.resource.base", convertToResource(ctx, properties, "web.resource.base"));
         properties.put("jetty.web.default", convertToResource(ctx, properties, "jetty.web.default"));
-        properties.put("log.dir", convertToResource(ctx, properties, properties.getProperty("log.dir")));
+        properties.put("log.dir", convertToResource(ctx, properties, "log.dir"));
         properties.put("config.path", convertToResource(ctx, properties, "config.path"));
+        properties.put("activemq.home", convertToResource(ctx, properties, "activemq.home"));
+        properties.put("activemq.base", convertToResource(ctx, properties, "activemq.base"));
 
         printProperties(env, properties);
 
@@ -102,8 +104,8 @@ public class PropertiesConfig {
         Map<String, String> sortedProperties = Maps.newTreeMap();
         sortedProperties.putAll(Maps.fromProperties(properties));
 
-        ByteArrayOutputStream ztsPropertiesOutStream = new ByteArrayOutputStream();
-        PrintStream pw = new PrintStream(ztsPropertiesOutStream);
+        ByteArrayOutputStream propertiesOutStream = new ByteArrayOutputStream();
+        PrintStream pw = new PrintStream(propertiesOutStream);
         MapUtils.verbosePrint(pw, null, sortedProperties);
 
         ByteArrayOutputStream systemPropertiesOutStream = new ByteArrayOutputStream();
@@ -115,8 +117,8 @@ public class PropertiesConfig {
                 .append(PropertiesConfig.class.getSimpleName())
                 .append(" ================")
                 .append(lineSeparator).append(lineSeparator)
-                .append("ZTS Properties:")
-                .append(ztsPropertiesOutStream.toString())
+                .append("Properties:")
+                .append(propertiesOutStream.toString())
                 .append(lineSeparator)
                 .append("System properties:")
                 .append(systemPropertiesOutStream.toString())

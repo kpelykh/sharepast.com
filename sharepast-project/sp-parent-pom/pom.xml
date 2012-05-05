@@ -30,7 +30,7 @@
 
         <aspectj.version>1.6.12</aspectj.version>
 
-        <!-- Command line parsing in ZTS service  -->
+        <!-- Command line parsing -->
         <jopt.simple.version>4.3</jopt.simple.version>
 
         <groovy.version>1.8.6</groovy.version>
@@ -659,6 +659,18 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>aspectj-maven-plugin</artifactId>
                     <version>${aspectj.maven.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjrt</artifactId>
+                            <version>${aspectj.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjtools</artifactId>
+                            <version>${aspectj.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
 
                 <plugin>
@@ -666,8 +678,6 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.plugin.version}</version>
                 </plugin>
-
-
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

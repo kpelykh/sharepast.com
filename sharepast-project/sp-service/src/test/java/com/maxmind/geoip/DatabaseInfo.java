@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package java.com.maxmind.geoip;
+package com.maxmind.geoip;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

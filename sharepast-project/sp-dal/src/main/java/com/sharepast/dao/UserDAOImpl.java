@@ -1,7 +1,3 @@
-/**
- * (C) Copyright 2010-2012, ZettaSet Inc. All rights reserved.
- * ZettaSet PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.sharepast.dao;
 
 import com.sharepast.domain.user.User;
@@ -33,6 +29,13 @@ public class UserDAOImpl extends GenericDAOImpl<User, Integer> implements UserDA
     public User findByUsername(final String username) {
         return searchUnique(new Search()
                 .addFilterEqual("username", username)
+                .setMaxResults(1));
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return searchUnique(new Search()
+                .addFilterEqual("email", email)
                 .setMaxResults(1));
     }
 

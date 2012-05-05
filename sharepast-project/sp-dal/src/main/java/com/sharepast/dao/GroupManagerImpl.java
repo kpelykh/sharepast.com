@@ -1,7 +1,3 @@
-/**
- * (C) Copyright 2010-2012, ZettaSet Inc. All rights reserved.
- * ZettaSet PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.sharepast.dao;
 
 import com.sharepast.domain.user.Group;
@@ -76,7 +72,7 @@ public class GroupManagerImpl extends GenericDAOImpl<Group, Integer> implements 
         Assert.hasText(roleName);
         return listByQuery(String.class, new QueryDetails() {
             public String getQueryString() {
-                return "select u.username from zts_user u join u.groups r where r.name = :groupName";
+                return "select u.username from User u join u.groups r where r.name = :groupName";
             }
             @Override
             public Query completeQuery(Query query) {

@@ -3,6 +3,8 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
+    <!--501,"501","Holtsville","NY","SUFFOLK","631",40.8153991699219,-73.0456008911133,"EDT",true,false,"New York",501,"","DISABLED",0-->
+
     <!--<changeSet author="konstantin.pelykh" id="initial-data-1">
         <comment>Business GeoLocation Data</comment>
         <loadData tableName="geographic_location" file="com/sharepast/database/initial/geographic_location.csv">
@@ -36,7 +38,7 @@
 
     <changeSet author="konstantin.pelykh" id="initial-data-2">
         <comment>Admin User</comment>
-        <insert tableName="users">
+        <insert tableName="sp_user">
             <column name="id" valueNumeric="1"/>
             <column name="username" value="test"/>
             <column name="email" value="test@sharepast.com"/>
@@ -62,7 +64,7 @@
             <column name="credentials_non_expired" value="Y"/>
             <column name="enabled" value="Y"/>
         </insert>
-        <insert tableName="users">
+        <insert tableName="sp_user">
             <column name="id" valueNumeric="2"/>
             <column name="email" value="user@sharepast.com"/>
             <column name="username" value="testuser"/>
@@ -132,43 +134,43 @@
 
         <!-- ROLE_ADMIN has permission to VIEW,DELETE,CREATE -->
 
-        <insert tableName="role_permission">
-            <column name="role_id" valueNumeric="1"/>
+        <insert tableName="group_permission">
+            <column name="group_id" valueNumeric="1"/>
             <column name="permission_id" valueNumeric="1"/>
         </insert>
 
-        <insert tableName="role_permission">
-            <column name="role_id" valueNumeric="1"/>
+        <insert tableName="group_permission">
+            <column name="group_id" valueNumeric="1"/>
             <column name="permission_id" valueNumeric="2"/>
         </insert>
 
-        <insert tableName="role_permission">
-            <column name="role_id" valueNumeric="1"/>
+        <insert tableName="group_permission">
+            <column name="group_id" valueNumeric="1"/>
             <column name="permission_id" valueNumeric="3"/>
         </insert>
 
         <!-- ROLE_USER has permission to VIEW,DELETE -->
 
-        <insert tableName="role_permission">
-            <column name="role_id" valueNumeric="1"/>
+        <insert tableName="group_permission">
+            <column name="group_id" valueNumeric="2"/>
             <column name="permission_id" valueNumeric="1"/>
         </insert>
 
-        <insert tableName="role_permission">
-            <column name="role_id" valueNumeric="1"/>
+        <insert tableName="group_permission">
+            <column name="group_id" valueNumeric="2"/>
             <column name="permission_id" valueNumeric="2"/>
         </insert>
 
         <!-- mapping between Users and groups -->
 
-        <insert tableName="user_role">
+        <insert tableName="user_group">
             <column name="user_id" valueNumeric="1"/>
-            <column name="role_id" valueNumeric="1"/>
+            <column name="group_id" valueNumeric="1"/>
         </insert>
 
-        <insert tableName="user_role">
+        <insert tableName="user_group">
             <column name="user_id" valueNumeric="2"/>
-            <column name="role_id" valueNumeric="2"/>
+            <column name="group_id" valueNumeric="2"/>
         </insert>
 
     </changeSet>

@@ -35,12 +35,12 @@ public class DatabaseConfig {
     @Bean(name = "dataSource")
     public DataSource dataSource() {
 
-        String ztsDBUrl;
+        String dbUrl;
 
         if (SpringConfiguration.isTestActive) {
-            ztsDBUrl = env.getProperty("jdbc.test.zts.url");
+            dbUrl = env.getProperty("jdbc.sp.test.url");
         } else {
-            ztsDBUrl = env.getProperty("jdbc.zts.db.url");
+            dbUrl = env.getProperty("jdbc.sp.db.url");
         }
 
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
@@ -49,7 +49,7 @@ public class DatabaseConfig {
         } catch (PropertyVetoException e) {
             throw new IllegalStateException(e);
         }
-        dataSource.setJdbcUrl(ztsDBUrl);
+        dataSource.setJdbcUrl(dbUrl);
         dataSource.setUser(jdbcUsername);
         dataSource.setPassword(jdbcPassword);
         dataSource.setAcquireIncrement(1);
@@ -65,7 +65,6 @@ public class DatabaseConfig {
     }
 
     @Bean(name = "dbMigrator")
-    @DependsOn("hsqldbSchemaCreator")
     public CustomSpringLiquibase dbMigrator(@Value("${liquibase.script}") String script,
                                             @Value("${liquibase.dropFirst}") Boolean  dropFirst,
                                             @Value("${liquibase.forceReleaseLocks}") Boolean  forceReleaseLocks,

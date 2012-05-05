@@ -1,6 +1,6 @@
 package com.sharepast.monitoring;
 
-import com.sharepast.Bootstrapper;
+import com.sharepast.Bootstrap;
 import com.sharepast.spring.SpringConfiguration;
 import com.sharepast.util.Build;
 import org.slf4j.Logger;
@@ -10,6 +10,7 @@ import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,28 +27,8 @@ public class ContainerInfo {
 
     private final Logger LOG = LoggerFactory.getLogger(ContainerInfo.class);
 
-    @ManagedAttribute(description = "build unique ID")
-    public String getBuildUniqueId() {
-        return Build.getUniqueBuildId();
-    }
-
-    @ManagedAttribute(description = "build timestamp")
-    public String getBuildTimestamp() {
-        return Build.getTimestamp();
-    }
-
-    @ManagedAttribute(description = "build version")
-    public String getBuildVersion() {
-        return Build.getVersion();
-    }
-
     @ManagedAttribute(description = "build module we got main version from ")
-    public String getBuildVersionModule() {
-        return Build.getModule();
-    }
-
-    @ManagedAttribute(description = "build module we got main version from ")
-    public Map<String, String> getBuildComponents() {
+    public List<Build.ComponentInfo> getBuildComponents() {
         return Build.getComponents();
     }
 
@@ -62,8 +43,8 @@ public class ContainerInfo {
             return String.format("started countdown %d millis ago. Delay is %d millis", std.shutdown, std.delay);
 
         try {
-            Bootstrapper.stopRunner();
-        } catch (Throwable the) {
+            Bootstrap.stopRunner();
+        } catch (Throwable ignored) {
         }
 
         Thread t = new Thread(std = new ShutTheDown(15000L));

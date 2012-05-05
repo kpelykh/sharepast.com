@@ -127,7 +127,7 @@ public class AppDelegatingFilterProxy extends GenericFilterBean {
 	 * in. If it has not, and if the context implements {@link org.springframework.context.ConfigurableApplicationContext},
 	 * a {@link org.springframework.context.ConfigurableApplicationContext#refresh() refresh()} will be attempted before
 	 * retrieving the named target bean.
-	 * <p>This proxy's {@code ZtsEnvironment} will be inherited from the given
+	 * <p>This proxy's {@code Environment} will be inherited from the given
 	 * {@code WebApplicationContext}.
 	 * @param targetBeanName name of the target filter bean in the Spring application
 	 * context (must not be {@code null}).

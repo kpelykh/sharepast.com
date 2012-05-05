@@ -4,11 +4,16 @@ import com.sharepast.dao.GeographicLocation;
 import com.sharepast.spring.config.BaseConfig;
 import com.sharepast.domain.GeographicLocationDO;
 import com.sharepast.spring.SpringConfiguration;
+import com.sharepast.spring.config.HibernateConfiguration;
+import com.sharepast.tests.common.SpringContextSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -16,30 +21,23 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-@Test(enabled = true)
-public class GeographicLocationDOTest {
+@Transactional(propagation = Propagation.REQUIRED, noRollbackFor = {IllegalArgumentException.class})
+public class GeographicLocationDOTest extends SpringContextSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(GeographicLocationDOTest.class);
     private StopWatch stopWatch;
 
     @Configuration
-    @Import({BaseConfig.class})
-    @ImportResource({"com/sharepast/config/spring-data.xml"})
-    static class TestGeoLocationConf {}
+    @Import({BaseConfig.class, HibernateConfiguration.class})
+    @ComponentScan({"com.sharepast.dao"})
+    static class SpringContext {}
 
-    @BeforeClass
-    public void prepareBeforeTest()
-            throws Exception {
-        SpringConfiguration.getInstance().configure(TestGeoLocationConf.class);
-
+    @Override
+    public Class getConfiguration() {
+        return SpringContext.class;
     }
 
-    @AfterClass
-    public void afterClass() {
-        SpringConfiguration.getInstance().shutdown();
-    }
-
-    @Test
+    //@Test
     public void checkZipCode()
             throws Exception {
 

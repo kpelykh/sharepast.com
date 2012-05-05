@@ -1,4 +1,4 @@
-package java.com.sharepast.test.jms;
+package com.sharepast.tests.jms;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;

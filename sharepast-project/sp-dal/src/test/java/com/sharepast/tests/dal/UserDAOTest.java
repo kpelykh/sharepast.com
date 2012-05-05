@@ -1,13 +1,9 @@
-/**
- * (C) Copyright 2010-2012, ZettaSet Inc. All rights reserved.
- * ZettaSet PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.sharepast.tests.dal;
 
 import com.google.common.collect.Sets;
 import com.sharepast.dao.UserDAO;
-import com.sharepast.domains.user.StaticGroups;
-import com.sharepast.domains.user.User;
+import com.sharepast.domain.user.StaticGroups;
+import com.sharepast.domain.user.User;
 import com.sharepast.spring.SpringConfiguration;
 import com.sharepast.spring.config.BaseConfig;
 import com.sharepast.spring.config.HibernateConfiguration;
@@ -70,7 +66,7 @@ public class UserDAOTest extends SpringContextSupport {
         user.setUsername("testng002");
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
-        user.setEmail("testng002@zettaset.com");
+        user.setEmail("testng002@sharepast.com");
         user.setEnabled(false);
         user.setFirstName("Konstantin");
         user.setLastName("testng002");
@@ -96,8 +92,8 @@ public class UserDAOTest extends SpringContextSupport {
         assertFalse(user.isEnabled());
         assertEquals(user.getPassword(), "secretpassword");
 
-        assertTrue(userDao.isEmailAvailable("unused@zettaset.com"));
-        assertFalse(userDao.isEmailAvailable("testng002@zettaset.com"));
+        assertTrue(userDao.isEmailAvailable("unused@sharepast.com"));
+        assertFalse(userDao.isEmailAvailable("testng002@sharepast.com"));
         
         assertTrue(userDao.isUsernameAvailable("untakenusername"));
         assertFalse(userDao.isUsernameAvailable("testng002"));

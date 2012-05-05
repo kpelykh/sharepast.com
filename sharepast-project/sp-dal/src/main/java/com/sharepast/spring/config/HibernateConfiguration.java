@@ -105,7 +105,7 @@ public class HibernateConfiguration implements TransactionManagementConfigurer {
         hp.setProperty("hibernate.c3p0.testConnectionOnCheckout", "true");
 
         LocalSessionFactoryBuilder sfb = new LocalSessionFactoryBuilder(dataSource);
-        sfb.scanPackages("com.zettaset.domains", "com.sharepast.domains.user");
+        sfb.scanPackages("com.sharepast.domain", "com.sharepast.domain.user");
         sfb.addProperties(hp);
 
         return sfb.buildSessionFactory();

@@ -1,7 +1,7 @@
 package com.sharepast.freemarker;
 
 import com.sharepast.domain.user.User;
-import com.sharepast.security.Subject;
+import com.sharepast.service.Subject;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 

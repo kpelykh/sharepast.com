@@ -1,4 +1,4 @@
-package java.com.maxmind.geoip;
+package com.maxmind.geoip;
 // generated automatically from admin/generate_regionName.pl
 public class RegionName {
 static public String regionNameByCode(String country_code,String region_code) {

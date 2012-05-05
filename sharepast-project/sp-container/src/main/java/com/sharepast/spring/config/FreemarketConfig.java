@@ -1,4 +1,4 @@
-package com.sharepast.http;
+package com.sharepast.spring.config;
 
 import com.sharepast.freemarker.GetUserMethod;
 import com.sharepast.freemarker.NlsMethod;
@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -66,12 +67,8 @@ public class FreemarketConfig {
     }
 
     @Bean
-    Map build() {
-        Map<String, String> buildMap = new HashMap<String, String>();
-        buildMap.put("version", Build.getVersion());
-        buildMap.put("timestamp", Build.getTimestamp());
-        buildMap.put("buildId", Build.getUniqueBuildId());
-        return buildMap;
+    List<Build.ComponentInfo> build() {
+        return Build.getComponents();
     }
 
 

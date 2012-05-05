@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@DependsOn("txAspect")
 @Repository("geographicLocationDao")
 @Transactional( propagation = Propagation.REQUIRED, rollbackFor = HibernateException.class)
 public class GeographicLocationImpl extends GenericDAOImpl<GeographicLocationDO, Integer> implements GeographicLocation {

@@ -54,6 +54,10 @@ public class SpringConfiguration {
         getInfo();
     }
 
+    public AnnotationConfigApplicationContext getAppContext() {
+        return appContext;
+    }
+
     public boolean isContextInitialized() {
         return contextInitialized;
     }
@@ -192,31 +196,32 @@ public class SpringConfiguration {
         endLine = new char[34 + SpringConfiguration.class.getSimpleName().length()];
         Arrays.fill(endLine, '=');
 
-        Map<String, Object> ztsEnvs = Maps.filterKeys(environment.getSystemEnvironment(), new Predicate<String>() {
+        Map<String, Object> envs = Maps.filterKeys(environment.getSystemEnvironment(), new Predicate<String>() {
             @Override
             public boolean apply(String input) {
-                return input != null && input.startsWith("ZTS_");
+                return input != null && input.startsWith("SP_");
             }
         });
+
+        StringBuffer components = new StringBuffer();
+        for (Build.ComponentInfo component : Build.getComponents()) {
+            components.append("\t").append(component.toString()).append("\n");
+        }
 
         taglineBuilder
                 .append("================ ")
                 .append(SpringConfiguration.class.getSimpleName())
                 .append(" ================")
                 .append(LINE_SEPARATOR).append(LINE_SEPARATOR)
-                .append("code version: ")
-                .append(Build.getVersion())
-                .append(LINE_SEPARATOR)
-                .append("built on: ")
-                .append(Build.getTimestamp())
+                .append("SP Components: ").append(LINE_SEPARATOR)
+                .append(components.toString())
                 .append(LINE_SEPARATOR)
                 .append("current profile: ")
                 .append(environment.getActiveProfiles()[0])
                 .append(LINE_SEPARATOR)
-                .append("SharePast envs: ")
-                .append(ztsEnvs.toString())
-                .append(LINE_SEPARATOR)
-        ;
+                .append("Envs: ")
+                .append(envs.toString())
+                .append(LINE_SEPARATOR);
 
         //if ((new File(localPropertyPath.toString())).exists())
         //    taglineBuilder.append(String.format("configuration override: %s\n", localPropertyPath.toString()));

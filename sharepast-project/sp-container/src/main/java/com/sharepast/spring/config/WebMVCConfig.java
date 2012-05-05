@@ -1,4 +1,4 @@
-package com.sharepast.http;
+package com.sharepast.spring.config;
 
 
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
@@ -26,7 +26,7 @@ import java.util.Map;
 @EnableWebMvc
 @Import(FreemarketConfig.class)
 @ComponentScan(basePackages =  {"com.sharepast.mvc.controller", "com.sharepast.servlet"})
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebMVCConfig extends WebMvcConfigurerAdapter {
 
     // explicitly register session and request scopes with AnnotationConfigApplicationContext
     @Bean

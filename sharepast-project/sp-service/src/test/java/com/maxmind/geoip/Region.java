@@ -1,4 +1,4 @@
-package java.com.maxmind.geoip;
+package com.maxmind.geoip;
 
 public class Region{
   public String countryCode;

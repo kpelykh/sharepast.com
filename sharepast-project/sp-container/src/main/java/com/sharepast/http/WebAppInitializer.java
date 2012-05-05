@@ -1,6 +1,7 @@
 package com.sharepast.http;
 
 import com.sharepast.spring.SpringConfiguration;
+import com.sharepast.spring.config.WebMVCConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -29,8 +30,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
         AnnotationConfigWebApplicationContext webApplicationContext = new AnnotationConfigWebApplicationContext();
         webApplicationContext.setServletContext(servletContext);
-        webApplicationContext.setParent(SpringConfiguration.getInstance().getApplicationContext());
-        webApplicationContext.register(WebConfig.class);
+        webApplicationContext.setParent(SpringConfiguration.getInstance().getAppContext());
+        webApplicationContext.register(WebMVCConfig.class);
 
         // RequestContextListener is to add session scope in spring
         servletContext.addListener(RequestContextListener.class);

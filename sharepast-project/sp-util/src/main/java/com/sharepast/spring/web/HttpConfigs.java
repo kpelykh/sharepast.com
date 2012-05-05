@@ -1,7 +1,8 @@
-package com.sharepast.http;
+package com.sharepast.spring.web;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -40,9 +41,8 @@ public class HttpConfigs implements InitializingBean {
 
     private @Value("${ssl.enabled}") Boolean enableSSL;
 
-    private @Value("${jetty.web.default}") String webDefault;
-    
-    private @Value("${web.resource.base}") String resourceBase;
+    private @Value("${jetty.web.default}") FileSystemResource webDefault;
+    private @Value("${web.resource.base}") FileSystemResource resourceBase;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -99,11 +99,19 @@ public class HttpConfigs implements InitializingBean {
     }
 
     public String getResourceBase() {
-        return resourceBase;
+        try {
+            return resourceBase.getFile().getCanonicalPath();
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public String getWebDefault() {
-        return webDefault;
+        try {
+            return webDefault.getFile().getCanonicalPath();
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public void validate() {
@@ -156,8 +164,4 @@ public class HttpConfigs implements InitializingBean {
         return false;
     }
 
-    public String getContextPath() {
-        return "/";
-    }
 }
-

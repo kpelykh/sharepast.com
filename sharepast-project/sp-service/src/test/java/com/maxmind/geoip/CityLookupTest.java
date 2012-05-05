@@ -1,4 +1,4 @@
-package java.com.maxmind.geoip;/* CityLookupTest.java */
+package com.maxmind.geoip;/* CityLookupTest.java */
 
 import com.sharepast.spring.config.BaseConfig;
 import com.sharepast.spring.SpringConfiguration;

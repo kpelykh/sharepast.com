@@ -1,7 +1,9 @@
-package com.sharepast.http;
+package com.sharepast.spring.components;
 
-import com.sharepast.spring.ContextListener;
-import org.eclipse.jetty.http.ssl.SslContextFactory;
+import com.sharepast.http.SPAnnotationConfiguration;
+import com.sharepast.spring.web.HttpConfigs;
+import com.sharepast.spring.web.AbstractHttpServer;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Server;
@@ -10,16 +12,17 @@ import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
+import org.springframework.web.context.request.RequestContextListener;
 
 import java.io.IOException;
+import java.util.EventListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,50 +33,52 @@ import java.io.IOException;
  */
 @Component
 @Import({HttpConfigs.class})
-public class HttpServer extends ContextListener implements DisposableBean {
+public class WebHttpServer extends AbstractHttpServer {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HttpServer.class);
+    public static final int HTTP_SESSION_TIMEOUT = 30; //in minutes
 
-    private Server jettyServer;
+    @Autowired protected HttpConfigs configs;
 
-    @Autowired
-    public HttpServer(HttpConfigs configs) {
+    @Autowired protected ApplicationContext appContext;
+
+    @Override
+    public void afterStartup(ApplicationContext context) {
+
         // Create an instance of Jetty Web server
-        jettyServer = new Server();
-        jettyServer.setGracefulShutdown(1000);
-        jettyServer.setStopAtShutdown(true);
-        jettyServer.setThreadPool(new QueuedThreadPool(50));
+        server = new Server();
+        server.setGracefulShutdown(5000);
+        server.setStopAtShutdown(true);
+        server.setThreadPool(new QueuedThreadPool(50));
 
-        initConnnector(jettyServer, configs);
+        initConnnector(server, configs);
 
         try {
-            initWebappContext(jettyServer,configs);
+            initWebappContext(server, configs);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+
     }
 
-    private void initWebappContext(Server server, HttpConfigs configs)
-            throws IOException {
-
-        WebAppContext context = new WebAppContext();
-        context.setContextPath(configs.getContextPath());
-        context.setDefaultsDescriptor(configs.getWebDefault());
-        context.setResourceBase(configs.getResourceBase());
-        context.setParentLoaderPriority(true);
+    protected void initWebappContext(Server server, HttpConfigs configs) throws IOException {
+        WebAppContext ctxUI = new WebAppContext();
 
         //see http://jira.codehaus.org/browse/JETTY-467
-        context.setInitParameter(SessionManager.__SessionIdPathParameterNameProperty, "none");
+        ctxUI.setInitParameter(SessionManager.__SessionIdPathParameterNameProperty, "none");
+        ctxUI.setResourceBase(configs.getResourceBase());
+        ctxUI.setDefaultsDescriptor(configs.getWebDefault());
 
-        context.setConfigurations(new Configuration[]{
+        // RequestContextListener is to add session scope in spring
+        ctxUI.setEventListeners(new EventListener[]{new RequestContextListener(), new HttpSessionEventPublisher()});
+        ctxUI.getSessionHandler().getSessionManager().setMaxInactiveInterval(HTTP_SESSION_TIMEOUT*60);
+
+        ctxUI.setConfigurations(new Configuration[]{
                 new SPAnnotationConfiguration(), new WebXmlConfiguration(),
                 new WebInfConfiguration(), new TagLibConfiguration(),
                 new PlusConfiguration(), new MetaInfConfiguration(),
                 new FragmentConfiguration(), new EnvConfiguration()});
 
-
-        server.setHandler(context);
-
+        server.setHandler(ctxUI);
     }
 
     private void initConnnector(Server server, HttpConfigs config) {
@@ -120,41 +125,5 @@ public class HttpServer extends ContextListener implements DisposableBean {
         httpsConnector.setHost(config.getHttpHost());
 
         server.addConnector(httpsConnector);
-    }
-
-
-    public void start() throws Exception {
-        Assert.notNull(jettyServer);
-
-        jettyServer.start();
-
-    }
-
-    @Override
-    public void afterStartup(ApplicationContext context) {
-    }
-
-    public void shutdown(ApplicationContext context) {
-        Assert.notNull(jettyServer);
-
-        try {
-            jettyServer.stop();
-        } catch (Exception e) {
-            LOG.error("Error occurred while stopping the Jetty server", e);
-        }
-
-    }
-
-    @Override
-    public void afterShutdown() {
-    }
-
-    public Server getJettyServer() {
-        return jettyServer;
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        jettyServer.stop();
     }
 }

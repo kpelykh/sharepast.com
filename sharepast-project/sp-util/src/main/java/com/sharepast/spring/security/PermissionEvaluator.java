@@ -1,7 +1,3 @@
-/**
- * (C) Copyright 2010-2012, ZettaSet Inc. All rights reserved.
- * ZettaSet PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.sharepast.spring.security;
 
 import org.slf4j.Logger;

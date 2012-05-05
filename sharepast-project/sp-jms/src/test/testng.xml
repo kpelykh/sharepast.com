@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="Sharepast JMS Test Suite" verbose="1" thread-count="1" preserve-order="true">
+    <test name="jms">
+        <packages>
+            <package name="com.sharepast.tests.jms"/>
+        </packages>
+    </test>
+</suite>
+

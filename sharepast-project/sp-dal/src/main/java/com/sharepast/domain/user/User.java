@@ -25,9 +25,9 @@ import java.util.*;
 
 @Entity
 @org.hibernate.annotations.AccessType("field")
-@Table(name = "users")
+@Table(name = "sp_user")
 @Cache(usage= CacheConcurrencyStrategy.READ_WRITE)
-public class User extends IEntity<Long> implements UserDetails {
+public class User extends IEntity<Integer> implements UserDetails {
 
     @Transient
     @Autowired

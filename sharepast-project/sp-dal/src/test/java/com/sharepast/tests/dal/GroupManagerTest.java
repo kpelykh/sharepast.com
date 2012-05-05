@@ -2,10 +2,7 @@ package com.sharepast.tests.dal;
 
 import com.sharepast.dao.GroupManager;
 import com.sharepast.dao.UserDAO;
-import com.sharepast.domain.user.Group;
-import com.sharepast.domain.user.Permission;
-import com.sharepast.domain.user.StaticGroups;
-import com.sharepast.domain.user.User;
+import com.sharepast.domain.user.*;
 import com.sharepast.spring.SpringConfiguration;
 import com.sharepast.spring.config.BaseConfig;
 import com.sharepast.spring.config.HibernateConfiguration;
@@ -75,7 +72,7 @@ public class GroupManagerTest extends SpringContextSupport {
         user.setUsername("testng001");
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
-        user.setEmail("testng001@zettaset.com");
+        user.setEmail("testng001@sharepast.com");
         user.setEnabled(false);
         user.setFirstName("testng001");
         user.setLastName("testng001");
@@ -120,9 +117,9 @@ public class GroupManagerTest extends SpringContextSupport {
         assertTrue(groups.size() > 0);
 
         List<GrantedAuthority> adminPermissions = groupManager.findGroupAuthorities(StaticGroups.ROLE_ADMIN.getGroup().getName());
-        assertEquals(adminPermissions, adminPermissions);
+        assertEquals(adminPermissions, adminGroup.getPermissions());
 
-        assertEquals(groupManager.findGroupAuthorities(StaticGroups.ROLE_USER.getGroup().getName()), adminPermissions);
+        assertEquals(groupManager.findGroupAuthorities(StaticGroups.ROLE_USER.getGroup().getName()), userAuthorities);
         groupManager.flush();
 
     }
