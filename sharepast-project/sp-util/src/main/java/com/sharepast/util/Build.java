@@ -25,9 +25,6 @@ import java.util.*;
 public class Build {
     private static final Logger LOG = LoggerFactory.getLogger(Build.class);
 
-    protected static volatile BuildComponentClasspathMetadata streamBuilder = new BuildComponentClasspathMetadata();
-
-    public static final String NA = "none";
     private static boolean isLoaded = false;
 
     public static final String[] modules = new String[]
@@ -62,7 +59,7 @@ public class Build {
         InputStream is;
 
         for (String module : modules) {
-            is = streamBuilder.getStream(module);
+            is = Build.class.getResourceAsStream( String.format( "/META-INF/maven/com.sharepast/%s/pom.properties", module) );
             if (is != null)
                 processComponent(module, is);
         }
@@ -84,15 +81,10 @@ artifactId=sp-assembly
  */
         BufferedReader r = new BufferedReader(new InputStreamReader(is, Charset.forName("utf8")));
 
-        String line, timestamp = null, version = null;
+        String line, version = null;
 
         while ((line = r.readLine()) != null) {
-            if (line.startsWith("#")) {
-                if (line.contains("Maven"))
-                    continue;
-
-                timestamp = line.substring(1);
-            } else if (line.startsWith("version")) {
+            if (line.startsWith("version")) {
                 version = line.substring(8);
                 break;
             }
@@ -100,14 +92,23 @@ artifactId=sp-assembly
 
         r.close();
 
-        components.add(new ComponentInfo(module, version));
+        GitRepositoryState grs = getGitRepositoryState(module);
+
+        components.add(new ComponentInfo(module, version, grs));
     }
 
     public static class ComponentInfo {
-        public String name;
-        public String version;
+        String name;
+        String version;
+        GitRepositoryState gitState;
 
-        ComponentInfo(String name, String version) {
+        public ComponentInfo(String name, String version, GitRepositoryState gitState) {
+            this.name = name;
+            this.version = version;
+            this.gitState = gitState;
+        }
+
+        public ComponentInfo(String name, String version) {
             this.name = name;
             this.version = version;
         }
@@ -120,6 +121,10 @@ artifactId=sp-assembly
             return version;
         }
 
+        public GitRepositoryState getGitState() {
+            return gitState;
+        }
+
         @Override
         public String toString() {
             return "ComponentInfo{" +
@@ -127,5 +132,20 @@ artifactId=sp-assembly
                     ", version='" + version + '\'' +
                     '}';
         }
+    }
+
+    private static GitRepositoryState getGitRepositoryState(String module) throws IOException
+    {
+
+        Properties properties = new Properties();
+        InputStream is = Build.class.getResourceAsStream(String.format( "/%s/git.properties", module));
+        if (is != null) {
+            properties.load(is);
+            return new GitRepositoryState(properties);
+        } else {
+            return null;
+        }
+
+
     }
 }

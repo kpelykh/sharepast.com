@@ -15,13 +15,13 @@ implements ApplicationContextAware, ApplicationListener
 {
   private ApplicationContext applicationContext;
 
-  public abstract void afterStartup( ApplicationContext context );
+  public void afterStartup( ApplicationContext context ) {}
 
   public void beforeShutdown( ApplicationContext context ) {}
 
   public void afterShutdown() {};
 
-  public abstract void shutdown( ApplicationContext context );
+  public void shutdown( ApplicationContext context ) {}
 
   public void setApplicationContext( ApplicationContext applicationContext )
   {

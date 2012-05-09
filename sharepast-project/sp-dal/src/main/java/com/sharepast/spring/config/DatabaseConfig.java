@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
@@ -21,6 +22,7 @@ import java.beans.PropertyVetoException;
  * To change this template use File | Settings | File Templates.
  */
 @Configuration
+@Import(HSQLDatabase.class)
 public class DatabaseConfig {
 
     @Autowired
@@ -33,11 +35,12 @@ public class DatabaseConfig {
     private @Value("${jdbc.driver}") String jdbcDriver;
 
     @Bean(name = "dataSource")
+    @DependsOn("hsqldb") //we need this annotation here, so that DataSource destroy method is called first followed by hsqldb's shutdown
     public DataSource dataSource() {
 
         String dbUrl;
 
-        if (SpringConfiguration.isTestActive) {
+        if (env.acceptsProfiles("test")) {
             dbUrl = env.getProperty("jdbc.sp.test.url");
         } else {
             dbUrl = env.getProperty("jdbc.sp.db.url");
@@ -65,6 +68,7 @@ public class DatabaseConfig {
     }
 
     @Bean(name = "dbMigrator")
+    @DependsOn("hsqldb")
     public CustomSpringLiquibase dbMigrator(@Value("${liquibase.script}") String script,
                                             @Value("${liquibase.dropFirst}") Boolean  dropFirst,
                                             @Value("${liquibase.forceReleaseLocks}") Boolean  forceReleaseLocks,
@@ -73,9 +77,9 @@ public class DatabaseConfig {
         CustomSpringLiquibase dbMigrator = new CustomSpringLiquibase();
         dbMigrator.setDataSource(dataSource());
         dbMigrator.setChangeLog(script);
-        dbMigrator.setDropFirst(SpringConfiguration.isTestActive ? true : dropFirst);
-        dbMigrator.setExecute(SpringConfiguration.isTestActive ? true : execute);
-        dbMigrator.setPreview(SpringConfiguration.isTestActive ? false : preview);
+        dbMigrator.setDropFirst(dropFirst);
+        dbMigrator.setExecute(execute);
+        dbMigrator.setPreview(preview);
         dbMigrator.setForceReleaseLocks(forceReleaseLocks);
         return dbMigrator;
     }

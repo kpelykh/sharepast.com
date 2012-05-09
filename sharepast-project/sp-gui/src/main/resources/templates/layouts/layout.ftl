@@ -93,9 +93,9 @@ ${link}
             <a href="/contact">Contact</a>
         </p>
 
-        <#if !config.isProduction>
+        <#--<#if !config.isProduction>
             <p> ${build.version} ${build.timestamp} </p>
-        </#if>
+        </#if>-->
 
     </footer>
 

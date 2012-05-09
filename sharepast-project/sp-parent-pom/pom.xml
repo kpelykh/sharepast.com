@@ -72,6 +72,8 @@
 
         <c3p0.version>0.9.1.2</c3p0.version>
 
+        <ehcache.version>2.5.0</ehcache.version>
+
         <!-- time utils -->
         <joda.time.version>1.6</joda.time.version>
 
@@ -83,7 +85,8 @@
         <hsqldb.version>2.2.8</hsqldb.version>
 
         <!-- hibernate components -->
-        <hibernate.version>4.1.1.Final</hibernate.version>
+        <hibernate.version>4.0.1.Final</hibernate.version>
+        <hibernate.cache.version>4.0.1.Final</hibernate.cache.version>
         <hibernate.validation.version>4.2.0.Final</hibernate.validation.version>
 
         <liquibase.version>2.0.3</liquibase.version>
@@ -492,6 +495,12 @@
                 <groupId>org.apache.activemq</groupId>
                 <artifactId>activemq-web</artifactId>
                 <version>${activemq.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -619,12 +628,31 @@
                         <groupId>log4j</groupId>
                         <artifactId>log4j</artifactId>
                     </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.common</groupId>
+                <artifactId>hibernate-commons-annotations</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-ehcache</artifactId>
+                <version>${hibernate.cache.version}</version>
+                <exclusions>
                     <exclusion>
-                        <groupId>org.javassist</groupId>
-                        <artifactId>javassist</artifactId>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
+
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache-core</artifactId>
+                <version>${ehcache.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

@@ -20,6 +20,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
@@ -37,21 +38,30 @@ public class PropertiesConfig {
     private static final Log LOG = LogFactory.getLog(PropertiesConfig.class);
 
     @Bean(name = "properties")
-    public static PropertiesFactoryBean properties() {
+    public static PropertiesFactoryBean properties(Environment env) {
         PropertiesFactoryBean pfb = new PropertiesFactoryBean();
-        final Resource[] resources;
+        List<Resource> resources = new ArrayList<Resource>();
 
-        Environment env = new StandardEnvironment();
-        resources = new Resource[]{
-                new ClassPathResource("configuration.properties"),
-                new ClassPathResource(env.resolvePlaceholders("${com.sharepast.env}/environment.properties")),
-                new FileSystemResource(env.resolvePlaceholders("${user.home}/.m2/environment-${com.sharepast.env}.properties"))
-        };
+        resources.add(new ClassPathResource("configuration.properties"));
 
-        pfb.setLocations(resources);
+        if (env.acceptsProfiles("de", "test")) {
+            resources.add(new ClassPathResource(env.resolvePlaceholders("de/environment.properties")));
+            addResourceIfExists(resources, env.resolvePlaceholders("${user.home}/.m2/environment-de.properties"));
+        }
+
+        pfb.setLocations(resources.toArray(new Resource[resources.size()]));
         pfb.setSingleton(true);
         pfb.setIgnoreResourceNotFound(true);
         return pfb;
+    }
+
+    private static void addResourceIfExists(List<Resource> resources, String path) {
+        File propertisFile = new File(path);
+        if (propertisFile.exists()) {
+            resources.add(new FileSystemResource(propertisFile));
+        } else {
+            LOG.warn(String.format("Skipping loading of %s because it doesn't exist", path));
+        }
     }
 
     @Bean

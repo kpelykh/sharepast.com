@@ -28,7 +28,7 @@ public class SpringConfiguration {
 
     private static final String LINE_SEPARATOR = environment.getProperty("line.separator");
 
-    private static final String ENVIRONMENT_SYSTEM_PROPERTY = "com.sharepast.env";
+    public static final String ENVIRONMENT_SYSTEM_PROPERTY = "com.sharepast.env";
 
     private AnnotationConfigApplicationContext appContext;
 
@@ -42,14 +42,13 @@ public class SpringConfiguration {
 
     private volatile CountDownLatch latch = new CountDownLatch(0);
 
-    public static boolean isTestActive;
-
     private volatile boolean contextInitialized = false;
 
     static {
         String env = System.getProperty(ENVIRONMENT_SYSTEM_PROPERTY, "de");
         System.setProperty(ENVIRONMENT_SYSTEM_PROPERTY, env);
-        environment.setActiveProfiles(env);
+        String[] envs = env.split(",");
+        environment.setActiveProfiles(envs);
 
         getInfo();
     }

@@ -19,7 +19,7 @@ public abstract class SpringContextSupport extends SessionScopeSupport {
 
     @BeforeSuite
     public void beforeSuite() throws Exception {
-        SpringConfiguration.isTestActive = true;
+        System.setProperty(SpringConfiguration.ENVIRONMENT_SYSTEM_PROPERTY, "test");
         SpringConfiguration.getInstance().configure(getConfiguration());
         Assert.assertTrue(SpringConfiguration.getInstance().isContextInitialized());
         startSession();

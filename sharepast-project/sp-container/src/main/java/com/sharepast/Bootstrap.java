@@ -53,7 +53,7 @@ public class Bootstrap {
             OptionParser parser = new OptionParser();
 
             ResourceBundleMessageSource rb = new ResourceBundleMessageSource();
-            rb.setBasename("com.sharepast.startup.Messages");
+            rb.setBasename("com.sharepast.startup.messages");
 
 
             OptionSpec<Void> startPlatformCmd =
