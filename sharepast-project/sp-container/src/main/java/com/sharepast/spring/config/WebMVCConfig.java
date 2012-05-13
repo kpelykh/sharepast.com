@@ -9,8 +9,10 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestScope;
 import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +26,7 @@ import java.util.Map;
  */
 
 @EnableWebMvc
-@Import(FreemarketConfig.class)
+@Import(GrailsConfig.class)
 @ComponentScan(basePackages =  {"com.sharepast.mvc.controller", "com.sharepast.servlet"})
 public class WebMVCConfig extends WebMvcConfigurerAdapter {
 
@@ -48,14 +50,20 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter {
         return ppc;
     }
 
-    @Override
+   /* @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/js/**").addResourceLocations("/static/js/");
-        registry.addResourceHandler("/css/**").addResourceLocations("/static/css/");
-        registry.addResourceHandler("/img/**").addResourceLocations("/static/img/");
-        registry.addResourceHandler("/less/**").addResourceLocations("/static/less/");
-        registry.addResourceHandler("/*.txt").addResourceLocations("/static/*.txt");
-        registry.addResourceHandler("/*.txt").addResourceLocations("/static/*.txt");
-        registry.addResourceHandler("/*.ico").addResourceLocations("/static/*.ico");
+        registry.addResourceHandler("/js*//**").addResourceLocations("/static/js/");
+        registry.addResourceHandler("/css*//**").addResourceLocations("/static/css/");
+        registry.addResourceHandler("/img*//**").addResourceLocations("/static/img/");
+        registry.addResourceHandler("/less*//**").addResourceLocations("/static/less/");
+        registry.addResourceHandler("*//*.txt").addResourceLocations("/static*//*.txt");
+        registry.addResourceHandler("*//*.txt").addResourceLocations("/static*//*.txt");
+        registry.addResourceHandler("*//*.ico").addResourceLocations("/static*//*.ico");
+    }*/
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        //Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de
+        registry.addInterceptor(new LocaleChangeInterceptor());
     }
 }

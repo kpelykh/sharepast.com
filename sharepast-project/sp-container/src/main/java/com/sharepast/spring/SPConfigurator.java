@@ -1,10 +1,7 @@
 package com.sharepast.spring;
 
 import com.sharepast.spring.components.WebHttpServer;
-import com.sharepast.spring.config.BaseConfig;
-import com.sharepast.spring.config.DatabaseConfig;
-import com.sharepast.spring.config.HibernateConfiguration;
-import com.sharepast.spring.config.PropertiesConfig;
+import com.sharepast.spring.config.*;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -39,7 +36,7 @@ public class SPConfigurator {
     @ComponentScan({"com.sharepast.service", "com.sharepast.dao"})
     @ImportResource({
             "classpath:com/sharepast/config/cache.xml",
-            "classpath:com/sharepast/config/security_spring.xml",
+            "classpath:com/sharepast/config/security.xml",
             "classpath:com/sharepast/config/jmx.xml",
             "classpath:com/sharepast/config/geoip-location.xml",
             "classpath:com/sharepast/config/jms_producer.xml"})

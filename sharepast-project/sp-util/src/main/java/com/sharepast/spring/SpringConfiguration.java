@@ -65,6 +65,10 @@ public class SpringConfiguration {
         return _instance;
     }
 
+    public static StandardEnvironment getEnvironment() {
+        return environment;
+    }
+
     public  ConfigurableApplicationContext configure(Class... configurations) {
 
         //Await till shutdown method cleans up SpringConfiguration.

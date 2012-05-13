@@ -4,8 +4,6 @@ import com.sharepast.http.SPAnnotationConfiguration;
 import com.sharepast.spring.web.HttpConfigs;
 import com.sharepast.spring.web.AbstractHttpServer;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.plus.webapp.EnvConfiguration;
-import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.SessionManager;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
@@ -13,13 +11,10 @@ import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextListener;
 
 import java.io.IOException;
@@ -76,8 +71,7 @@ public class WebHttpServer extends AbstractHttpServer {
         ctxUI.setConfigurations(new Configuration[]{
                 new SPAnnotationConfiguration(), new WebXmlConfiguration(),
                 new WebInfConfiguration(), new TagLibConfiguration(),
-                new PlusConfiguration(), new MetaInfConfiguration(),
-                new FragmentConfiguration(), new EnvConfiguration()});
+                new MetaInfConfiguration(), new FragmentConfiguration()});
 
         server.setHandler(ctxUI);
     }

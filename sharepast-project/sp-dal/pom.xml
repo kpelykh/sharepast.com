@@ -50,6 +50,12 @@
         </dependency>
 
         <dependency>
+            <!-- see parent pom hibernate-core import declaration -->
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
@@ -117,14 +123,6 @@
         <resources>
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/spring</directory>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/hibernate</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>

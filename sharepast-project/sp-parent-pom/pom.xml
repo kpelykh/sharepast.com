@@ -34,11 +34,11 @@
         <jopt.simple.version>4.3</jopt.simple.version>
 
         <groovy.version>1.8.6</groovy.version>
+        <grails.version>2.0.3</grails.version>
 
         <!-- ActiveMQ -->
         <activemq.version>5.4.2</activemq.version>
         <xbean.version>3.7</xbean.version>
-        <opensymphony.sitemesh>2.2.1</opensymphony.sitemesh>
         <!-- Java Service Wrapper 3.3.9 -->
         <tanukisoft.version>3.2.3</tanukisoft.version>
 
@@ -181,6 +181,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- it imports xml-apis which gets into grails-maven-plugin way -->
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -352,6 +359,39 @@
                 <version>${hsqldb.version}</version>
             </dependency>
 
+            <!-- Grails -->
+
+            <dependency>
+                <groupId>org.grails</groupId>
+                <artifactId>grails-core</artifactId>
+                <version>${grails.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.grails</groupId>
+                <artifactId>grails-web</artifactId>
+                <version>${grails.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.grails</groupId>
+                <artifactId>grails-plugin-url-mappings</artifactId>
+                <version>${grails.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.grails</groupId>
+                <artifactId>grails-resources</artifactId>
+                <version>${grails.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.grails</groupId>
+                <artifactId>grails-webflow</artifactId>
+                <version>${grails.version}</version>
+            </dependency>
+
+
             <!-- Command line parsing -->
             <dependency>
                 <groupId>net.sf.jopt-simple</groupId>
@@ -510,12 +550,6 @@
             </dependency>
 
             <dependency>
-                <groupId>opensymphony</groupId>
-                <artifactId>sitemesh</artifactId>
-                <version>${opensymphony.sitemesh}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>tanukisoft</groupId>
                 <artifactId>wrapper</artifactId>
                 <version>${tanukisoft.version}</version>
@@ -561,6 +595,12 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -631,6 +671,12 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <!-- see parent pom hibernate-core import declaration -->
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
+            </dependency>
+            <dependency>
                 <groupId>org.hibernate.common</groupId>
                 <artifactId>hibernate-commons-annotations</artifactId>
                 <version>${hibernate.version}</version>
@@ -697,6 +743,24 @@
                             <groupId>org.aspectj</groupId>
                             <artifactId>aspectjtools</artifactId>
                             <version>${aspectj.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.groovy.maven</groupId>
+                    <artifactId>gmaven-plugin</artifactId>
+                    <version>${gmaven.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.gmaven.runtime</groupId>
+                            <artifactId>gmaven-runtime-1.8</artifactId>
+                            <version>1.4</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy-all</artifactId>
+                            <version>${groovy.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>

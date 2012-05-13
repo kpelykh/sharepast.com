@@ -48,10 +48,8 @@ public class BaseConfig {
     @Bean
     public ReloadableResourceBundleMessageSource messageSource()
     {
-
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames( new String[] {
-                "classpath:/com/sharepast/startup/messages"});
+        messageSource.setBasenames("classpath:/com/sharepast/startup/messages");
         messageSource.setCacheSeconds( 0 );
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
