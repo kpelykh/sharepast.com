@@ -32,7 +32,7 @@ public class HSQLDatabase extends ContextListener implements InitializingBean, D
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (!env.acceptsProfiles("test", "de")) return;
+        if (!env.acceptsProfiles("test", "development")) return;
 
         HsqlProperties props = new HsqlProperties();
 
@@ -70,7 +70,7 @@ public class HSQLDatabase extends ContextListener implements InitializingBean, D
 
     @Override
     public void destroy() throws Exception {
-        if (!env.acceptsProfiles("test", "de")) return;
+        if (!env.acceptsProfiles("test", "development")) return;
 
         server.shutdown();
         int count = 0;

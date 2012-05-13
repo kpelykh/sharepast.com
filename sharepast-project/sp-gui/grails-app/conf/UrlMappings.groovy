@@ -8,6 +8,11 @@ class UrlMappings {
 		}
 
 		"/"(view:"/index")
-		"500"(view:'/error')
+
+        "403"(view: "/errors/forbidden")
+        "404"(view: "/errors/notFound")
+        "500"(view: "/errors/serverError")
+
+
 	}
 }

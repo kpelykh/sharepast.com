@@ -45,7 +45,7 @@ public class SpringConfiguration {
     private volatile boolean contextInitialized = false;
 
     static {
-        String env = System.getProperty(ENVIRONMENT_SYSTEM_PROPERTY, "de");
+        String env = System.getProperty(ENVIRONMENT_SYSTEM_PROPERTY, "development");
         System.setProperty(ENVIRONMENT_SYSTEM_PROPERTY, env);
         String[] envs = env.split(",");
         environment.setActiveProfiles(envs);

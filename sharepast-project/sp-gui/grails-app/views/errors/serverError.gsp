@@ -1,6 +1,8 @@
+<g:applyLayout name="error">
 <html>
 <head>
     <title>Grails Runtime Exception</title>
+    <meta content="error" name="layout"/>
     <style type="text/css">
     .message {
         border: 1px solid black;
@@ -44,3 +46,4 @@
 </div>
 </body>
 </html>
+</g:applyLayout>

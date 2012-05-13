@@ -44,9 +44,12 @@ public class PropertiesConfig {
 
         resources.add(new ClassPathResource("configuration.properties"));
 
-        if (env.acceptsProfiles("de", "test")) {
-            resources.add(new ClassPathResource(env.resolvePlaceholders("de/environment.properties")));
-            addResourceIfExists(resources, env.resolvePlaceholders("${user.home}/.m2/environment-de.properties"));
+        if (env.acceptsProfiles("development", "test")) {
+            resources.add(new ClassPathResource(env.resolvePlaceholders("development/environment.properties")));
+            addResourceIfExists(resources, env.resolvePlaceholders("${user.home}/.m2/environment-development.properties"));
+        } else if (env.acceptsProfiles("production")) {
+            resources.add(new ClassPathResource(env.resolvePlaceholders("production/environment.properties")));
+            addResourceIfExists(resources, env.resolvePlaceholders("${user.home}/.m2/environment-production.properties"));
         }
 
         pfb.setLocations(resources.toArray(new Resource[resources.size()]));

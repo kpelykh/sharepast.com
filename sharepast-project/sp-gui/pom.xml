@@ -25,6 +25,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.springsource.springloaded</groupId>
+            <artifactId>springloaded-core</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-core</artifactId>
         </dependency>
@@ -128,8 +134,8 @@
             <executions>
                 <execution>
                     <goals>
-                        <goal>maven-clean</goal>
-                        <goal>validate</goal>
+                        <!--<goal>maven-clean</goal>-->
+                        <!--<goal>validate</goal>-->
                         <goal>maven-compile</goal>
                         <!--<goal>maven-test</goal>-->
                         <!--<goal>maven-war</goal>-->

@@ -36,7 +36,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class GrailsConfig {
 
     @Bean
-    public GrailsApplicationFactoryBean grailsApplication(GrailsResourceLoader resourceLoader, @Value("${grails.descriptor}") Resource grailsDescriptor) {
+    public GrailsApplicationFactoryBean grailsApplication(GrailsResourceLoader resourceLoader,
+                                                          @Value("${grails.descriptor}") FileSystemResource grailsDescriptor) {
         GrailsApplicationFactoryBean grailsApp = new GrailsApplicationFactoryBean();
         grailsApp.setGrailsResourceLoader(resourceLoader);
         grailsApp.setGrailsDescriptor(grailsDescriptor);
@@ -108,7 +109,8 @@ public class GrailsConfig {
     }*/
 
     @Bean
-    public GrailsPluginManagerFactoryBean pluginManager(ApplicationContext ctx, GrailsApplication grailsApplication, @Value("${grails.descriptor}") Resource grailsDescriptor) {
+    public GrailsPluginManagerFactoryBean pluginManager(ApplicationContext ctx, GrailsApplication grailsApplication,
+                                                        @Value("${grails.descriptor}") FileSystemResource grailsDescriptor) {
         GrailsPluginManagerFactoryBean grailsPluginManagerFactoryBean = new GrailsPluginManagerFactoryBean();
         grailsPluginManagerFactoryBean.setApplication(grailsApplication);
         grailsPluginManagerFactoryBean.setApplicationContext(ctx);

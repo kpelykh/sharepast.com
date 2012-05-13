@@ -3,6 +3,7 @@ package com.sharepast.spring.components;
 import com.sharepast.http.SPAnnotationConfiguration;
 import com.sharepast.spring.web.HttpConfigs;
 import com.sharepast.spring.web.AbstractHttpServer;
+import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.SessionManager;
@@ -31,8 +32,6 @@ import java.util.EventListener;
 @Import({HttpConfigs.class})
 public class WebHttpServer extends AbstractHttpServer {
 
-    public static final int HTTP_SESSION_TIMEOUT = 30; //in minutes
-
     @Autowired protected HttpConfigs configs;
 
     @Autowired protected ApplicationContext appContext;
@@ -60,13 +59,8 @@ public class WebHttpServer extends AbstractHttpServer {
         WebAppContext ctxUI = new WebAppContext();
 
         //see http://jira.codehaus.org/browse/JETTY-467
-        ctxUI.setInitParameter(SessionManager.__SessionIdPathParameterNameProperty, "none");
         ctxUI.setResourceBase(configs.getResourceBase());
         ctxUI.setDefaultsDescriptor(configs.getWebDefault());
-
-        // RequestContextListener is to add session scope in spring
-        ctxUI.setEventListeners(new EventListener[]{new RequestContextListener(), new HttpSessionEventPublisher()});
-        ctxUI.getSessionHandler().getSessionManager().setMaxInactiveInterval(HTTP_SESSION_TIMEOUT*60);
 
         ctxUI.setConfigurations(new Configuration[]{
                 new SPAnnotationConfiguration(), new WebXmlConfiguration(),
