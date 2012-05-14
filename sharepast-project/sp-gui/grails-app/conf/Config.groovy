@@ -36,6 +36,8 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 // What URL patterns should be processed by the resources plugin
 grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
 
+grails.reload.enabled=true
+grails.gsp.disable.caching.resources=true
 grails.gsp.enable.reload=true
 grails.gsp.view.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
 

@@ -78,6 +78,7 @@ public class PropertiesConfig {
         properties.put("web.resource.base", convertToResource(ctx, properties, "web.resource.base"));
         properties.put("grails.descriptor", convertToResource(ctx, properties, "grails.descriptor"));
         properties.put("grails.resources", convertToResource(ctx, properties, "grails.resources"));
+        properties.put("grails.base", convertToResource(ctx, properties, "grails.base"));
         properties.put("jetty.web.default", convertToResource(ctx, properties, "jetty.web.default"));
         properties.put("log.dir", convertToResource(ctx, properties, "log.dir"));
         properties.put("config.path", convertToResource(ctx, properties, "config.path"));

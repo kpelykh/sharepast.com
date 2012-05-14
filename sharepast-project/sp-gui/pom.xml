@@ -24,11 +24,11 @@
             <artifactId>groovy-all</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.springsource.springloaded</groupId>
             <artifactId>springloaded-core</artifactId>
             <version>1.0.5</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.grails</groupId>
@@ -96,6 +96,11 @@
         </dependency>
         <dependency>
             <groupId>org.grails</groupId>
+            <artifactId>grails-plugin-i18n</artifactId>
+            <version>${grails.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.grails</groupId>
             <artifactId>grails-plugin-converters</artifactId>
             <version>${grails.version}</version>
         </dependency>
@@ -134,8 +139,8 @@
             <executions>
                 <execution>
                     <goals>
-                        <!--<goal>maven-clean</goal>-->
-                        <!--<goal>validate</goal>-->
+                        <goal>maven-clean</goal>
+                        <goal>validate</goal>
                         <goal>maven-compile</goal>
                         <!--<goal>maven-test</goal>-->
                         <!--<goal>maven-war</goal>-->

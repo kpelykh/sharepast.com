@@ -42,7 +42,6 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    @DependsOn("pathPostProcess")
     public static PropertySourcesPlaceholderConfigurer ppc(ConfigurableEnvironment env){
         PropertySourcesPlaceholderConfigurer ppc = new PropertySourcesPlaceholderConfigurer();
         ppc.setPropertySources(env.getPropertySources());

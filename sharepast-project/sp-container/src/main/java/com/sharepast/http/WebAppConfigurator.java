@@ -2,6 +2,7 @@ package com.sharepast.http;
 
 import com.sharepast.spring.SpringConfiguration;
 import com.sharepast.spring.config.WebMVCConfig;
+import grails.util.BuildSettings;
 import org.codehaus.groovy.grails.commons.ApplicationAttributes;
 import org.codehaus.groovy.grails.web.context.GrailsConfigUtils;
 import org.codehaus.groovy.grails.web.filters.HiddenHttpMethodFilter;
@@ -49,6 +50,9 @@ public class WebAppConfigurator implements WebApplicationInitializer {
     public void onStartup(ServletContext container) throws ServletException {
 
         Environment env = SpringConfiguration.getInstance().getBean(Environment.class);
+
+        //Grails is using this property to resolve base dir of the project
+        System.setProperty(BuildSettings.APP_BASE_DIR, env.getProperty("grails.base"));
 
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
         applicationContext.setServletContext(container);

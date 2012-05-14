@@ -515,6 +515,12 @@
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jsp-2.1-glassfish</artifactId>
                 <version>${javax-servlet-jsp-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>ant</groupId>
+                        <artifactId>ant</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- ActiveMQ related -->

@@ -21,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -33,6 +34,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
  * To change this template use File | Settings | File Templates.
  */
 @Configuration
+@Import(GrailsProjectWatcher.class)
 public class GrailsConfig {
 
     @Bean

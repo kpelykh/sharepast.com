@@ -3,6 +3,7 @@ package helloworld
 class HelloController {
 
     def index() {
-        render "Hello World!"
+        def msg = message(code:"error.404.main.page")
+        render msg
     }
 }
