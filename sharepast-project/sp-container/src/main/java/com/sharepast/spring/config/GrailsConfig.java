@@ -7,24 +7,30 @@ import org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean;
 import org.codehaus.groovy.grails.commons.spring.GrailsResourceHolder;
 import org.codehaus.groovy.grails.commons.spring.GrailsRuntimeConfigurator;
 import org.codehaus.groovy.grails.compiler.support.GrailsResourceLoader;
+import org.codehaus.groovy.grails.core.io.DefaultResourceLocator;
 import org.codehaus.groovy.grails.plugins.GrailsPluginManager;
 import org.codehaus.groovy.grails.plugins.GrailsPluginManagerFactoryBean;
 import org.codehaus.groovy.grails.web.pages.DefaultGroovyPagesUriService;
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine;
 import org.codehaus.groovy.grails.web.pages.GroovyPagesUriService;
+import org.codehaus.groovy.grails.web.pages.discovery.CachingGroovyPageStaticResourceLocator;
 import org.codehaus.groovy.grails.web.pages.discovery.GrailsConventionGroovyPageLocator;
 import org.codehaus.groovy.grails.web.pages.discovery.GroovyPageLocator;
 import org.codehaus.groovy.grails.web.servlet.view.GrailsViewResolver;
 import org.codehaus.groovy.grails.web.sitemesh.GroovyPageLayoutFinder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.filter.CharacterEncodingFilter;
+
+import java.io.File;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,6 +42,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @Configuration
 @Import(GrailsProjectWatcher.class)
 public class GrailsConfig {
+
+    @Autowired Environment env;
 
     @Bean
     public GrailsApplicationFactoryBean grailsApplication(GrailsResourceLoader resourceLoader,
@@ -103,12 +111,12 @@ public class GrailsConfig {
         return new GrailsResourceLoaderFactoryBean();
     }
 
-    /*@Bean
+    @Bean
     public GrailsResourceHolder grailsResourceHolder(@Value("${grails.resources}") FileSystemResource grailsResources) {
         GrailsResourceHolder resourceHolder = new GrailsResourceHolder();
         resourceHolder.setResources(new Resource[] {grailsResources});
         return resourceHolder;
-    }*/
+    }
 
     @Bean
     public GrailsPluginManagerFactoryBean pluginManager(ApplicationContext ctx, GrailsApplication grailsApplication,

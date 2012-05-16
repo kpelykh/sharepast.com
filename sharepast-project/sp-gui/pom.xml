@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.sharepast</groupId>
     <artifactId>sharepast</artifactId>
-  <version>1-SNAPSHOT</version>
+    <version>1-SNAPSHOT</version>
   </parent>
 
   <artifactId>sp-gui</artifactId>
@@ -24,11 +24,11 @@
             <artifactId>groovy-all</artifactId>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>com.springsource.springloaded</groupId>
             <artifactId>springloaded-core</artifactId>
-            <version>1.0.5</version>
-        </dependency>-->
+            <version>1.0.6</version>
+        </dependency>
 
         <dependency>
             <groupId>org.grails</groupId>
@@ -138,16 +138,16 @@
             <extensions>true</extensions>
             <executions>
                 <execution>
+                    <id>general</id>
                     <goals>
                         <goal>maven-clean</goal>
-                        <goal>validate</goal>
                         <goal>maven-compile</goal>
-                        <!--<goal>maven-test</goal>-->
-                        <!--<goal>maven-war</goal>-->
-                        <!--<goal>maven-functional-test</goal>-->
                     </goals>
                 </execution>
             </executions>
+            <configuration>
+                <grailsHome>${basedir}/grails-app</grailsHome>
+            </configuration>
         </plugin>
 <!--
         <plugin>

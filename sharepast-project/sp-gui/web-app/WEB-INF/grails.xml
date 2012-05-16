@@ -1,0 +1,24 @@
+<grails>
+  <resources>
+    <resource>org.grails.plugin.resource.CSSPreprocessorResourceMapper</resource>
+    <resource>org.grails.plugin.resource.CSSRewriterResourceMapper</resource>
+    <resource>JQueryResourceTagLib</resource>
+    <resource>org.grails.plugin.resource.BundleResourceMapper</resource>
+    <resource>ResourcesBootStrap</resource>
+    <resource>JQueryService</resource>
+    <resource>JQueryPluginResources</resource>
+    <resource>JQueryTagLib</resource>
+    <resource>org.grails.plugin.resource.ResourceTagLib</resource>
+    <resource>JQueryConfig</resource>
+    <resource>resources</resource>
+    <resource>Config</resource>
+    <resource>BootStrap</resource>
+    <resource>UrlMappings</resource>
+    <resource>ApplicationResources</resource>
+    <resource>helloworld.HelloController</resource>
+  </resources>
+  <plugins>
+    <plugin>JqueryGrailsPlugin</plugin>
+    <plugin>ResourcesGrailsPlugin</plugin>
+  </plugins>
+</grails>

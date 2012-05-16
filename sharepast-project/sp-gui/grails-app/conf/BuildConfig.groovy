@@ -1,5 +1,6 @@
 import com.sharepast.spring.SpringConfiguration
 
+grails.project.work.dir = "target"
 grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.class.dir = "target/classes"
 grails.project.plugin.class.dir = "target/classes"
@@ -7,6 +8,10 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
+//for correct jquery plugin resources resolution
+grails.project.plugins.dir = "plugins"
+//for correct resource (i18n) resolution
+grails.project.resource.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.dependency.resolution = {
@@ -15,9 +20,7 @@ grails.project.dependency.resolution = {
         // uncomment to disable ehcache
         // excludes 'ehcache'
     }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
-    checksums true // Whether to verify checksums on resolve
-
+    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
         inherits true // Whether to inherit repository definitions from plugins
         grailsPlugins()
@@ -35,19 +38,11 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
         // runtime 'mysql:mysql-connector-java:5.1.16'
     }
 
     plugins {
         runtime ":jquery:1.7.1"
         runtime ":resources:1.1.6"
-
-        // Uncomment these (or add new ones) to enable additional resources capabilities
-        //runtime ":zipped-resources:1.0"
-        //runtime ":cached-resources:1.0"
-        //runtime ":yui-minify-resources:0.1.4"
-
-        build ":tomcat:$grailsVersion"
     }
 }

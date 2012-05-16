@@ -1,9 +1,13 @@
 package com.sharepast.http;
 
+import com.google.common.collect.Lists;
 import com.sharepast.spring.SpringConfiguration;
 import com.sharepast.spring.config.WebMVCConfig;
+import com.sun.tools.javac.util.List;
 import grails.util.BuildSettings;
+import grails.util.BuildSettingsHolder;
 import org.codehaus.groovy.grails.commons.ApplicationAttributes;
+import org.codehaus.groovy.grails.commons.spring.GrailsWebApplicationContext;
 import org.codehaus.groovy.grails.web.context.GrailsConfigUtils;
 import org.codehaus.groovy.grails.web.filters.HiddenHttpMethodFilter;
 import org.codehaus.groovy.grails.web.mapping.filter.UrlMappingsFilter;
@@ -16,16 +20,20 @@ import org.eclipse.jetty.server.SessionManager;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.*;
+import java.io.File;
 import java.util.EnumSet;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -54,6 +62,10 @@ public class WebAppConfigurator implements WebApplicationInitializer {
         //Grails is using this property to resolve base dir of the project
         System.setProperty(BuildSettings.APP_BASE_DIR, env.getProperty("grails.base"));
 
+        BuildSettings buildSettings = new BuildSettings(null, new File(env.getProperty("grails.base")));
+        buildSettings.loadConfig();
+        BuildSettingsHolder.setSettings(buildSettings);
+
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
         applicationContext.setServletContext(container);
         applicationContext.setParent(SpringConfiguration.getInstance().getAppContext());
@@ -61,7 +73,7 @@ public class WebAppConfigurator implements WebApplicationInitializer {
         applicationContext.refresh();
 
         container.setAttribute(ApplicationAttributes.APPLICATION_CONTEXT, applicationContext);
-        WebApplicationContext springWebContext = GrailsConfigUtils.configureWebApplicationContext(container, applicationContext);
+        GrailsWebApplicationContext grailsWebContext = (GrailsWebApplicationContext) GrailsConfigUtils.configureWebApplicationContext(container, applicationContext);
 
         WebAppContext webAppContext = (WebAppContext)((WebAppContext.Context) container).getContextHandler();
 
@@ -111,7 +123,7 @@ public class WebAppConfigurator implements WebApplicationInitializer {
         characterEncodingFilter.addMappingForUrlPatterns(null, false, "/*");
 
         // spring security
-        container.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain", springWebContext))
+        container.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain", grailsWebContext))
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.ERROR, DispatcherType.REQUEST, DispatcherType.FORWARD), false, "/*");
 
         //spring dispatcher

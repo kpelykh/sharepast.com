@@ -39,7 +39,9 @@ grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
 grails.reload.enabled=true
 grails.gsp.disable.caching.resources=true
 grails.gsp.enable.reload=true
-grails.gsp.view.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
+//grails.gsp.view.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
+
+grails.views.javascript.library="jquery"
 
 // The default codec used to encode data with ${}
 grails.views.default.codec = "none" // none, html, base64
@@ -69,9 +71,11 @@ grails.hibernate.cache.queries = true
 environments {
     development {
         grails.logging.jul.usebridge = true
+        grails.serverURL = "http://localhost:9090/"
     }
     production {
         grails.logging.jul.usebridge = false
+        grails.serverURL = "http://localhost:9090/"
         // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }
@@ -96,4 +100,8 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+}
+
+jquery {
+    sources = 'js/jquery' // Holds the value where to store jQuery-js files /web-app/js/
 }

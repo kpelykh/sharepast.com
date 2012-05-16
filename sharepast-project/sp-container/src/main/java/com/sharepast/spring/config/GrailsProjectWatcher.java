@@ -2,6 +2,7 @@ package com.sharepast.spring.config;
 
 import com.sharepast.spring.ContextListener;
 import grails.util.BuildSettings;
+import grails.util.BuildSettingsHolder;
 import grails.util.PluginBuildSettings;
 import groovy.util.AntBuilder;
 import org.codehaus.groovy.grails.compiler.GrailsProjectCompiler;
@@ -11,6 +12,7 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
@@ -28,15 +30,13 @@ import java.io.IOException;
 @Profile("development")
 public class GrailsProjectWatcher extends ContextListener {
 
-    private @Value("${grails.base}") FileSystemResource grailsHome;
     private @Autowired GrailsPluginManager pluginManager;
 
     @Override
     public void afterStartup(ApplicationContext context) {
-        BuildSettings buildSettings = new BuildSettings(null, grailsHome.getFile());
-        buildSettings.loadConfig();
-        GrailsProjectCompiler compiler = new GrailsProjectCompiler(new PluginBuildSettings(buildSettings, pluginManager));
+        GrailsProjectCompiler compiler = new GrailsProjectCompiler(new PluginBuildSettings(BuildSettingsHolder.getSettings(), pluginManager));
         compiler.getAnt();
+        compiler.configureClasspath();
         org.codehaus.groovy.grails.compiler.GrailsProjectWatcher watcher = new org.codehaus.groovy.grails.compiler.GrailsProjectWatcher(compiler, pluginManager);
 
         watcher.start();

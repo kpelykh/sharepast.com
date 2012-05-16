@@ -22,7 +22,7 @@ import java.beans.PropertyVetoException;
  * To change this template use File | Settings | File Templates.
  */
 @Configuration
-@Import(HSQLDatabase.class)
+@Import(HSQLDServerConfig.class)
 public class DatabaseConfig {
 
     @Autowired
@@ -38,13 +38,7 @@ public class DatabaseConfig {
     @DependsOn("hsqldb") //we need this annotation here, so that DataSource destroy method is called first followed by hsqldb's shutdown
     public DataSource dataSource() {
 
-        String dbUrl;
-
-        if (env.acceptsProfiles("test")) {
-            dbUrl = env.getProperty("jdbc.sp.test.url");
-        } else {
-            dbUrl = env.getProperty("jdbc.sp.db.url");
-        }
+        String dbUrl = env.getProperty("jdbc.sp.db.url");
 
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         try {

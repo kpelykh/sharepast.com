@@ -46,6 +46,9 @@ public class PropertiesConfig {
 
         if (env.acceptsProfiles("development", "test")) {
             resources.add(new ClassPathResource(env.resolvePlaceholders("development/environment.properties")));
+            if (env.acceptsProfiles("test")) {
+                resources.add(new ClassPathResource(env.resolvePlaceholders("development/test/environment.properties")));
+            }
             addResourceIfExists(resources, env.resolvePlaceholders("${user.home}/.m2/environment-development.properties"));
         } else if (env.acceptsProfiles("production")) {
             resources.add(new ClassPathResource(env.resolvePlaceholders("production/environment.properties")));
@@ -82,8 +85,12 @@ public class PropertiesConfig {
         properties.put("jetty.web.default", convertToResource(ctx, properties, "jetty.web.default"));
         properties.put("log.dir", convertToResource(ctx, properties, "log.dir"));
         properties.put("config.path", convertToResource(ctx, properties, "config.path"));
+        properties.put("activemq.persist", convertToResource(ctx, properties, "activemq.persist"));
         properties.put("activemq.home", convertToResource(ctx, properties, "activemq.home"));
         properties.put("activemq.base", convertToResource(ctx, properties, "activemq.base"));
+        properties.put("geoip.database.file.name", convertToResource(ctx, properties, "geoip.database.file.name"));
+        properties.put("hsqldb.location", convertToResource(ctx, properties, "hsqldb.location"));
+
 
         printProperties(env, properties);
 
