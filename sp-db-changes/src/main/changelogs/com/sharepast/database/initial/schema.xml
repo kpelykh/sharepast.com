@@ -1,0 +1,160 @@
+<databaseChangeLog
+     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.1.xsd">
+
+    <changeSet id="initial-schema-1" author="konstantin.pelykh">
+        <comment>Initial tables</comment>
+        <createTable tableName="geographic_location">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="postal_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="county" type="VARCHAR(255)"/>
+            <column name="area_code" type="VARCHAR(255)"/>
+            <column name="latitude" type="DOUBLE"/>
+            <column name="longitude" type="DOUBLE"/>
+            <column name="time_zone" type="VARCHAR(255)"/>
+            <column name="daylight_saving_change" type="CHAR"/>
+            <column name="approved" type="CHAR"/>
+            <column name="dma_name" type="VARCHAR(255)"/>
+            <column name="dma_id" type="INT"/>
+            <column name="launch_date" type="DATETIME"/>
+            <column defaultValue="DISABLED" name="status" type="VARCHAR(30)"/>
+            <column defaultValueNumeric="0" name="target_customers_count" type="INT"/>
+        </createTable>
+      </changeSet>
+      <changeSet id="initial-schema-2" author="konstantin.pelykh">
+        <createTable tableName="sp_user">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(255)" defaultValue="NULL">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(255)" defaultValue="NULL" />
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="dob" type="DATE"/>
+            <column name="dob_month" type="INT"/>
+            <column name="dob_day" type="INT"/>
+            <column name="dob_year" type="INT"/>
+            <column name="user_status" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="privacy_preferences" type="VARCHAR(255)" defaultValue="0"/>
+            <column name="notification_preferences" type="VARCHAR(255)" defaultValue="0"/>
+            <column name="user_settings" type="VARCHAR(255)"/>
+
+            <!-- Location embeded -->
+            <column name="country" type="VARCHAR(3)"/>
+            <column name="lang" type="VARCHAR(3)"/>
+            <column name="postal_code" type="VARCHAR(25)"/>
+            <column name="time_zone" type="VARCHAR(25)"/>
+            <column name="latitude" type="DOUBLE"/>
+            <column name="longitude" type="DOUBLE"/>
+            <column name="altitude" type="FLOAT"/>
+            <column name="line1" type="VARCHAR(255)"/>
+            <column name="line2" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(100)"/>
+            <column name="state" type="VARCHAR(100)"/>
+            <column name="province" type="VARCHAR(100)"/>
+            <column name="neighborhood_name" type="VARCHAR(100)"/>
+            <column name="dma_id" type="INT"/>
+            <!-- Location embeded end -->
+
+            <column name="created" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_non_expired" type="char(1)" defaultValue="NULL"/>
+            <column name="account_non_locked" type="char(1)" defaultValue="NULL"/>
+            <column name="credentials_non_expired" type="char(1)" defaultValue="NULL"/>
+            <column name="enabled" type="char(1)" defaultValue="NULL"/>
+        </createTable>
+
+        <createTable tableName="file">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(100)"/>
+            <column name="size" type="BIGINT"/>
+            <column name="mime_type" type="VARCHAR(100)"/>
+            <column name="location" type="VARCHAR(512)"/>
+            <column name="created" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+          <addAutoIncrement tableName="sp_user" columnName="id" columnDataType="int" startWith="50"/>
+          <addAutoIncrement tableName="file" columnName="id" columnDataType="int" startWith="50"/>
+
+        <rollback>
+            <dropTable tableName="sp_user"/>
+            <dropTable tableName="file"/>
+        </rollback>
+    </changeSet>
+    <changeSet id="initial-schema-3" author="konstantin.pelykh">
+        <createTable tableName="groups">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)" defaultValue="NULL" />
+        </createTable>
+
+        <createTable tableName="permission">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)" defaultValue="NULL" />
+        </createTable>
+
+        <createTable tableName="user_group">
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="group_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="user_group"
+                       columnNames="user_id,group_id"
+                       constraintName="PK_USER_GROUP"/>
+
+        <createTable tableName="group_permission">
+            <column name="group_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="permission" columnName="id" columnDataType="int" startWith="50"/>
+        <addAutoIncrement tableName="groups" columnName="id" columnDataType="int" startWith="50"/>
+
+        <addForeignKeyConstraint baseTableName="user_group" baseColumnNames="group_id" constraintName="FK_USER_GROUP_ID" referencedTableName="groups"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="user_group" baseColumnNames="user_id" constraintName="FK_USER_USER_ID" referencedTableName="sp_user"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="group_permission" baseColumnNames="group_id" constraintName="FK_PERM_GROUP_ID" referencedTableName="groups"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="group_permission" baseColumnNames="permission_id" constraintName="FK_PERM_PERM_ID" referencedTableName="permission"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+</databaseChangeLog>
