@@ -32,7 +32,7 @@ public class SPConfigurator {
     };
 
     @Configuration
-    @Import({BaseConfig.class, HibernateConfiguration.class, WebHttpServer.class})
+    @Import({BaseConfig.class, HibernateConfiguration.class, WebHttpServer.class, SecurityConfig.class})
     @ComponentScan({"com.sharepast.service", "com.sharepast.dao"})
     @ImportResource({
             "classpath:com/sharepast/config/cache.xml",

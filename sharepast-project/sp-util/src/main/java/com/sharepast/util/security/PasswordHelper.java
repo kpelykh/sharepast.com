@@ -15,8 +15,14 @@ import org.springframework.security.core.userdetails.UserDetails;
  * To change this template use File | Settings | File Templates.
  */
 public class PasswordHelper {
+
     private PasswordEncoder passwordEncoder = new PlaintextPasswordEncoder();
     private SaltSource saltSource;
+
+    public PasswordHelper(PasswordEncoder passwordEncoder, SaltSource saltSource) {
+        this.passwordEncoder = passwordEncoder;
+        this.saltSource = saltSource;
+    }
 
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;

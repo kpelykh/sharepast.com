@@ -43,10 +43,6 @@
                 logout-success-url="/login"
                 logout-url="/logout"/>
 
-        <session-management>
-            <concurrency-control max-sessions="1"/>
-        </session-management>
-
         <remember-me key="5f4dcc3b5aa765d61d8327deb882cf99" user-service-ref="userService" token-validity-seconds="86400"/>
     </http>
 
@@ -84,11 +80,6 @@
         <beans:property name="systemWideSalt" value="sharepast"/>
     </beans:bean>
 
-    <beans:bean id="passwordHelper" class="com.sharepast.util.security.PasswordHelper">
-        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
-        <beans:property name="saltSource" ref="saltSource"/>
-    </beans:bean>
-
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="passwordEncoder">
@@ -118,31 +109,6 @@
                             mode="aspectj">
         <expression-handler ref="methodSecurityExpressionHandler"/>
     </global-method-security>
-
-    <!-- Declare a custom PermissionEvaluator interface -->
-    <beans:bean class="com.sharepast.spring.security.PermissionEvaluator" id="permissionEvaluator"/>
-
-    <!-- An expression handler used to secure methods.
-         This overrides the DefaultMethodSecurityExpressionHandler to include roleHierarchy. -->
-    <beans:bean id = "methodSecurityExpressionHandler" class = "org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
-        <!-- To use hasPermission() expressions, we have to configure a PermissionEvaluator -->
-        <!-- See 15.3.2 Built-In Expression
-              @http://static.springsource.org/spring-security/site/docs/3.0.x/reference/el-access.html#el-permission-evaluator -->
-        <beans:property name="permissionEvaluator" ref="permissionEvaluator" />
-        <beans:property name="roleHierarchy" ref="roleHierarchy"/>
-    </beans:bean>
-
-
-    <beans:bean id="webSecurityExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
-        <beans:property name="permissionEvaluator" ref="permissionEvaluator" />
-        <beans:property name="roleHierarchy" ref="roleHierarchy" />
-    </beans:bean>
-
-    <!-- exposes SecurityExpressionRoot in Subject class -->
-    <beans:bean id="customSecurityExpressionHandler" class="com.sharepast.util.security.CustomSecurityExpressionHandler">
-        <beans:property name="permissionEvaluator" ref="permissionEvaluator" />
-        <beans:property name="roleHierarchy" ref="roleHierarchy"/>
-    </beans:bean>
 
     <!-- anonymous filter -->
 

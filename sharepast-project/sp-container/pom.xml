@@ -134,6 +134,14 @@
                 <directory>${basedir}/src/main/hibernate</directory>
                 <filtering>false</filtering>
             </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>sp-version.properties</include>
+                </includes>
+            </resource>
+
         </resources>
 
         <testResources>
