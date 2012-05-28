@@ -1,5 +1,8 @@
 package com.sharepast.spring.config;
 
+import com.google.common.collect.Lists;
+import grails.util.BuildSettingsHolder;
+import grails.util.PluginBuildSettings;
 import grails.web.UrlConverter;
 import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.codehaus.groovy.grails.commons.GrailsApplicationFactoryBean;
@@ -7,6 +10,7 @@ import org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean;
 import org.codehaus.groovy.grails.commons.spring.GrailsResourceHolder;
 import org.codehaus.groovy.grails.commons.spring.GrailsRuntimeConfigurator;
 import org.codehaus.groovy.grails.compiler.support.GrailsResourceLoader;
+import org.codehaus.groovy.grails.compiler.support.GrailsResourceLoaderHolder;
 import org.codehaus.groovy.grails.core.io.DefaultResourceLocator;
 import org.codehaus.groovy.grails.plugins.GrailsPluginManager;
 import org.codehaus.groovy.grails.plugins.GrailsPluginManagerFactoryBean;
@@ -31,6 +35,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,7 +55,7 @@ public class GrailsConfig {
                                                           @Value("${grails.descriptor}") FileSystemResource grailsDescriptor) {
         GrailsApplicationFactoryBean grailsApp = new GrailsApplicationFactoryBean();
         grailsApp.setGrailsResourceLoader(resourceLoader);
-        grailsApp.setGrailsDescriptor(grailsDescriptor);
+        //grailsApp.setGrailsDescriptor(grailsDescriptor);
         return grailsApp;
     }
 
@@ -107,15 +112,10 @@ public class GrailsConfig {
     }
 
     @Bean
-    public GrailsResourceLoaderFactoryBean grailsResourceLoader() {
-        return new GrailsResourceLoaderFactoryBean();
-    }
-
-    @Bean
-    public GrailsResourceHolder grailsResourceHolder(@Value("${grails.resources}") FileSystemResource grailsResources) {
-        GrailsResourceHolder resourceHolder = new GrailsResourceHolder();
-        resourceHolder.setResources(new Resource[] {grailsResources});
-        return resourceHolder;
+    public GrailsResourceLoader grailsResourceLoader() {
+        PluginBuildSettings pluginBuildSettings = new PluginBuildSettings(BuildSettingsHolder.getSettings());
+        GrailsResourceLoaderHolder.setResourceLoader(new GrailsResourceLoader(pluginBuildSettings.getArtefactResourcesForCurrentEnvironment()));
+        return GrailsResourceLoaderHolder.getResourceLoader();
     }
 
     @Bean

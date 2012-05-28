@@ -1,3 +1,0 @@
-<plugin name='i18n'>
-    <type>org.codehaus.groovy.grails.plugins.i18n.I18nGrailsPlugin</type>
-</plugin>

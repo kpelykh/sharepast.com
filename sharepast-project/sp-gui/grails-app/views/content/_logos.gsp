@@ -1,0 +1,1 @@
+<a href="${createLink(controller:'home',action:'index')}" class="brand"><g:message code="app.name" default="SharePast"/></a>

@@ -1,17 +1,18 @@
 import com.sharepast.spring.SpringConfiguration
 
-grails.project.work.dir = "target"
+grails.project.work.dir = "${basedir}/target"
 grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
-grails.project.class.dir = "target/classes"
-grails.project.plugin.class.dir = "target/classes"
-grails.project.test.class.dir = "target/test-classes"
-grails.project.test.reports.dir = "target/test-reports"
+grails.project.class.dir = "${basedir}/target/classes"
+grails.project.plugin.class.dir = "${basedir}/target/classes"
+grails.project.test.class.dir = "${basedir}/target/test-classes"
+grails.project.test.reports.dir = "${basedir}/target/test-reports"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //for correct jquery plugin resources resolution
-grails.project.plugins.dir = "plugins"
+grails.project.plugins.dir = "${basedir}/plugins"
 //for correct resource (i18n) resolution
-grails.project.resource.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
+//grails.project.resource.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
+grails.project.resource.dir="${basedir}/target/resources"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.dependency.resolution = {
@@ -42,7 +43,8 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":jquery:1.7.1"
-        runtime ":resources:1.1.6"
+        runtime ":jquery:1.7.1",
+                ":lesscss-resources:1.3.0.3",
+                ":resources:1.1.6"
     }
 }

@@ -33,6 +33,7 @@
 
         <groovy.version>1.8.6</groovy.version>
         <grails.version>2.0.3</grails.version>
+        <springloaded.core.version>1.0.6</springloaded.core.version>
 
         <!-- ActiveMQ -->
         <activemq.version>5.4.2</activemq.version>
@@ -353,11 +354,17 @@
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
-                <!--<classifier>jdk6debug</classifier>-->
+                <classifier>jdk6debug</classifier>
                 <version>${hsqldb.version}</version>
             </dependency>
 
             <!-- Grails -->
+
+            <dependency>
+                <groupId>com.springsource.springloaded</groupId>
+                <artifactId>springloaded-core</artifactId>
+                <version>${springloaded.core.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.grails</groupId>

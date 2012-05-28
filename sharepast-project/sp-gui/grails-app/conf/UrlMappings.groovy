@@ -1,3 +1,5 @@
+import grails.util.Environment
+
 class UrlMappings {
 
 	static mappings = {
@@ -7,11 +9,17 @@ class UrlMappings {
 			}
 		}
 
-		"/"(view:"/index")
+        "/"(controller:'home',action:'index')
 
-        "403"(view: "/errors/forbidden")
-        "404"(view: "/errors/notFound")
-        "500"(view: "/errors/serverError")
+        "401"(controller: "error", action: "forbidden")
+        "403"(controller: "error", action: "devError")
+        "404"(controller: "error", action: "notFound")
+        if (Environment.current == Environment.PRODUCTION) {
+            "500"(controller: "error", action: "serverError")
+        }
+        else {
+            "500"(controller: "error", action: "devError")
+        }
 
 
 	}

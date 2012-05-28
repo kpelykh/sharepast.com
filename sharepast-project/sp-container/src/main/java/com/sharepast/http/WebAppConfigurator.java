@@ -61,6 +61,14 @@ public class WebAppConfigurator implements WebApplicationInitializer {
 
         //Grails is using this property to resolve base dir of the project
         System.setProperty(BuildSettings.APP_BASE_DIR, env.getProperty("grails.base"));
+        if (env.acceptsProfiles("test")) {
+            System.setProperty(grails.util.Environment.KEY, "test");
+        } else if (env.acceptsProfiles("development")) {
+            System.setProperty(grails.util.Environment.KEY, "development");
+        } else {
+            System.setProperty(grails.util.Environment.KEY, "production");
+        }
+
 
         BuildSettings buildSettings = new BuildSettings(null, new File(env.getProperty("grails.base")));
         buildSettings.loadConfig();
