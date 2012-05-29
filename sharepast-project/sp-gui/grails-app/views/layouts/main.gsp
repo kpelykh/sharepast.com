@@ -6,12 +6,10 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <link type="text/css" href="${resource(file: 'humans.txt')}" />
 
         <r:require modules="master"/>
         <r:external uri="/images/favicon.ico"/>
-        <r:layoutResources/>
 
         <g:if test="${(Environment.current == Environment.PRODUCTION)}">
             <link type="text/css" href="${resource(dir: 'css', file: 'bootstrap.css')}" />
@@ -21,7 +19,8 @@
             <g:javascript src="lib/less-1.3.0.min.js" />
         </g:else>
 
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <r:layoutResources/>
+
         <!--[if lt IE 9]>
             <g:javascript src="http://html5shim.googlecode.com/svn/trunk/html5.js"/>
         <![endif]-->
@@ -34,24 +33,23 @@
 
         <g:layoutHead />
 	</head>
-	<body>
+	<body class="home">
 
-    <div class="navbar navbar-fixed-top">
+    <nav class="navbar">
         <div class="navbar-inner">
             <div class="container">
-                <g:render template="/content/logos" />
-                <g:render template="/content/mainMenuBar" />
+                <g:render template="/content/mainMenuBar" model="['tab':pageProperty(name: 'page.activeTab')]" />
             </div>
         </div>
-    </div>
+    </nav>
 
-    <div class="container">
+    <article class="container">
         <g:layoutBody />
-        <g:render template="/content/footer" />
-    </div> <!-- /container -->
+    </article>
 
-    <%-- Google Analytics --%>
+    <g:render template="/content/facebook"/>
     <g:render template="/content/analytics" />
+    <g:render template="/content/googleplus" />
 
     <r:layoutResources/>
   </body>

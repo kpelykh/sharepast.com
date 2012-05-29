@@ -210,14 +210,6 @@
                     <include>bootstrap.less</include>
                 </includes>
             </configuration>
-            <executions>
-                <execution>
-                    <phase>generate-resources</phase>
-                    <goals>
-                        <goal>compile</goal>
-                    </goals>
-                </execution>
-            </executions>
         </plugin>
 
     </plugins>
