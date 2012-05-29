@@ -1,5 +1,5 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title><g:message code="error.401.title"/></title>
     <meta content="error" name="layout" />
@@ -36,7 +36,7 @@
         margin-left: 6px;
     }
     #content {
-        background: url("../images/404_bucket.jpg") no-repeat scroll 0 0 transparent;
+        background: url("/images/404_bucket.jpg") no-repeat scroll 0 0 transparent;
         left: 46%;
         margin: -85px 0 0 -320px;
         min-height: 374px;

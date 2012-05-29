@@ -1,7 +1,6 @@
 <grails>
   <resources>
     <resource>ResourcesBootStrap</resource>
-    <resource>LesscssResourceMapper</resource>
     <resource>org.grails.plugin.resource.ResourceTagLib</resource>
     <resource>org.grails.plugin.resource.CSSRewriterResourceMapper</resource>
     <resource>JQueryResourceTagLib</resource>
@@ -14,7 +13,6 @@
   </resources>
   <plugins>
     <plugin>JqueryGrailsPlugin</plugin>
-    <plugin>LesscssResourcesGrailsPlugin</plugin>
     <plugin>ResourcesGrailsPlugin</plugin>
   </plugins>
 </grails>

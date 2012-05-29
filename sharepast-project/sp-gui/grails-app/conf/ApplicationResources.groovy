@@ -3,7 +3,6 @@ modules = {
         dependsOn 'jquery'
         resource url:'/js/main.js'
         resource url:'/css/main.css'
-        resource url:'/less/bootstrap.less', attrs:[rel: "stylesheet/less", type:'css']
 
     }
     homepage {
@@ -13,5 +12,4 @@ modules = {
     error {
         resource url: 'css/errors.css'
     }
-
 }

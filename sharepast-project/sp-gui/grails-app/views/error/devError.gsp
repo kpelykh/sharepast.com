@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
 		<title><g:message code="error.500.title"/></title>
         <meta content="error" name="layout"/>

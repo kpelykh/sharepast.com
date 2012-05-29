@@ -12,7 +12,6 @@ grails.project.source.level = 1.6
 grails.project.plugins.dir = "${basedir}/plugins"
 //for correct resource (i18n) resolution
 //grails.project.resource.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
-grails.project.resource.dir="${basedir}/target/resources"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.dependency.resolution = {
@@ -44,7 +43,6 @@ grails.project.dependency.resolution = {
 
     plugins {
         runtime ":jquery:1.7.1",
-                ":lesscss-resources:1.3.0.3",
                 ":resources:1.1.6"
     }
 }

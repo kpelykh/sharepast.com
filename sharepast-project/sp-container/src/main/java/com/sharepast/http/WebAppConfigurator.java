@@ -121,7 +121,7 @@ public class WebAppConfigurator implements WebApplicationInitializer {
 
         FilterRegistration adHocResourcesPluginFilter = container.addFilter("AdHocResourcesPluginFilter", "org.grails.plugin.resource.ProcessingFilter");
         adHocResourcesPluginFilter.setInitParameter("adhoc", "true");
-        adHocResourcesPluginFilter.addMappingForUrlPatterns(null, false, "/images/*", "/css/*", "/js/*", "/plugins/*");
+        adHocResourcesPluginFilter.addMappingForUrlPatterns(null, false, "/images/*", "/css/*", "/less/*", "/js/*", "/plugins/*");
 
         container.addFilter("DeclaredResourcesPluginFilter", "org.grails.plugin.resource.ProcessingFilter")
                 .addMappingForUrlPatterns(null, false, "/static/*");

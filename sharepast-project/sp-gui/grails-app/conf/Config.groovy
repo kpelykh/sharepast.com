@@ -34,12 +34,12 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 //grails.urlmapping.cache.maxsize = 1000
 
 // What URL patterns should be processed by the resources plugin
-grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
+grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/less/*', '/js/*', '/plugins/*']
+//grails.resources.work.dir="web-app"
 
 grails.reload.enabled=true
 grails.gsp.disable.caching.resources=true
 grails.gsp.enable.reload=true
-//grails.gsp.view.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
 
 grails.views.javascript.library="jquery"
 

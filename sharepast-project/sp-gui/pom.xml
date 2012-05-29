@@ -155,8 +155,15 @@
             <extensions>true</extensions>
             <executions>
                 <execution>
+                    <id>general</id>
+                    <goals>
+                        <!--<goal>maven-clean</goal>-->
+                        <goal>maven-compile</goal>
+                    </goals>
+                </execution>
+                <execution>
                     <id>generate-grails-descriptor</id>
-                    <phase>process-resources</phase>
+                    <phase>compile</phase>
                     <goals>
                         <goal>exec</goal>
                     </goals>
@@ -164,16 +171,9 @@
                         <command>CreateGrailsDescriptor</command>
                     </configuration>
                 </execution>
-                <execution>
-                    <id>general</id>
-                    <goals>
-                        <!--<goal>maven-clean</goal>-->
-                        <goal>maven-compile</goal>
-                    </goals>
-                </execution>
             </executions>
         </plugin>
-<!--
+    <!--
         <plugin>
             <groupId>org.codehaus.groovy.maven</groupId>
             <artifactId>gmaven-plugin</artifactId>
@@ -200,24 +200,25 @@
 
         </plugin>-->
 
-        <!--<plugin>
-            <groupId>org.codehaus.mojo</groupId>
+        <plugin>
+            <groupId>org.lesscss</groupId>
             <artifactId>lesscss-maven-plugin</artifactId>
             <configuration>
-                <sourceDirectory>${project.basedir}/src/main/resources/static/less</sourceDirectory>
-                <outputDirectory>${project.basedir}/src/main/resources/static/css</outputDirectory>
+                <sourceDirectory>${project.basedir}/web-app/less</sourceDirectory>
+                <outputDirectory>${project.basedir}/web-app/css</outputDirectory>
                 <includes>
                     <include>bootstrap.less</include>
                 </includes>
             </configuration>
             <executions>
                 <execution>
+                    <phase>generate-resources</phase>
                     <goals>
                         <goal>compile</goal>
                     </goals>
                 </execution>
             </executions>
-        </plugin>-->
+        </plugin>
 
     </plugins>
   </build>

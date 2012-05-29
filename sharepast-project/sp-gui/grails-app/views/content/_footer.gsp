@@ -1,3 +1,4 @@
+<hr>
 <footer>
     <p>&copy; Sharepast 2011</p>
 

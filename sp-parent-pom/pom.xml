@@ -120,7 +120,7 @@
         <native.maven.plugin.version>1.0-alpha-7</native.maven.plugin.version>
         <gmaven.plugin.version>1.0</gmaven.plugin.version>
         <aspectj.maven.plugin.version>1.4</aspectj.maven.plugin.version>
-        <lesscss.maven.plugin.version>1.0-beta-1</lesscss.maven.plugin.version>
+        <lesscss.maven.plugin.version>1.3.0</lesscss.maven.plugin.version>
         <properties.maven.plugin.version>1.0-alpha-2</properties.maven.plugin.version>
 
 
@@ -735,7 +735,7 @@
             <plugins>
 
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
+                    <groupId>org.lesscss</groupId>
                     <artifactId>lesscss-maven-plugin</artifactId>
                     <version>${lesscss.maven.plugin.version}</version>
                 </plugin>

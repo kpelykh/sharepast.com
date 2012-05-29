@@ -17,9 +17,10 @@
 </#if>
 --}%
 
-<ul id="mainMenuBar">
-	
-    <li><a href="http://www.springsource.com/products/grails">Products</a></li>
-    <li><a href="http://www.springsource.com/groovy-grails-consulting">Services</a></li>
-    <li><a href="http://www.springsource.com/training/grv001">Training</a></li>
-</ul><!-- mainMenuBar -->
+<div class="nav-collapse">
+    <ul class="nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</div><!--/.nav-collapse -->

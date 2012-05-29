@@ -1,5 +1,5 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title><g:message code="error.401.title" default="404 - Page not found"/></title>
     <meta content="error" name="layout" />
@@ -36,7 +36,7 @@
             margin-left: 6px;
         }
         #content {
-            background: url("../images/404_bucket.jpg") no-repeat scroll 0 0 transparent;
+            background: url("/images/404_bucket.jpg") no-repeat scroll 0 0 transparent;
             left: 46%;
             margin: -85px 0 0 -320px;
             min-height: 374px;
@@ -61,10 +61,10 @@
         <img src="${resource(dir: 'images', file: '404_logo.gif')}"/></a>
     </div>
     <div id="content">
-        <h1><g:message code="error.401.description" default="404 desc"/></h1>
+        <h1><g:message code="error.404.description" default="Page not found"/></h1>
 
-        <p><g:message code="error.401.message" default="Page not found"/></p>
-        <p><g:message code="error.401.main.page" default="Main"/></p>
+        <p><g:message code="error.404.message" default="Page not found"/></p>
+        <p><g:message code="error.404.main.page" default="Main"/></p>
     </div>
 </div>
 </body>
