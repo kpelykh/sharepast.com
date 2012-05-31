@@ -1,9 +1,9 @@
 package com.sharepast.tests.jms;
 
 import com.sharepast.jms.spring.JmsHttpServer;
-import com.sharepast.spring.config.BaseConfig;
-import com.sharepast.spring.SpringConfiguration;
-import com.sharepast.spring.web.AbstractHttpServer;
+import com.sharepast.commons.spring.config.BaseConfig;
+import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.spring.web.AbstractHttpServer;
 import com.sharepast.tests.common.SpringContextSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

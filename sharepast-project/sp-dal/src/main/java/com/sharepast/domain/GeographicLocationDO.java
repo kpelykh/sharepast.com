@@ -1,6 +1,6 @@
 package com.sharepast.domain;
 
-import com.sharepast.util.Util;
+import com.sharepast.commons.util.Util;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;

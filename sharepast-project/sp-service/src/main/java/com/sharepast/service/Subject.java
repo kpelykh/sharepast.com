@@ -2,8 +2,8 @@ package com.sharepast.service;
 
 import com.sharepast.domain.user.StaticGroups;
 import com.sharepast.domain.user.User;
-import com.sharepast.spring.SpringConfiguration;
-import com.sharepast.util.security.CustomSecurityExpressionHandler;
+import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.util.security.CustomSecurityExpressionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.expression.SecurityExpressionRoot;

@@ -14,6 +14,7 @@
     <name>SP Reactor</name>
     <packaging>pom</packaging>
 
+
     <scm>
         <connection>scm:git:git@github.com:kpelykh/sharepast.com.git</connection>
         <developerConnection>scm:git:git@github.com:kpelykh/sharepast.com.git</developerConnection>
@@ -21,7 +22,7 @@
     </scm>
 
     <modules>
-        <module>sp-util</module>
+        <module>sp-commons</module>
         <module>sp-config</module>
         <module>sp-dal</module>
         <module>sp-container</module>
@@ -35,6 +36,7 @@
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
@@ -61,7 +63,7 @@
                         use this setting, otherwise we'll perform a search trying to
                         figure out the right directory. It's better to add it explicite IMHO.
                     -->
-                    <dotGitDirectory>${project.parent.basedir}/../.git</dotGitDirectory>
+                    <dotGitDirectory>../../.git</dotGitDirectory>
 
                     <!-- ALTERNATE SETUP - GENERATE FILE -->
                     <!--
@@ -83,7 +85,7 @@
 
                     <!-- The path for the to be generated properties file, it's relative to ${project.basedir} -->
                     <!-- override this property in target pom file -->
-                    <generateGitPropertiesFilename>target/classes/git-${project.artifactId}.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>target/classes/com/sharepast/${project.artifactId}/git.properties</generateGitPropertiesFilename>
 
                 </configuration>
 

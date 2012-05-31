@@ -1,6 +1,5 @@
 package com.sharepast.spring.config;
 
-import com.sharepast.spring.ContextListener;
 import org.hsqldb.persist.HsqlProperties;
 import org.hsqldb.server.ServerConstants;
 import org.springframework.beans.factory.DisposableBean;
@@ -21,7 +20,7 @@ import java.io.PrintWriter;
  * To change this template use File | Settings | File Templates.
  */
 @Component("hsqldb")
-public class HSQLDServerConfig extends ContextListener implements InitializingBean, DisposableBean {
+public class HSQLDServerConfig implements InitializingBean, DisposableBean {
 
     private @Value("${hsqldb.location:/tmp/hsqldb}") FileSystemResource baseDBLocation;
 

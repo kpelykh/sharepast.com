@@ -1,23 +1,14 @@
 package com.sharepast.spring.config;
 
-import com.sharepast.spring.ContextListener;
-import grails.util.BuildSettings;
+import com.sharepast.commons.spring.ContextListener;
 import grails.util.BuildSettingsHolder;
 import grails.util.PluginBuildSettings;
-import groovy.util.AntBuilder;
 import org.codehaus.groovy.grails.compiler.GrailsProjectCompiler;
 import org.codehaus.groovy.grails.plugins.GrailsPluginManager;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.

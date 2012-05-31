@@ -1,8 +1,7 @@
 package com.sharepast.spring.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.sharepast.util.db.CustomSpringLiquibase;
-import com.sharepast.spring.SpringConfiguration;
+import com.sharepast.commons.util.db.CustomSpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

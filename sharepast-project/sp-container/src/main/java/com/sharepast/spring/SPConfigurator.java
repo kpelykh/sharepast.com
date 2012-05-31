@@ -1,5 +1,9 @@
 package com.sharepast.spring;
 
+import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.spring.config.BaseConfig;
+import com.sharepast.commons.spring.config.PropertiesConfig;
+import com.sharepast.commons.spring.config.SecurityConfig;
 import com.sharepast.spring.components.WebHttpServer;
 import com.sharepast.spring.config.*;
 import org.springframework.context.annotation.ComponentScan;

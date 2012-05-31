@@ -37,7 +37,7 @@
         </exclusion>
         <exclusion>
           <groupId>com.sharepast</groupId>
-          <artifactId>sp-util</artifactId>
+          <artifactId>sp-commons</artifactId>
         </exclusion>
         <exclusion>
           <groupId>tanukisoft</groupId>

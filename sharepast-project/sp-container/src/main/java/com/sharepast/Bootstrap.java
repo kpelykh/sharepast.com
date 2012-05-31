@@ -2,10 +2,10 @@ package com.sharepast;
 
 import com.sharepast.spring.SPConfigurator;
 import com.sharepast.spring.components.WebHttpServer;
-import com.sharepast.spring.SpringConfiguration;
-import com.sharepast.spring.config.PropertiesConfig;
-import com.sharepast.spring.web.AbstractHttpServer;
-import com.sharepast.util.Util;
+import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.spring.config.PropertiesConfig;
+import com.sharepast.commons.spring.web.AbstractHttpServer;
+import com.sharepast.commons.util.Util;
 import joptsimple.OptionException;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;

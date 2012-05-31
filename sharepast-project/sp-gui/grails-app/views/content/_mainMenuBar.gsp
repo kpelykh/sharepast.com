@@ -25,8 +25,8 @@
 <g:render template="/content/logos" />
 <div class="nav-collapse">
   <ul class="nav actions">
-      <li><a href="login/index.html">Log In</a></li>
-      <li><a href="signup/index.html">Sign Up</a></li>
+      <li><g:link controller="user" action="login">Log In</g:link></li>
+      <li><g:link controller="user" action="register">Sign Up</g:link></li>
   </ul>
 
   <ul class="nav">

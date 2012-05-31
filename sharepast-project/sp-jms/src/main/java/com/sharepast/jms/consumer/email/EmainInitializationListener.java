@@ -1,7 +1,7 @@
 package com.sharepast.jms.consumer.email;
 
-import com.sharepast.spring.ContextListener;
-import com.sharepast.spring.RuntimeBeansException;
+import com.sharepast.commons.spring.ContextListener;
+import com.sharepast.commons.spring.RuntimeBeansException;
 import org.springframework.context.ApplicationContext;
 
 /**

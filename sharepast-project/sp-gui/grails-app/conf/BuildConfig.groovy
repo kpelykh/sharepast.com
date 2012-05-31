@@ -1,4 +1,4 @@
-import com.sharepast.spring.SpringConfiguration
+import com.sharepast.commons.spring.SpringConfiguration
 
 grails.project.work.dir = "${basedir}/target"
 grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)

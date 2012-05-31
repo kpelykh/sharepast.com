@@ -1,9 +1,9 @@
 package com.sharepast.tests.dal;
 
 import com.sharepast.dao.GeographicLocation;
-import com.sharepast.spring.config.BaseConfig;
+import com.sharepast.commons.spring.config.BaseConfig;
 import com.sharepast.domain.GeographicLocationDO;
-import com.sharepast.spring.SpringConfiguration;
+import com.sharepast.commons.spring.SpringConfiguration;
 import com.sharepast.spring.config.HibernateConfiguration;
 import com.sharepast.tests.common.SpringContextSupport;
 import org.slf4j.Logger;
@@ -11,13 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 

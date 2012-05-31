@@ -11,4 +11,7 @@ modules = {
     error {
         resource url: 'css/errors.css'
     }
+    login {
+        dependsOn 'master'
+    }
 }

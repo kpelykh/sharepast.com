@@ -1,6 +1,6 @@
 package com.sharepast.exception;
 
-import com.sharepast.util.lang.FormattedRuntimeException;
+import com.sharepast.commons.util.lang.FormattedRuntimeException;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,8 +1,8 @@
 package com.sharepast.monitoring;
 
 import com.sharepast.Bootstrap;
-import com.sharepast.spring.SpringConfiguration;
-import com.sharepast.util.Build;
+import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.util.Build;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
@@ -11,7 +11,6 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.

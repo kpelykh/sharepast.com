@@ -17,7 +17,7 @@ import com.sharepast.service.AbstractService;
 import com.sharepast.service.IUserService;
 import com.sharepast.service.Subject;
 import com.sharepast.service.exception.ServiceException;
-import com.sharepast.util.security.PasswordHelper;
+import com.sharepast.commons.util.security.PasswordHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

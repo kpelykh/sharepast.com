@@ -3,7 +3,7 @@ package com.sharepast.spring.config;
 import com.sharepast.freemarker.GetUserMethod;
 import com.sharepast.freemarker.NlsMethod;
 import com.sharepast.freemarker.UrlMethod;
-import com.sharepast.util.Build;
+import com.sharepast.commons.util.Build;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;

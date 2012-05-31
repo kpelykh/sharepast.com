@@ -1,12 +1,10 @@
 package com.sharepast.spring.components;
 
 import com.sharepast.http.SPAnnotationConfiguration;
-import com.sharepast.spring.web.HttpConfigs;
-import com.sharepast.spring.web.AbstractHttpServer;
-import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
+import com.sharepast.commons.spring.web.HttpConfigs;
+import com.sharepast.commons.spring.web.AbstractHttpServer;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.SessionManager;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -14,12 +12,9 @@ import org.eclipse.jetty.webapp.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextListener;
 
 import java.io.IOException;
-import java.util.EventListener;
 
 /**
  * Created by IntelliJ IDEA.

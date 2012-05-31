@@ -1,6 +1,6 @@
 package com.sharepast.domain;
 
-import com.sharepast.util.UTC;
+import com.sharepast.commons.util.UTC;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;

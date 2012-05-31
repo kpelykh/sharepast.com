@@ -12,11 +12,12 @@
         <r:external uri="/images/favicon.ico"/>
 
         <g:if test="${(Environment.current == Environment.PRODUCTION)}">
-            <link type="text/css" href="${resource(dir: 'css', file: 'bootstrap.css')}" />
+            <link rel="stylesheet/less" type="text/css" href="/less/bootstrap.less" />
         </g:if>
         <g:else>
-            <link rel="stylesheet/less" type="text/css" href="${resource(dir: 'less', file: 'bootstrap.less')}" />
-            <g:javascript src="lib/less-1.3.0.min.js" />
+            <link type="text/css" rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" />
+            %{--<link rel="stylesheet/less" type="text/css" href="/less/bootstrap.less" />
+            <g:javascript src="/lib/less-1.3.0.min.js" />--}%
         </g:else>
 
         <r:layoutResources/>

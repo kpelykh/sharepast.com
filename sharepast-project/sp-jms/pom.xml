@@ -23,13 +23,13 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>sp-util</artifactId>
+            <artifactId>sp-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>sp-util</artifactId>
+            <artifactId>sp-commons</artifactId>
             <type>test-jar</type>
             <scope>test</scope>
             <version>${project.version}</version>
