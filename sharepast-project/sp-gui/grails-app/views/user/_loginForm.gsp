@@ -1,6 +1,3 @@
-<g:render template="/common/messages" model="${pageScope.getVariables()}" />
-
-
 <div class="accounts-form" id="login">
     <h2>Log in to your account</h2>
     <hr class="small">

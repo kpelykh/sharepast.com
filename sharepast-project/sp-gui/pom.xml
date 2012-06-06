@@ -218,6 +218,14 @@
         <plugin>
             <groupId>org.lesscss</groupId>
             <artifactId>lesscss-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>generate-resources</phase>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+            </executions>
             <configuration>
                 <sourceDirectory>${project.basedir}/web-app/less</sourceDirectory>
                 <outputDirectory>${project.basedir}/web-app/css</outputDirectory>

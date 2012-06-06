@@ -60,14 +60,13 @@ class UserController {
 
             def user = userService.findUserByUsername(cmd.username)
             if(user) {
-                cmd.errors.reject "auth.user.already.exists"
+                renderParams.model = [message:  "auth.user.already.exists"]
                 render(renderParams)
             }
             else {
                 if(params.password != params.password2) {
-                    renderParams.model.message= "auth.password.mismatch"
+                    renderParams.model = [message:  "auth.password.mismatch"]
                     render(renderParams)
-
                 }
                 else {
                     user = new User(cmd.username, cmd.password)
@@ -76,7 +75,7 @@ class UserController {
 
                     userService.loginUser(cmd.username, cmd.password)
 
-                    render controller: "app", action: "index"
+                    redirect controller: "app", action: "index"
                 }
             }
         }

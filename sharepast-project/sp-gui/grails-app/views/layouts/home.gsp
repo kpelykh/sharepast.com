@@ -15,8 +15,9 @@
             <link type="text/css" rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" />
         </g:if>
         <g:else>
-            <link rel="stylesheet/less" type="text/css" href="/less/home/home.less" />
-            <g:javascript src="/lib/less-1.3.0.min.js" />
+            <link type="text/css" rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" />
+            %{--<link rel="stylesheet/less" type="text/css" href="/less/bootstrap.less" />
+            <g:javascript src="/lib/less-1.3.0.min.js" />--}%
         </g:else>
 
         <r:layoutResources/>
