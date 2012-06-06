@@ -122,8 +122,23 @@ public class UserService extends AbstractService<User> implements IUserService {
         } else {
             throw new AccessDeniedException("User has to be in admin role to change other user's password");
         }
+    }
 
+    public void loginUser(String username, String password) {
+        if (Subject.getCurrentUser() == null) {
+            User user = userDAO.findByUsername(username);
 
+            UsernamePasswordAuthenticationToken token =
+                    new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            token.setDetails(authentication.getDetails());
+
+            Authentication newAuthentication = authenticationManager.authenticate(token);
+
+            if(newAuthentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
+                SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+            }
+        }
     }
 
     public void changePassword(String oldPassword, String newPassword) throws AuthenticationException, ServiceException {

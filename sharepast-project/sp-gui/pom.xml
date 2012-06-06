@@ -19,6 +19,25 @@
             <artifactId>sp-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sp-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sp-dal</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
@@ -91,11 +110,6 @@
         </dependency>
         <dependency>
             <groupId>org.grails</groupId>
-            <artifactId>grails-plugin-domain-class</artifactId>
-            <version>${grails.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.grails</groupId>
             <artifactId>grails-plugin-i18n</artifactId>
             <version>${grails.version}</version>
         </dependency>
@@ -109,6 +123,7 @@
             <artifactId>grails-plugin-controllers</artifactId>
             <version>${grails.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-plugin-codecs</artifactId>

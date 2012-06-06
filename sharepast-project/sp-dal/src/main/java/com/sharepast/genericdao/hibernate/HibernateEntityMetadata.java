@@ -1,8 +1,9 @@
 package com.sharepast.genericdao.hibernate;
 
+import org.hibernate.EntityMode;
 import org.hibernate.SessionFactory;
-import org.hibernate.engine.spi.SessionFactoryImplementor;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.SessionFactoryImplementor;
+import org.hibernate.engine.SessionImplementor;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.type.CollectionType;
@@ -50,7 +51,7 @@ public class HibernateEntityMetadata implements Metadata {
 	}
 
 	public Class<?> getJavaClass() {
-		return metadata.getMappedClass();
+		return metadata.getMappedClass(EntityMode.POJO);
 	}
 
 	public String[] getProperties() {
@@ -82,7 +83,7 @@ public class HibernateEntityMetadata implements Metadata {
 		if (getIdProperty().equals(property))
 			return metadata.getIdentifier(object, (SessionImplementor) sessionFactory.getCurrentSession());
 		else
-			return metadata.getPropertyValue(object, property);
+			return metadata.getPropertyValue(object, property, EntityMode.POJO);
 	}
 
 	public boolean isCollection() {

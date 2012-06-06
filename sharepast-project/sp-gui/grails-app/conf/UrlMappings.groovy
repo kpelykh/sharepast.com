@@ -10,6 +10,7 @@ class UrlMappings {
 		}
 
         "/"(controller:'home',action:'index')
+        "/app"(controller: 'app', action: 'index')
 
         "401"(controller: "error", action: "forbidden")
         "403"(controller: "error", action: "devError")

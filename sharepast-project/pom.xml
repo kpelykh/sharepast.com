@@ -30,7 +30,6 @@
         <module>sp-assembly</module>
         <module>sp-service</module>
         <module>sp-jms</module>
-        <module>sp-core</module>
         <!--<module>sp-it</module>-->
     </modules>
 

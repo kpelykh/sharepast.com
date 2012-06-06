@@ -6,5 +6,11 @@
     </p>
     <p>&copy; 2011-2012 SharePast. Share the best of your past.</p>
 
-    <g:render template="/content/follow-buttons"/>
+    <g:if test="${params.controller == 'home'}">
+        <g:render template="/content/follow-buttons"/>
+    </g:if>
+    <g:else>
+        <g:render template="/content/follow-buttons2"/>
+    </g:else>
+
 </footer>

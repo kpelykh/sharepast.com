@@ -84,7 +84,7 @@
         <hsqldb.version>2.2.8</hsqldb.version>
 
         <!-- hibernate components -->
-        <hibernate.version>4.0.1.Final</hibernate.version>
+        <hibernate.version>3.6.9.Final</hibernate.version>
         <hibernate.cache.version>4.0.1.Final</hibernate.cache.version>
         <hibernate.validation.version>4.2.0.Final</hibernate.validation.version>
 

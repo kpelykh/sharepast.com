@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.orm.hibernate3.HibernateExceptionTranslator;
+import org.springframework.orm.hibernate3.HibernateTransactionManager;
+import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
@@ -69,7 +70,7 @@ public class HibernateConfiguration implements TransactionManagementConfigurer {
     @Lazy
     @Bean
     @DependsOn("dbMigrator")
-    public SessionFactory sessionFactory(){
+    public SessionFactory sessionFactory() {
         Properties hp = new Properties();
 
         hp.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
@@ -104,11 +105,23 @@ public class HibernateConfiguration implements TransactionManagementConfigurer {
         hp.setProperty("hibernate.c3p0.preferredTestQuery", "SELECT 1");
         hp.setProperty("hibernate.c3p0.testConnectionOnCheckout", "true");
 
-        LocalSessionFactoryBuilder sfb = new LocalSessionFactoryBuilder(dataSource);
+        //Hibernate 4
+        /*LocalSessionFactoryBuilder sfb = new LocalSessionFactoryBuilder(dataSource);
         sfb.scanPackages("com.sharepast.domain", "com.sharepast.domain.user");
         sfb.addProperties(hp);
+        return sfb.buildSessionFactory();*/
 
-        return sfb.buildSessionFactory();
+        AnnotationSessionFactoryBean sessionFactoryBean = new AnnotationSessionFactoryBean();
+        sessionFactoryBean.setDataSource(dataSource);
+        sessionFactoryBean.setPackagesToScan(new String[] {"com.sharepast.domain", "com.sharepast.domain.user"});
+        sessionFactoryBean.setHibernateProperties(hp);
+        try {
+            sessionFactoryBean.afterPropertiesSet();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sessionFactoryBean.getObject();
+
 
     }
 

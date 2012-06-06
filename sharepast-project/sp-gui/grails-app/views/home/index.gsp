@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="main" name="layout"/>
+    <meta content="home" name="layout"/>
     <title><g:message code="home.title"/></title>
-    <r:require modules="homepage"/>
+    <r:require modules="app"/>
     <parameter name="activeTab" value="index" />
 </head>
 

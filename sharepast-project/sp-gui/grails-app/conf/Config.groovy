@@ -71,12 +71,11 @@ grails.hibernate.cache.queries = true
 environments {
     development {
         grails.logging.jul.usebridge = true
-        grails.serverURL = "http://localhost:9090/"
+        //grails.serverURL = "http://localhost:9090/"
     }
     production {
         grails.logging.jul.usebridge = false
-        grails.serverURL = "http://localhost:9090/"
-        // TODO: grails.serverURL = "http://www.changeme.com"
+        //grails.serverURL = "http://localhost:9090/"
     }
 }
 
@@ -97,9 +96,7 @@ log4j = {
            'org.codehaus.groovy.grails.commons', // core / classloading
            'org.codehaus.groovy.grails.plugins', // plugins
            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-           'org.springframework',
-           'org.hibernate',
-           'net.sf.ehcache.hibernate'
+           'org.springframework'
 }
 
 jquery {

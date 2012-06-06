@@ -1,18 +1,23 @@
 package com.sharepast.service;
 
+import com.sharepast.domain.user.Group;
 import com.sharepast.domain.user.StaticGroups;
 import com.sharepast.domain.user.User;
 import com.sharepast.commons.spring.SpringConfiguration;
 import com.sharepast.commons.util.security.CustomSecurityExpressionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.Expression;
+import org.springframework.security.access.expression.ExpressionUtils;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,6 +31,9 @@ public class Subject {
     private static final Logger LOG = LoggerFactory.getLogger(Subject.class);
 
     private static CustomSecurityExpressionHandler customSecurityExpressionHandler;
+    private static WebInvocationPrivilegeEvaluator invocationPrivilegeEvaluator;
+
+    private static Map<String, Expression> expressionCache = new HashMap<String, Expression>();
 
     static {
         customSecurityExpressionHandler = SpringConfiguration.getInstance().getBean(CustomSecurityExpressionHandler.class);
@@ -63,7 +71,7 @@ public class Subject {
     }
 
     public static boolean hasAdminRole() {
-        return hasRole(StaticGroups.ROLE_ADMIN);
+        return hasRole(StaticGroups.ROLE_ADMIN.toString());
     }
 
     public static boolean isRememberMe() {
@@ -84,8 +92,8 @@ public class Subject {
         return getSecurityExpressionRoot().isAuthenticated();
     }
 
-    public static boolean hasRole(StaticGroups role) {
-        return getSecurityExpressionRoot().hasRole(role.name());
+    public static boolean hasRole(String role) {
+        return getSecurityExpressionRoot().hasRole(role);
     }
 
     public static boolean hasPermission(Object obj, String permission) {
@@ -96,13 +104,25 @@ public class Subject {
         return getSecurityExpressionRoot().hasPermission(null, permission);
     }
 
-    public static boolean hasAnyRole(StaticGroups... roles) {
-        List<String> tmp = new ArrayList<String>();
-        for (StaticGroups role : roles) {
-            tmp.add(role.name());
-        }
+    public static boolean isAllowedUrl(String contextPath, String uri, String method) {
+        return invocationPrivilegeEvaluator.isAllowed(contextPath, uri, method, SecurityContextHolder.getContext().getAuthentication());
+    }
 
-        return getSecurityExpressionRoot().hasAnyRole(tmp.toArray(new String[0]));
+    public static boolean hasAnyRole(String... roles) {
+        List<String> tmp = new ArrayList<String>();
+        Collections.addAll(tmp, roles);
+        return getSecurityExpressionRoot().hasAnyRole(tmp.toArray(new String[tmp.size()]));
+    }
+
+    public static boolean hasAccess(String expressionText) {
+        Expression expression = expressionCache.get(expressionText);
+        if (expression == null) {
+            expression = customSecurityExpressionHandler.getExpressionParser().parseExpression(expressionText);
+            expressionCache.put(expressionText, expression);
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        EvaluationContext ctx = customSecurityExpressionHandler.createEvaluationContext(auth);
+        return ExpressionUtils.evaluateAsBoolean(expression, ctx);
     }
 
     private static SecurityExpressionRoot getSecurityExpressionRoot() {

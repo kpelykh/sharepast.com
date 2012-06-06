@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="main" name="layout"/>
+    <meta content="home" name="layout"/>
     <title><g:message code="passwordReset.title"/></title>
     <r:require modules="login"/>
 </head>
