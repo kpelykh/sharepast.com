@@ -2,5 +2,7 @@ package com.sharepast
 
 class AppController {
 
-    def index() { }
+    def index() {
+
+    }
 }

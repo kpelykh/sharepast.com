@@ -9,13 +9,8 @@
 <body>
 
     <article class="container">
-
         <g:render template="registerForm" model="${pageScope.getVariables()}" />
-
         <p class="note">Already have an account? <g:link controller="user" action="login">Log in</g:link></p>
-
-        <g:render template="/content/footer"/>
-
     </article>
 
 </body>

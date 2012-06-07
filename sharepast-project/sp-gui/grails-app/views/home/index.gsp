@@ -62,7 +62,7 @@
             <p>Collect bookmarks and clips with your collegues. Curate and share the best you find on the web.</p>
         </div>
 
-        <g:render template="/content/follow-buttons"/>
+        <g:render template="/common/follow-buttons"/>
 
     </section>
 
@@ -154,8 +154,6 @@
         <h2>Be organized. Use Kippt.</h2>
         <a href="signup.html" class="btn btn-green btn-large">Sign up, it's free</a>
     <section>
-
-    <g:render template="/content/footer" />
 
 </article>
 

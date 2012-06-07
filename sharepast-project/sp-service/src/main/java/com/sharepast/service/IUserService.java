@@ -15,6 +15,8 @@ public interface IUserService extends IService<User, Integer>, UserDetailsServic
 
     User findUserByUsername(String username);
 
+    User findUserByEmail(String email);
+
     User createUser(User user) throws UsernameExistsException;
 
 }

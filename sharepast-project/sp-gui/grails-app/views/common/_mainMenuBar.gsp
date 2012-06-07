@@ -1,4 +1,4 @@
-<g:render template="/content/logos" />
+<g:render template="/common/logos" />
 <div class="nav-collapse">
   <g:render template="/user/profileBox" />
 

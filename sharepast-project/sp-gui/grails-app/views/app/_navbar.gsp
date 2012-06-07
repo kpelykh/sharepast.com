@@ -1,4 +1,4 @@
-<g:render template="../content/logos"/>
+<g:render template="../common/logos"/>
 
 <div class="btn-group pull-right">
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">

@@ -15,9 +15,9 @@
             <link type="text/css" rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" />
         </g:if>
         <g:else>
-            <link type="text/css" rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" />
-            %{--<link rel="stylesheet/less" type="text/css" href="/less/bootstrap.less" />
-            <g:javascript src="/lib/less-1.3.0.min.js" />--}%
+            %{--<link type="text/css" rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" />--}%
+            <link rel="stylesheet/less" type="text/css" href="/less/bootstrap.less" />
+            <g:javascript src="/lib/less-1.3.0.min.js" />
         </g:else>
 
         <r:layoutResources/>
@@ -39,18 +39,19 @@
     <nav class="navbar">
         <div class="navbar-inner">
             <div class="container">
-                <g:render template="/content/mainMenuBar" model="['tab':pageProperty(name: 'page.activeTab')]" />
+                <g:render template="/common/mainMenuBar" model="['tab':pageProperty(name: 'page.activeTab')]" />
             </div>
         </div>
     </nav>
 
     <article class="container">
         <g:layoutBody />
+        <g:render template="/common/footer"/>
     </article>
 
-    <g:render template="/content/facebook"/>
-    <g:render template="/content/analytics" />
-    <g:render template="/content/googleplus" />
+    <g:render template="/content/scripts/facebook"/>
+    <g:render template="/content/scripts/analytics" />
+    <g:render template="/content/scripts/googleplus" />
 
     <r:layoutResources/>
   </body>

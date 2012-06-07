@@ -63,6 +63,12 @@ public class UserService extends AbstractService<User> implements IUserService {
         return userDAO.findByUsername(username);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public User findUserByEmail(String email) {
+        return userDAO.findByEmail(email);
+    }
+
     public User createUser(User user) throws UsernameExistsException {
         Assert.notNull(user);
 

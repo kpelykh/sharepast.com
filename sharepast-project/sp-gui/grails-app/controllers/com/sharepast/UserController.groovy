@@ -22,7 +22,7 @@ class UserController {
         if (params.authfailed) {
             def error = RequestContextHolder.currentRequestAttributes().getAttribute("SPRING_SECURITY_LAST_EXCEPTION", RequestAttributes.SCOPE_SESSION)
             if (error instanceof BadCredentialsException) {
-                render view:"login", model:[username: error.authentication.principal, message:"auth.invalid.login"]
+                render view:"login", model:[username: error.authentication.principal, error:"auth.invalid.login"]
                 return
             }
         }
@@ -48,33 +48,32 @@ class UserController {
 
     def register(NewAccountCommand cmd) {
 
-        def renderParams = [view: "register"]
+        def renderParams = [view: "register", model: [:]]
 
         if(request.method == 'POST') {
             //checking errors
             if (cmd.hasErrors()) {
-                renderParams.model.user = cmd
+                renderParams.model << [user: cmd]
                 render(renderParams)
                 return
             }
 
             def user = userService.findUserByUsername(cmd.username)
             if(user) {
-                renderParams.model = [message:  "auth.user.already.exists"]
+                renderParams.model << [message: "auth.user.already.exists"]
                 render(renderParams)
             }
             else {
                 if(params.password != params.password2) {
-                    renderParams.model = [message:  "auth.password.mismatch"]
+                    cmd.errors.rejectValue("password","auth.password.mismatch");
+                    renderParams.model << [user: cmd]
                     render(renderParams)
                 }
                 else {
                     user = new User(cmd.username, cmd.password)
                     user.setEmail(cmd.email)
                     userService.createUser(user)
-
-                    userService.loginUser(cmd.username, cmd.password)
-
+                    flash.success = g.message(code: 'account.created')
                     redirect controller: "app", action: "index"
                 }
             }
@@ -101,21 +100,20 @@ class LoginAccountCommand {
 
 @Validateable
 class NewAccountCommand {
+    transient UserService userService
 
     String username
     String email
 
     String password
-    String password2
 
     static constraints = {
         username nullable: false, blank: false, validator: { val, obj ->
-            val != "test" ? null : "user.login.unique"
-            //obj.userService.isLoginUnique(val) ? null : "user.login.unique"
+            obj.userService.findUserByUsername(val) ? "user.login.unique" : null
         }
-        email nullable: false, blank: false, validator: { val, obj ->
-            val != "test" ? null : "user.login.unique"
-            //obj.userService.isEmailUnique(val) ? null : "user.email.unique"
+        email email: true, nullable: false, blank: false, validator: { val, obj ->
+            obj.userService.findUserByEmail(val) ? "user.email.unique" : null
         }
+        password nullable: false, blank: false;
     }
 }

@@ -4,13 +4,13 @@
         <a href="mailto:hello@sharepast.com">Contact</a> &middot;
         <a href="http://blog.sharepast.com/" target="_blank">Blog</a>
     </p>
-    <p>&copy; 2011-2012 SharePast. Share the best of your past.</p>
+    <p>&copy; 2012 SharePast. Designed and developed with love in Sunnyvale, California &#12484; </p>
 
     <g:if test="${params.controller == 'home'}">
-        <g:render template="/content/follow-buttons"/>
+        <g:render template="/common/follow-buttons"/>
     </g:if>
     <g:else>
-        <g:render template="/content/follow-buttons2"/>
+        <g:render template="/common/follow-buttons-no-g1"/>
     </g:else>
 
 </footer>

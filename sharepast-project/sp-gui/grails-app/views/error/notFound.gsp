@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><g:message code="error.401.title" default="404 - Page not found"/></title>
+    <title><g:message code="error.404.title" default="404 - Page not found"/></title>
     <meta content="error" name="layout" />
     <style type="text/css">
         html, body {

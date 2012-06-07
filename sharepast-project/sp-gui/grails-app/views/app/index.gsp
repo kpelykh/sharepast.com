@@ -9,7 +9,7 @@
 <body>
 
 
-<div class="container-fluid">
+<article class="container-fluid">
     <div class="row-fluid">
         <div class="span3">
             <h5>LISTS</h5>
@@ -62,7 +62,7 @@
         </div>
     </div>
 
-</div>
+</article>
 
 
 </body>

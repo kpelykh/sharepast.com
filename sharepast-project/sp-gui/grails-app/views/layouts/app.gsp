@@ -21,14 +21,14 @@
 
         <r:layoutResources/>
 
-    <!--[if lt IE 9]>
-    <g:javascript src="http://html5shim.googlecode.com/svn/trunk/html5.js"/>
-    <![endif]-->
+        <!--[if lt IE 9]>
+        <g:javascript src="http://html5shim.googlecode.com/svn/trunk/html5.js"/>
+        <![endif]-->
 
         <style>
-        body {
-            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-        }
+            body {
+                padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            }
         </style>
 
         <g:layoutHead/>
@@ -36,21 +36,23 @@
 
     <body>
 
-        <div class="navbar">
+        <nav class="navbar">
             <div class="navbar-inner">
                 <div class="container">
                     <g:render template="/app/navbar"/>
                 </div>
             </div>
-        </div>
+        </nav>
 
-        <div class="container">
+        <article class="container-fluid">
             <g:layoutBody/>
-            <footer>
-                <p>&copy; Company 2012</p>
-            </footer>
-        </div>
+            <g:render template="/common/footer"/>
+        </article>
 
-        <r:layoutResources/>
+        <g:render template="/content/scripts/facebook"/>
+        <g:render template="/content/scripts/analytics" />
+        <g:render template="/content/scripts/googleplus" />
+
+    <r:layoutResources/>
     </body>
 </html>
