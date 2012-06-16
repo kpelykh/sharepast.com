@@ -38,11 +38,12 @@
 
         <access-denied-handler error-page="/denied"/>
 
+        <remember-me services-ref="rememberMeServices" key="5f4dcc3b5aa765d61d8327deb882cf99"/>
+
         <logout invalidate-session="true"
                 logout-success-url="/"
                 logout-url="/user/logout"/>
 
-        <remember-me key="5f4dcc3b5aa765d61d8327deb882cf99" user-service-ref="userService" token-validity-seconds="86400"/>
     </http>
 
     <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
@@ -85,6 +86,7 @@
                 <salt-source ref="saltSource"/>
             </password-encoder>
         </authentication-provider>
+        <authentication-provider ref="rememberMeAuthenticationProvider"/>
     </authentication-manager>
 
     <!-- Support for Hierarchy group voter -->

@@ -33,11 +33,12 @@ implements ApplicationContextAware, ApplicationListener
     Class<? extends ApplicationEvent> cls = applicationEvent.getClass();
     Class sourceClass = applicationEvent.getSource().getClass();
 
-    if (WebApplicationContext.class.isAssignableFrom(sourceClass))
-         return;
+    if (!ApplicationContext.class.isAssignableFrom(sourceClass))
+        return;
 
-    if( ContextStartedEvent.class.isAssignableFrom( cls ) || ContextRefreshedEvent.class.isAssignableFrom( cls ) )
+    if( ContextStartedEvent.class.isAssignableFrom( cls ) || ContextRefreshedEvent.class.isAssignableFrom( cls ) ) {
       afterStartup( applicationContext );
+    }
     else if( ContextStoppedEvent.class.isAssignableFrom( cls ) )
       beforeShutdown(applicationContext);
     else if( ContextClosedEvent.class.isAssignableFrom( cls ) )

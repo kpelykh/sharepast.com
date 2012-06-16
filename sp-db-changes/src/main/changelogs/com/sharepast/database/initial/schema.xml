@@ -157,4 +157,22 @@
 
     </changeSet>
 
+    <changeSet id="initial-schema-4" author="konstantin.pelykh">
+        <comment>Adding table for Persistent Remember Me Token</comment>
+        <createTable tableName="persistent_logins">
+            <column name="username" type="VARCHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="series" type="VARCHAR(64)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="token" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_used" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

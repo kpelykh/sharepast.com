@@ -6,6 +6,7 @@
 	</head>
 	<body>
     <h1>Grails Runtime Exception</h1>
+    <g:if test="${exception!=null}">
     <h2>Error Details</h2>
     <div class="message">
         <strong>Message:</strong> ${exception.message?.encodeAsHTML()} <br />
@@ -23,5 +24,6 @@
     <div class="stack">
         <pre><g:each in="${exception.stackTraceLines}">${it.encodeAsHTML()}<br/></g:each></pre>
     </div>
+    </g:if>
     </body>
 </html>
