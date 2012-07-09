@@ -1,8 +1,7 @@
 package com.sharepast.tests.jms;
 
-import com.sharepast.jms.spring.JmsHttpServer;
-import com.sharepast.commons.spring.config.BaseConfig;
 import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.spring.config.BaseConfig;
 import com.sharepast.commons.spring.web.AbstractHttpServer;
 import com.sharepast.tests.common.SpringContextSupport;
 import org.slf4j.Logger;
@@ -46,7 +45,7 @@ public class JmsProducerTest extends SpringContextSupport {
 
         @BeforeClass
         public void setUp() throws Exception {
-            AbstractHttpServer jmsServer = SpringConfiguration.getInstance().getBean(JmsHttpServer.class);
+            AbstractHttpServer jmsServer = SpringConfiguration.getInstance().getBean(AbstractHttpServer.class, "activemq-server");
             Assert.assertNotNull(jmsServer);
             jmsServer.start();
         }

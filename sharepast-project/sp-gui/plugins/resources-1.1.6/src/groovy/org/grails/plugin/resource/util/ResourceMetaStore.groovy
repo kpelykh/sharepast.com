@@ -1,11 +1,10 @@
 package org.grails.plugin.resource.util
 
 import org.apache.commons.logging.LogFactory
+import org.grails.plugin.resource.ResourceMeta
 
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
-
-import org.grails.plugin.resource.ResourceMeta
 
 /**
  * A special URI -> ResourceMeta store that is non-reentrant and will create

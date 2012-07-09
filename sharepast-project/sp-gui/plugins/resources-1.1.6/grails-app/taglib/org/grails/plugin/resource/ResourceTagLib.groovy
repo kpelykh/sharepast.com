@@ -1,11 +1,7 @@
 package org.grails.plugin.resource
 
-import grails.util.Environment
 import grails.util.GrailsUtil
-
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.apache.commons.io.FilenameUtils
-import org.grails.plugin.resource.util.HalfBakedLegacyLinkGenerator
 
 /**
  * This taglib handles creation of all the links to resources, including the smart de-duping of them.

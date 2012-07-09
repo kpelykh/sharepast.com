@@ -3,6 +3,8 @@ package com.sharepast.commons.util;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.jetty.util.security.Password;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +19,7 @@ import java.security.SecureRandom;
 import java.text.Normalizer;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 /**
@@ -236,6 +239,35 @@ public class Util {
         }
 
         return false;
+    }
+
+    public static String getObfuscatedPassword(String s) {
+        if (StringUtils.isEmpty(s)) {
+            return s;
+        } else {
+            return s.startsWith("OBF:") ? s : Password.obfuscate(s);
+        }
+    }
+
+    public static String getDeobfuscatedPassword(String s) {
+        if (StringUtils.isEmpty(s)) {
+            return s;
+        } else {
+            return s.startsWith("OBF:") ? Password.deobfuscate(s) : s;
+        }
+
+    }
+
+    public static boolean setIfPropertyExists(Properties props, String key, String newValue) {
+        if (props == null || StringUtils.isEmpty(key)) return false;
+
+        if (props.getProperty(key)!=null) {
+            props.setProperty(key, newValue);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

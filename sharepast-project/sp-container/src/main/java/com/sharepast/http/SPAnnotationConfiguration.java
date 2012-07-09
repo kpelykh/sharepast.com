@@ -8,12 +8,6 @@ package com.sharepast.http;
  * To change this template use File | Settings | File Templates.
  */
 
-import java.io.File;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.annotations.AnnotationParser;
 import org.eclipse.jetty.annotations.ClassNameResolver;
@@ -24,6 +18,15 @@ import org.eclipse.jetty.util.resource.FileResource;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.DiscoveredAnnotation;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Since the original design for AnnotationConfiguration only scan WEB-INF/classes , WEB-INF/libs.

@@ -10,15 +10,12 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.access.expression.AbstractSecurityExpressionHandler;
 import org.springframework.security.access.expression.DenyAllPermissionEvaluator;
-import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.FilterInvocation;
 
 /**
  * Created by IntelliJ IDEA.

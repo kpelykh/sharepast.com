@@ -62,6 +62,11 @@
         </dependency>
 
         <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>sitemesh</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-web</artifactId>
         </dependency>
@@ -99,6 +104,9 @@
                 <filtering>false</filtering>
             </testResource>
         </testResources>
+
     </build>
+
+
 
 </project>

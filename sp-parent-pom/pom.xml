@@ -38,6 +38,7 @@
         <!-- ActiveMQ -->
         <activemq.version>5.4.2</activemq.version>
         <xbean.version>3.7</xbean.version>
+        <sitemesh.version>2.4</sitemesh.version>
         <!-- Java Service Wrapper 3.3.9 -->
         <tanukisoft.version>3.2.3</tanukisoft.version>
 
@@ -75,6 +76,9 @@
 
         <!-- time utils -->
         <joda.time.version>1.6</joda.time.version>
+
+        <reflections.version>0.9.8</reflections.version>
+        <guava.version>11.0.2</guava.version>
 
         <!-- testing -->
         <testng.version>6.4</testng.version>
@@ -182,6 +186,7 @@
             <artifactId>hibernate-core</artifactId>
             <exclusions>
                 <exclusion>
+                    <!-- see GROOVY-3356; xml-apis and JDK 1.6 ship with different versions of the same classes -->
                     <!-- it imports xml-apis which gets into grails-maven-plugin way -->
                     <groupId>dom4j</groupId>
                     <artifactId>dom4j</artifactId>
@@ -272,9 +277,23 @@
             </dependency>
 
             <dependency>
-                <groupId>com.google.collections</groupId>
-                <artifactId>google-collections</artifactId>
-                <version>${google.collections.version}</version>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- see GROOVY-3356; xml-apis and JDK 1.6 ship with different versions of the same classes -->
+                        <!-- it imports xml-apis which gets into grails-maven-plugin way -->
+                        <groupId>dom4j</groupId>
+                        <artifactId>dom4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
 
@@ -540,6 +559,12 @@
                 <groupId>org.apache.activemq</groupId>
                 <artifactId>activemq-core</artifactId>
                 <version>${activemq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>opensymphony</groupId>
+                <artifactId>sitemesh</artifactId>
+                <version>${sitemesh.version}</version>
             </dependency>
 
             <dependency>

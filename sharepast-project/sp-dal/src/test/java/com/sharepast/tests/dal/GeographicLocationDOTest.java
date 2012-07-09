@@ -1,9 +1,9 @@
 package com.sharepast.tests.dal;
 
-import com.sharepast.dao.GeographicLocation;
-import com.sharepast.commons.spring.config.BaseConfig;
-import com.sharepast.domain.GeographicLocationDO;
 import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.spring.config.BaseConfig;
+import com.sharepast.dao.GeographicLocation;
+import com.sharepast.domain.GeographicLocationDO;
 import com.sharepast.spring.config.HibernateConfiguration;
 import com.sharepast.tests.common.SpringContextSupport;
 import org.slf4j.Logger;
@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
-
-import static org.testng.Assert.assertEquals;
 
 @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = {IllegalArgumentException.class})
 public class GeographicLocationDOTest extends SpringContextSupport {

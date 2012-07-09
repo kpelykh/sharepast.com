@@ -72,6 +72,7 @@ public class WebAppConfigurator implements WebApplicationInitializer {
         applicationContext.setParent(SpringConfiguration.getInstance().getAppContext());
         applicationContext.register(WebMVCConfig.class);
         applicationContext.refresh();
+        SpringConfiguration.getInstance().setAppContext(applicationContext);
 
         container.setAttribute(ApplicationAttributes.APPLICATION_CONTEXT, applicationContext);
         GrailsWebApplicationContext grailsWebContext = (GrailsWebApplicationContext) GrailsConfigUtils.configureWebApplicationContext(container, applicationContext);

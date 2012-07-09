@@ -1,5 +1,6 @@
 package com.maxmind.geoip;
 
+import com.sharepast.commons.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,7 +8,6 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
-import com.sharepast.commons.util.Util;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;

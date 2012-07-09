@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 /**
  * this script prepares current folder for running Bizzy Apps. Presuming that jsw is a subfolder of current

@@ -1,28 +1,22 @@
 package org.grails.plugin.resource
 
-import java.util.concurrent.ConcurrentHashMap
-
-import grails.util.Environment
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
-import org.springframework.web.util.WebUtils
-import org.springframework.beans.factory.InitializingBean
-import org.apache.commons.io.FilenameUtils
-import javax.servlet.ServletRequest
-import grails.util.Environment
-import org.springframework.util.AntPathMatcher
 //import groovyx.gpars.GParsPool
 
-import grails.spring.BeanBuilder
-import org.grails.plugin.resource.mapper.ResourceMappersFactory
-import org.grails.plugin.resource.module.*
-import java.lang.reflect.Modifier
 
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
-
-import org.grails.plugin.resource.util.ResourceMetaStore
-import org.grails.plugin.resource.AggregatedResourceMeta
-
+import grails.util.Environment
+import org.apache.commons.io.FilenameUtils
 import org.apache.commons.logging.LogFactory
+import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+import org.grails.plugin.resource.mapper.ResourceMappersFactory
+import org.grails.plugin.resource.module.ModuleDeclarationsFactory
+import org.grails.plugin.resource.module.ModulesBuilder
+import org.grails.plugin.resource.util.ResourceMetaStore
+import org.springframework.beans.factory.InitializingBean
+import org.springframework.util.AntPathMatcher
+import org.springframework.web.util.WebUtils
+
+import java.util.concurrent.ConcurrentHashMap
+import javax.servlet.ServletRequest
 
 /**
  * This is where it all happens.

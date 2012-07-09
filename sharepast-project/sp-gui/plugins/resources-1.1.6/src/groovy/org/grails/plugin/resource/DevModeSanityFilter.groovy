@@ -1,8 +1,8 @@
 package org.grails.plugin.resource
 
-import javax.servlet.*
 import org.springframework.web.context.support.WebApplicationContextUtils
-import grails.util.Environment
+
+import javax.servlet.*
 
 /**
  * This just traps any obvious mistakes the user has made and warns them in dev mode

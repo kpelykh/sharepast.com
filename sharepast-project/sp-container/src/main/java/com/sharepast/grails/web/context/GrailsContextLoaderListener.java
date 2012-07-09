@@ -1,6 +1,5 @@
 package com.sharepast.grails.web.context;
 
-import org.codehaus.groovy.grails.web.context.*;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;
 

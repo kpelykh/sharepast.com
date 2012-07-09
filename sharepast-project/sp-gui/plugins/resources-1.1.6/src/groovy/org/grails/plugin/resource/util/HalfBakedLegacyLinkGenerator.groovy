@@ -1,7 +1,7 @@
 package org.grails.plugin.resource.util
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.util.Environment
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 /**
  * This is a horrible hack to replicate what we need from g.resource() for pre-Grails 1.4 apps

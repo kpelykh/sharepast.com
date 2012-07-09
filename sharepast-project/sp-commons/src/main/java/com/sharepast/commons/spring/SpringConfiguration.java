@@ -3,14 +3,19 @@ package com.sharepast.commons.spring;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.sharepast.commons.util.Build;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -30,7 +35,7 @@ public class SpringConfiguration {
 
     public static final String ENVIRONMENT_SYSTEM_PROPERTY = "com.sharepast.env";
 
-    private AnnotationConfigApplicationContext appContext;
+    private AbstractApplicationContext appContext;
 
     private final HashSet<Class> configurationSet = new HashSet<Class>();
 
@@ -53,8 +58,25 @@ public class SpringConfiguration {
         getInfo();
     }
 
-    public AnnotationConfigApplicationContext getAppContext() {
+    public AbstractApplicationContext getAppContext() {
         return appContext;
+    }
+
+    public void setAppContext(AbstractApplicationContext newAppContext) {
+        if (this.appContext != null) {
+            boolean foundParentContext = false;
+            while (newAppContext.getParent()!=null) {
+                if (this.appContext == newAppContext.getParent()) {
+                    foundParentContext = true;
+                    break;
+                }
+            }
+            if (!foundParentContext) {
+                throw new IllegalArgumentException("Can't set a new application context, because previous context is not a parent of a new one.");
+            }
+
+        }
+        this.appContext = newAppContext;
     }
 
     public boolean isContextInitialized() {
@@ -91,7 +113,7 @@ public class SpringConfiguration {
         try {
             appContext = new AnnotationConfigApplicationContext();
             appContext.setEnvironment(environment);
-            appContext.register(getConfigurations());
+            ((AnnotationConfigApplicationContext)appContext).register(getConfigurations());
             appContext.refresh();
         } catch (RuntimeException rte) {
             LOG.error("====================================================");
@@ -285,4 +307,24 @@ public class SpringConfiguration {
 
     }
 
+    public static void runConfiguration(String confId) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        LOG.info(String.format("Searching for profile configurators in 'com.sharepast.configurator' package, which support '%s' profile", confId));
+        Reflections reflections = new Reflections("com.sharepast.configurator");
+        Set<Class<? extends ProfileConfigurator>> subTypes = reflections.getSubTypesOf(ProfileConfigurator.class);
+
+        if (subTypes.size()>0) {
+            LOG.info(String.format("Found profile configurators: %s", Arrays.toString(subTypes.toArray())));
+        } else {
+            throw new IllegalStateException("No profile configurators found in 'com.sharepast.configurator'");
+        }
+
+        for (Class<? extends ProfileConfigurator> conf : subTypes) {
+            ProfileConfigurator configuration = conf.newInstance();
+            if (configuration.supportsProfile(confId)) {
+                LOG.info(String.format("%s supports %s. Using it to configure application...", configuration.getClass().getName(), confId));
+                conf.newInstance().configure(confId);
+                break;
+            }
+        }
+    }
 }

@@ -1,11 +1,12 @@
-package com.sharepast.spring;
+package com.sharepast.configurator;
 
-import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.Bootstrap;
+import com.sharepast.commons.spring.ProfileConfigurator;
 import com.sharepast.commons.spring.config.BaseConfig;
 import com.sharepast.commons.spring.config.PropertiesConfig;
 import com.sharepast.commons.spring.config.SecurityConfig;
-import com.sharepast.spring.components.WebHttpServer;
-import com.sharepast.spring.config.*;
+import com.sharepast.spring.components.Servlet3HttpServer;
+import com.sharepast.spring.config.HibernateConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,22 +22,23 @@ import java.util.Map;
  * Time: 9:07 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SPConfigurator {
+public class RunnerProfiles extends ProfileConfigurator {
 
-    public static final String PLATFORM = "platform";
-    public static final String JMS = "jms";
-    public static final String PROPERTIES = "properties";
-
-    public static final Map<String, Class[]> configurations = new HashMap<String, Class[]>() {
+    public static final Map<String, Class[]> profiles = new HashMap<String, Class[]>() {
         {
-            put(PLATFORM, new Class[]{PlatformRunner.class});
-            put(JMS, new Class[]{JMSRunner.class});
-            put(PROPERTIES, new Class[] { PropertiesConfig.class });
+            put(Bootstrap.START_PLATFORM, new Class[]{PlatformRunner.class});
+            put(Bootstrap.START_JMS, new Class[]{JMSRunner.class});
+            put(Bootstrap.GET_PROPERTY, new Class[] { PropertiesConfig.class });
         }
     };
 
+    @Override
+    public Map<String, Class[]> getProfiles() {
+        return profiles;
+    }
+
     @Configuration
-    @Import({BaseConfig.class, HibernateConfiguration.class, WebHttpServer.class, SecurityConfig.class})
+    @Import({BaseConfig.class, HibernateConfiguration.class, Servlet3HttpServer.class, SecurityConfig.class})
     @ComponentScan({"com.sharepast.service", "com.sharepast.dao"})
     @ImportResource({
             "classpath:com/sharepast/config/cache.xml",
@@ -55,22 +57,4 @@ public class SPConfigurator {
             "classpath:com/sharepast/config/geoip-location.xml",
             "classpath:com/sharepast/config/activemq.xml"})
     static class JMSRunner { }
-
-    private Class[] resources;
-
-    public SPConfigurator(String configurationId) {
-        this.resources = configurations.get(configurationId);
-
-        if (resources == null)
-            throw new IllegalArgumentException(String.format("cannot find configuration with id %s", configurationId));
-    }
-
-    public Class[] getResources() {
-        return resources;
-    }
-
-    public void configure() {
-        SpringConfiguration.getInstance().configure(this.getResources());
-    }
-
 }

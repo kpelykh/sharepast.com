@@ -1,11 +1,10 @@
 package org.grails.plugin.resource
 
+import org.apache.commons.io.FilenameUtils
+import org.grails.plugin.resource.mapper.ResourceMapper
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
-import org.apache.commons.io.FilenameUtils
-
-import org.grails.plugin.resource.mapper.ResourceMapper
 
 /**
  * Holder for info about a resource declaration at runtime

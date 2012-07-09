@@ -2,6 +2,9 @@ package com.sharepast.commons.spring.web;
 
 import com.sharepast.commons.spring.ContextListener;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -48,5 +51,55 @@ public abstract class AbstractHttpServer extends ContextListener implements Disp
 
         server.start();
     }
+
+
+    protected void initConnnector(Server server, HttpConfigs config) {
+
+        // Channel connectors
+        SelectChannelConnector httpConnector = new SelectChannelConnector();
+        httpConnector.setHost(config.getHttpHost());
+        httpConnector.setPort(config.getHttpPort());
+        httpConnector.setMaxIdleTime(30000);
+        httpConnector.setAcceptors(2);
+
+        if (config.isSSLEnabled()) {
+            httpConnector.setConfidentialPort(config.getSslport());
+        }
+
+        server.addConnector(httpConnector);
+
+        if (config.isSSLEnabled()) {
+            initSSL(server, config);
+        }
+
+
+    }
+
+    protected void initSSL(Server server, HttpConfigs config) {
+
+        if (config.getKeystore() == null) {
+            throw new IllegalStateException(
+                    "you need to provide property 'keystore.path' and 'keystore.pass'");
+        }
+
+        if (config.getTrustStore() == null) {
+            throw new IllegalStateException(
+                    "you need to provide property 'truststore.path' and 'truststore.pass'");
+        }
+
+        SslContextFactory factory = new SslContextFactory();
+        factory.setKeyStore(config.getKeystore());
+        factory.setTrustStore(config.getTrustStore());
+        factory.setKeyStorePassword(config.getKeyStorePassword());
+        factory.setKeyManagerPassword(config.getKeyStoreManagerPassword());
+        factory.setTrustStorePassword(config.getTrustStorePassword());
+
+        SslSelectChannelConnector httpsConnector = new SslSelectChannelConnector(factory);
+        httpsConnector.setPort(config.getSslport());
+        httpsConnector.setHost(config.getHttpHost());
+
+        server.addConnector(httpsConnector);
+    }
+
 
 }

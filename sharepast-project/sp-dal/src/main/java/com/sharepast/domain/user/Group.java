@@ -1,13 +1,11 @@
 package com.sharepast.domain.user;
 
 import com.sharepast.domain.IEntity;
-import org.hibernate.annotations.*;
 import org.hibernate.annotations.AccessType;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 

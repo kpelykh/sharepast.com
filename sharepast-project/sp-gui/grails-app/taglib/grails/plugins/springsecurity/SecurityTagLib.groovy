@@ -14,11 +14,6 @@
  */
 package grails.plugins.springsecurity
 
-import org.springframework.expression.Expression
-import org.springframework.security.access.expression.ExpressionUtils
-import org.springframework.security.web.FilterInvocation
-
-import javax.servlet.FilterChain
 import com.sharepast.service.Subject
 
 /**

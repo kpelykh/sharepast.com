@@ -10,7 +10,7 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.eclipse.jetty.webapp.*;
+import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -68,21 +68,25 @@ public class JmsHttpServer extends AbstractHttpServer {
         adminApp.setResourceBase(res + "/admin");
         adminApp.setLogUrlOnStart(true);
         adminApp.setContextPath("/admin");
+        adminApp.setThrowUnavailableOnStartupException(true);
 
         WebAppContext camelApp = new WebAppContext();
         camelApp.setResourceBase(res + "/camel");
         camelApp.setLogUrlOnStart(true);
         camelApp.setContextPath("/camel");
+        camelApp.setThrowUnavailableOnStartupException(true);
 
         WebAppContext fileserverApp = new WebAppContext();
         fileserverApp.setResourceBase(res + "/fileserver");
         fileserverApp.setLogUrlOnStart(true);
         fileserverApp.setContextPath("/fileserver");
+        fileserverApp.setThrowUnavailableOnStartupException(true);
 
         WebAppContext rootApp = new WebAppContext();
         rootApp.setResourceBase(res);
         rootApp.setLogUrlOnStart(true);
         rootApp.setContextPath("/");
+        rootApp.setThrowUnavailableOnStartupException(true);
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);

@@ -8,6 +8,7 @@ package com.sharepast.service.impl;
  * To change this template use File | Settings | File Templates.
  */
 
+import com.sharepast.commons.util.security.PasswordHelper;
 import com.sharepast.dao.UserDAO;
 import com.sharepast.domain.user.StaticGroups;
 import com.sharepast.domain.user.User;
@@ -17,7 +18,6 @@ import com.sharepast.service.AbstractService;
 import com.sharepast.service.IUserService;
 import com.sharepast.service.Subject;
 import com.sharepast.service.exception.ServiceException;
-import com.sharepast.commons.util.security.PasswordHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

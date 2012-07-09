@@ -1,8 +1,8 @@
 package org.grails.plugin.resource
 
-import javax.servlet.*
 import org.springframework.web.context.support.WebApplicationContextUtils
-import grails.util.Environment
+
+import javax.servlet.*
 
 /**
  * This is the servlet filter that handles all static resource requests and delegates to the service

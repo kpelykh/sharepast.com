@@ -1,9 +1,9 @@
 package org.grails.plugin.resource.mapper
 
 import grails.spring.BeanBuilder
-import org.grails.plugin.resources.artefacts.ResourceMapperClass
-import java.lang.reflect.Modifier
 import org.slf4j.LoggerFactory
+
+import java.lang.reflect.Modifier
 
 /**
  * This creates the ResourceMapper facades for each resource mapper artefact and puts them into the bean context

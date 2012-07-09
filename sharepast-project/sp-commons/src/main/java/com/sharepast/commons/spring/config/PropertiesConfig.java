@@ -2,7 +2,9 @@ package com.sharepast.commons.spring.config;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
+import com.sharepast.commons.util.Util;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -77,20 +79,30 @@ public class PropertiesConfig {
 
         replacePlaceholders(env, properties);
 
-        properties.put("web.resource.base", convertToResource(ctx, properties, "web.resource.base"));
-        properties.put("grails.descriptor", convertToResource(ctx, properties, "grails.descriptor"));
-        properties.put("grails.base", convertToResource(ctx, properties, "grails.base"));
-        properties.put("jetty.web.default", convertToResource(ctx, properties, "jetty.web.default"));
-        properties.put("log.dir", convertToResource(ctx, properties, "log.dir"));
-        properties.put("config.path", convertToResource(ctx, properties, "config.path"));
-        properties.put("activemq.persist", convertToResource(ctx, properties, "activemq.persist"));
-        properties.put("activemq.home", convertToResource(ctx, properties, "activemq.home"));
-        properties.put("activemq.base", convertToResource(ctx, properties, "activemq.base"));
-        properties.put("geoip.database.file.name", convertToResource(ctx, properties, "geoip.database.file.name"));
-        properties.put("hsqldb.location", convertToResource(ctx, properties, "hsqldb.location"));
+        convertToResource(ctx, env, properties, "jetty.resource.base");
+        convertToResource(ctx, env, properties, "grails.descriptor");
+        convertToResource(ctx, env, properties, "grails.base");
+        convertToResource(ctx, env, properties, "log.dir");
+        convertToResource(ctx, env, properties, "config.path");
+        convertToResource(ctx, env, properties, "activemq.persist");
+        convertToResource(ctx, env, properties, "activemq.home");
+        convertToResource(ctx, env, properties, "activemq.base");
+        convertToResource(ctx, env, properties, "geoip.database.file.name");
+        convertToResource(ctx, env, properties, "hsqldb.location");
 
+
+        //adding zts properties to env in the first line, so that it will be used to resolve placeholders
+        env.getPropertySources().addLast(new PropertiesPropertySource("applicationProperties", properties));
+
+        replacePlaceholders(env, properties);
 
         printProperties(env, properties);
+
+        // Deobfuscate passwords
+        Util.setIfPropertyExists(properties, "jdbc.password", Util.getDeobfuscatedPassword(properties.getProperty("jdbc.password")));
+        Util.setIfPropertyExists(properties, "keystore.manager.pass", Util.getDeobfuscatedPassword(properties.getProperty("keystore.manager.pass")));
+        Util.setIfPropertyExists(properties, "keystore.pass", Util.getDeobfuscatedPassword(properties.getProperty("keystore.pass")));
+        Util.setIfPropertyExists(properties, "truststore.pass", Util.getDeobfuscatedPassword(properties.getProperty("truststore.pass")));
 
         return properties;
 
@@ -125,6 +137,16 @@ public class PropertiesConfig {
         Map<String, String> sortedProperties = Maps.newTreeMap();
         sortedProperties.putAll(Maps.fromProperties(properties));
 
+        //Hide values for proprieties from "do.not.print" list
+        String doNotPrintList = (String) properties.get("do.not.print");
+        if (!StringUtils.isEmpty(doNotPrintList)) {
+            String[] doNotPrintValues = StringUtils.split(doNotPrintList, ',');
+            for (String val : doNotPrintValues) {
+                sortedProperties.put( val, "************" );
+            }
+        }
+        sortedProperties.remove("do.not.print");
+
         ByteArrayOutputStream propertiesOutStream = new ByteArrayOutputStream();
         PrintStream pw = new PrintStream(propertiesOutStream);
         MapUtils.verbosePrint(pw, null, sortedProperties);
@@ -158,23 +180,36 @@ public class PropertiesConfig {
         return res;
     }
 
-    private String convertToResource(ApplicationContext ctx, Properties properties, String propertyName) {
-        String propValue = properties.getProperty(propertyName);
+    private void convertToResource(ApplicationContext ctx, Environment env, Properties properties, String propertyName) {
+
+        boolean systemPropertyOverride = false;
+        if (env.getProperty(propertyName) != null) {
+            systemPropertyOverride = true;
+        }
+
+        String propValue = systemPropertyOverride ? env.getProperty(propertyName) : properties.getProperty(propertyName);
+
+        if (StringUtils.isEmpty(propValue)) {
+            LOG.info(String.format("Property %s was not found in property files", propertyName));
+        } else  {
         try {
             Resource res = ctx.getResource(propValue);
             if (res instanceof UrlResource) {
                 String newValue = res.getFile().getCanonicalPath();
-                LOG.info(String.format("Expanded resource property ['%s=%s]' to [%s='%s]", propertyName, propValue, propertyName, newValue));
+                    LOG.info(String.format("Expanded (%s) property ['%s=%s]' to [%s='%s]", (systemPropertyOverride ? "system" : ""), propertyName, propValue, propertyName, newValue));
                 if (!res.exists()) {
                     LOG.warn(String.format("Resource %s doesn't exist", newValue));
                 }
-                return newValue;
+                    if (env.getProperty(propertyName) != null) {
+                        System.setProperty(propertyName, "file:" + newValue);
             }
-            return propValue;
+                    properties.setProperty(propertyName, "file:" + newValue);
+                }
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(String.format("Error occurred when trying to convert to [%s=%s] to resource", propertyName, propValue), e);
+            }
         }
     }
 }

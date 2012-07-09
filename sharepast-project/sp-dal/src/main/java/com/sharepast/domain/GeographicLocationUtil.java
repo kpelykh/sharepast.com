@@ -1,7 +1,5 @@
 package com.sharepast.domain;
 
-import com.sharepast.domain.GPSCoordinates;
-import com.sharepast.domain.GeographicLocationDO;
 import com.sharepast.domain.user.Location;
 
 import java.util.List;

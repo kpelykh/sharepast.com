@@ -1,7 +1,5 @@
 package com.sharepast;
 
-import com.sharepast.spring.SPConfigurator;
-import com.sharepast.spring.components.WebHttpServer;
 import com.sharepast.commons.spring.SpringConfiguration;
 import com.sharepast.commons.spring.config.PropertiesConfig;
 import com.sharepast.commons.spring.web.AbstractHttpServer;
@@ -35,11 +33,11 @@ public class Bootstrap {
 
     private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(Bootstrap.class);
 
-    private static final String START_PLATFORM = "platform";
-    private static final String STOP_PLATFORM = "stop";
-    private static final String START_JMS = "jms";
-    private static final String STOP_JMS = "stopjms";
-    private static final String GET_PROPERTY = "property";
+    public static final String START_PLATFORM = "platform";
+    public static final String STOP_PLATFORM = "stop";
+    public static final String START_JMS = "jms";
+    public static final String STOP_JMS = "stopjms";
+    public static final String GET_PROPERTY = "property";
 
     /**
      * Platform HTTP server
@@ -119,8 +117,9 @@ public class Bootstrap {
         Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
         try {
-            new SPConfigurator(SPConfigurator.PLATFORM).configure();
-            httpServer = SpringConfiguration.getInstance().getBean(WebHttpServer.class);
+
+            SpringConfiguration.runConfiguration(START_PLATFORM);
+            httpServer = SpringConfiguration.getInstance().getBean(AbstractHttpServer.class);
             Environment env = SpringConfiguration.getInstance().getBean(Environment.class);
             httpShutdownPort = env.getProperty("platform.server.shutdown.port", Integer.class);
         } catch (Throwable e) {
@@ -136,7 +135,7 @@ public class Bootstrap {
         Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
         try {
-            new SPConfigurator(SPConfigurator.JMS).configure();
+            SpringConfiguration.runConfiguration(START_JMS);
             httpServer = SpringConfiguration.getInstance().getBean(AbstractHttpServer.class, "activemq-server");
             Environment env = SpringConfiguration.getInstance().getBean(Environment.class);
             httpShutdownPort = env.getProperty("platform.server.shutdown.port", Integer.class);
@@ -152,7 +151,7 @@ public class Bootstrap {
     private static void printProperty(String propertyName) throws Exception {
         System.out.println();
         try {
-            new SPConfigurator(SPConfigurator.PROPERTIES).configure();
+            SpringConfiguration.runConfiguration(GET_PROPERTY);
             Environment env = SpringConfiguration.getInstance().getBean(Environment.class);
             System.out.println(String.format("============= PROPERTY=%s =============", propertyName));
             if (StringUtils.isEmpty(env.getProperty(propertyName))) {

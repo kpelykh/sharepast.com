@@ -1,10 +1,9 @@
 package com.sharepast.service;
 
-import com.sharepast.domain.user.Group;
-import com.sharepast.domain.user.StaticGroups;
-import com.sharepast.domain.user.User;
 import com.sharepast.commons.spring.SpringConfiguration;
 import com.sharepast.commons.util.security.CustomSecurityExpressionHandler;
+import com.sharepast.domain.user.StaticGroups;
+import com.sharepast.domain.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.expression.EvaluationContext;
@@ -14,7 +13,6 @@ import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
-import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.util.Assert;
 
 import java.util.*;

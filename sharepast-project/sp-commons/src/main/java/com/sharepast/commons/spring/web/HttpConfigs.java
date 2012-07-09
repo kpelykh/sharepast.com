@@ -2,7 +2,6 @@ package com.sharepast.commons.spring.web;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -28,21 +27,22 @@ public class HttpConfigs implements InitializingBean {
     private @Value("${http.port}") Integer httpPort;
     private @Value("${https.port}") Integer sslport;
 
-    private @Value("${keystore.pass}") String keyStorePassword;
-    private @Value("${keystore.manager.pass}") String keyPassword;
-    private @Value("${keystore.path}")
-    Resource keyStoreResource;
+    private @Value("${keystore.pass:}") String keyStorePassword;
+    private @Value("${keystore.manager.pass:}") String keyStoreManagerPassword;
+    private @Value("${keystore.path:file:}") Resource keyStoreResource;
 
-    private @Value("${truststore.pass}") String trustStorePassword;
-    private @Value("${truststore.path}") Resource trustStoreResource;
+    private @Value("${truststore.pass:}") String trustStorePassword;
+    private @Value("${truststore.path:file:}") Resource trustStoreResource;
+
+    private @Value("${container.jar.pattern:.*/.*jsp-api-[^/]*\\.jar$|.*/.*jsp-[^/]*\\.jar$|.*/.*taglibs[^/]*\\.jar|.*zts.*$}") String containerJarPattern;
 
     private KeyStore keystore;
     private KeyStore trustStore;
 
-    private @Value("${ssl.enabled}") Boolean enableSSL;
+    private @Value("${ssl.enabled:false}") Boolean enableSSL;
 
-    private @Value("${jetty.web.default}") FileSystemResource webDefault;
-    private @Value("${web.resource.base}") FileSystemResource resourceBase;
+    private @Value("${jetty.resource.base:}") Resource resourceBase;
+    private @Value("${jetty.web.default:org/eclipse/jetty/webapp/webdefault.xml}") String webDefault;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -94,24 +94,32 @@ public class HttpConfigs implements InitializingBean {
         return enableSSL;
     }
 
-    public String getKeyPassword() {
-        return keyPassword;
+    public String getTrustStorePassword() {
+        return trustStorePassword;
+    }
+
+    public String getContainerJarPattern() {
+        return containerJarPattern;
+    }
+
+    public String getKeyStorePassword() {
+        return keyStorePassword;
+    }
+
+    public String getKeyStoreManagerPassword() {
+        return keyStoreManagerPassword;
     }
 
     public String getResourceBase() {
         try {
-            return resourceBase.getFile().getCanonicalPath();
+            return resourceBase.getURL().toString();
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
     public String getWebDefault() {
-        try {
-            return webDefault.getFile().getCanonicalPath();
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
+        return webDefault;
     }
 
     public void validate() {

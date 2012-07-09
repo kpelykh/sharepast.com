@@ -1,13 +1,13 @@
 package com.sharepast.domain.user;
 
+import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.util.UTC;
+import com.sharepast.commons.util.Util;
 import com.sharepast.dao.GeographicLocation;
 import com.sharepast.dao.GroupManager;
 import com.sharepast.domain.GeographicLocationDO;
 import com.sharepast.domain.IEntity;
 import com.sharepast.exception.DataConsistencyException;
-import com.sharepast.commons.spring.SpringConfiguration;
-import com.sharepast.commons.util.UTC;
-import com.sharepast.commons.util.Util;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;

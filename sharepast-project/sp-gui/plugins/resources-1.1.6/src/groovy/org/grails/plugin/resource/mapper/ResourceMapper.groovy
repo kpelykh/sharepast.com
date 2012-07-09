@@ -1,11 +1,10 @@
 package org.grails.plugin.resource.mapper
 
-import org.codehaus.groovy.grails.*
-import org.grails.plugin.resources.artefacts.ResourceMapperArtefactHandler
-import org.grails.plugin.resource.ResourceMeta
-import org.springframework.util.AntPathMatcher
-import org.slf4j.LoggerFactory
 import grails.util.GrailsNameUtils
+import org.grails.plugin.resource.ResourceMeta
+import org.grails.plugin.resources.artefacts.ResourceMapperArtefactHandler
+import org.slf4j.LoggerFactory
+import org.springframework.util.AntPathMatcher
 
 /**
  * The artefact facade used by the service to communicate with resource mapper artefacts.

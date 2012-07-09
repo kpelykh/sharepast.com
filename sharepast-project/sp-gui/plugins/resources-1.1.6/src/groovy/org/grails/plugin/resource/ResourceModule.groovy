@@ -1,6 +1,5 @@
 package org.grails.plugin.resource
 
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**

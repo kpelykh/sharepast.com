@@ -1,7 +1,5 @@
 import grails.util.Environment
 
-import org.grails.plugin.resource.*
-
 /**
  * Bootstraps the plugin by loading the app resources from config
  *

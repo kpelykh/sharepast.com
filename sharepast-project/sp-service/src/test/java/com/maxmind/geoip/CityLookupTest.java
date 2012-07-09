@@ -1,7 +1,7 @@
 package com.maxmind.geoip;/* CityLookupTest.java */
 
-import com.sharepast.commons.spring.config.BaseConfig;
 import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.spring.config.BaseConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;

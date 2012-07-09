@@ -1,7 +1,7 @@
 package com.sharepast.domain.user;
 
-import com.sharepast.dao.GroupManager;
 import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.dao.GroupManager;
 import org.springframework.util.Assert;
 
 /**

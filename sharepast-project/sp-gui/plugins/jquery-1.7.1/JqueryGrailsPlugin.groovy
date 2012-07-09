@@ -15,11 +15,11 @@
  */
 
 import grails.util.GrailsUtil
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.plugins.web.taglib.*
 import org.codehaus.groovy.grails.plugins.jquery.JQueryConfig
 import org.codehaus.groovy.grails.plugins.jquery.JQueryProvider
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.codehaus.groovy.grails.plugins.web.taglib.JavascriptTagLib
 
 class JqueryGrailsPlugin {
 	// Only change the point release. Edit o.c.g.g.o.j.JQueryConfig.SHIPPED_VERSION when changing jQuery resource version

@@ -1,11 +1,11 @@
 package com.sharepast.tests.dal;
 
 import com.google.common.collect.Sets;
+import com.sharepast.commons.spring.SpringConfiguration;
+import com.sharepast.commons.spring.config.BaseConfig;
 import com.sharepast.dao.UserDAO;
 import com.sharepast.domain.user.StaticGroups;
 import com.sharepast.domain.user.User;
-import com.sharepast.commons.spring.SpringConfiguration;
-import com.sharepast.commons.spring.config.BaseConfig;
 import com.sharepast.spring.config.HibernateConfiguration;
 import com.sharepast.tests.common.SpringContextSupport;
 import org.slf4j.Logger;

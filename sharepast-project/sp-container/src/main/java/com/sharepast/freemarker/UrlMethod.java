@@ -4,13 +4,9 @@ import freemarker.template.TemplateHashModelEx;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
-import groovy.util.ResourceException;
-import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.util.UriTemplate;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,11 +1,11 @@
 package com.sharepast
 
 import com.sharepast.domain.user.User
-import grails.validation.Validateable
 import com.sharepast.service.impl.UserService
-import org.springframework.web.context.request.RequestContextHolder
-import org.springframework.web.context.request.RequestAttributes
+import grails.validation.Validateable
 import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.web.context.request.RequestAttributes
+import org.springframework.web.context.request.RequestContextHolder
 
 class UserController {
 
