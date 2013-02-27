@@ -27,22 +27,26 @@ implements ApplicationContextAware, ApplicationListener
     this.applicationContext = applicationContext;
   }
 
-  public void onApplicationEvent( ApplicationEvent applicationEvent )
-  {
-    Class<? extends ApplicationEvent> cls = applicationEvent.getClass();
-    Class sourceClass = applicationEvent.getSource().getClass();
+    public void onApplicationEvent( ApplicationEvent applicationEvent )
+    {
+        Class<? extends ApplicationEvent> cls = applicationEvent.getClass();
+        Class sourceClass = applicationEvent.getSource().getClass();
 
-    if (!ApplicationContext.class.isAssignableFrom(sourceClass))
-        return;
+        if (!ApplicationContext.class.isAssignableFrom(sourceClass))
+            return;
 
-    if( ContextStartedEvent.class.isAssignableFrom( cls ) || ContextRefreshedEvent.class.isAssignableFrom( cls ) ) {
-      afterStartup( applicationContext );
+        ApplicationContext eventAppCtx = (ApplicationContext) applicationEvent.getSource();
+
+        if (!eventAppCtx.equals(applicationContext))
+            return;
+
+        if( ContextStartedEvent.class.isAssignableFrom( cls ) || ContextRefreshedEvent.class.isAssignableFrom( cls ) )
+            afterStartup( applicationContext );
+        else if( ContextStoppedEvent.class.isAssignableFrom( cls ) )
+            beforeShutdown(applicationContext);
+        else if( ContextClosedEvent.class.isAssignableFrom( cls ) )
+            afterShutdown();
+        else if( ShutdownEvent.class.isAssignableFrom( cls ) )
+            shutdown(applicationContext);
     }
-    else if( ContextStoppedEvent.class.isAssignableFrom( cls ) )
-      beforeShutdown(applicationContext);
-    else if( ContextClosedEvent.class.isAssignableFrom( cls ) )
-      afterShutdown();
-    else if( ShutdownEvent.class.isAssignableFrom( cls ) )
-      shutdown(applicationContext);
-  }
 }

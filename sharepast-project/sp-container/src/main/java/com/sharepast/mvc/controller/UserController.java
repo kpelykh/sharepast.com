@@ -24,7 +24,7 @@ import java.util.*;
  * Time: 12:42 AM
  * To change this template use File | Settings | File Templates.
  */
-@Controller
+//@Controller
 public class UserController {
 
     @Autowired

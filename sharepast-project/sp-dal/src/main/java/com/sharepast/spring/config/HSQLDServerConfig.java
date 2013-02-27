@@ -1,13 +1,16 @@
 package com.sharepast.spring.config;
 
+import com.sharepast.commons.spring.ContextListener;
 import org.hsqldb.persist.HsqlProperties;
 import org.hsqldb.server.ServerConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
@@ -20,9 +23,11 @@ import java.io.PrintWriter;
  * To change this template use File | Settings | File Templates.
  */
 @Component("hsqldb")
-public class HSQLDServerConfig implements InitializingBean, DisposableBean {
+public class HSQLDServerConfig extends ContextListener implements InitializingBean, DisposableBean {
 
-    private @Value("${hsqldb.location:/tmp/hsqldb}") FileSystemResource baseDBLocation;
+    protected static final Logger LOG = LoggerFactory.getLogger(HSQLDServerConfig.class);
+
+    private @Value("${hsqldb.location:file:/tmp/hsqldb}") Resource baseDBLocation;
 
     private @Value("${sp.db.schema:}") String spDbSchema;
     private @Value("${jdbc.driver}") String jdbcDriver;
@@ -42,9 +47,11 @@ public class HSQLDServerConfig implements InitializingBean, DisposableBean {
         if (env.acceptsProfiles("test")) {
             props.setProperty("server.database.0", String.format("mem:%s", spDbSchema));
             props.setProperty("server.dbname.0", spDbSchema);
+            LOG.info(String.format("%s = %s", "server.database.0", props.getProperty("server.database.0")));
         } else {
-            props.setProperty("server.database.0", String.format("%s/%s", baseDBLocation.getFile().getCanonicalPath(), spDbSchema));
+            props.setProperty("server.database.0", String.format("%s/%s", baseDBLocation.getFile().toString(), spDbSchema));
             props.setProperty("server.dbname.0", spDbSchema);
+            LOG.info(String.format("%s = %s", "server.database.0", props.getProperty("server.database.0")));
         }
 
         server = new org.hsqldb.Server();

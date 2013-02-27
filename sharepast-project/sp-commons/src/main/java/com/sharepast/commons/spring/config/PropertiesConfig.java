@@ -74,11 +74,6 @@ public class PropertiesConfig {
     @Bean
     public Properties pathPostProcess(ApplicationContext ctx, ConfigurableEnvironment env, @Qualifier("properties") Properties properties) {
 
-        //adding sharepast properties to env in the first line, so that it will be used to resolve placeholders
-        env.getPropertySources().addLast(new PropertiesPropertySource("applicationProperties", properties));
-
-        replacePlaceholders(env, properties);
-
         convertToResource(ctx, env, properties, "jetty.resource.base");
         convertToResource(ctx, env, properties, "grails.descriptor");
         convertToResource(ctx, env, properties, "grails.base");
@@ -89,7 +84,6 @@ public class PropertiesConfig {
         convertToResource(ctx, env, properties, "activemq.base");
         convertToResource(ctx, env, properties, "geoip.database.file.name");
         convertToResource(ctx, env, properties, "hsqldb.location");
-
 
         //adding zts properties to env in the first line, so that it will be used to resolve placeholders
         env.getPropertySources().addLast(new PropertiesPropertySource("applicationProperties", properties));
@@ -200,7 +194,7 @@ public class PropertiesConfig {
                 if (!res.exists()) {
                     LOG.warn(String.format("Resource %s doesn't exist", newValue));
                 }
-                    if (env.getProperty(propertyName) != null) {
+                    if (env.getProperty(propertyName) != null && systemPropertyOverride) {
                         System.setProperty(propertyName, "file:" + newValue);
             }
                     properties.setProperty(propertyName, "file:" + newValue);

@@ -7020,12 +7020,7 @@ footer a {
 .home article.container {
   margin-top: 0;
 }
-.home .hero-unit {
-  background: none;
-  height: 304px;
-  padding: 105px 620px 0 0;
-  margin-right: -80px;
-  background: url('/images/home-hero.png') right bottom no-repeat;
+
 }
 .home .hero-unit h1 {
   font-size: 38px;

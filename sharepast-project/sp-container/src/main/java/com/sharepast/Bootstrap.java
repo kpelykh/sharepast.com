@@ -190,7 +190,7 @@ public class Bootstrap {
             System.exit(100);
         }
 
-        LOG.info("HTTP server " + httpServer.getJettyServer().getState() + " on port " + httpServer.getJettyServer().getConnectors()[0].getPort());
+        LOG.info("HTTP server started on port " + httpServer.getJettyServer().getConnectors()[0].getPort());
 
     }
 

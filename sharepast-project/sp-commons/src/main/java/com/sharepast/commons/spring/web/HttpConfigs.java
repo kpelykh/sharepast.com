@@ -2,6 +2,7 @@ package com.sharepast.commons.spring.web;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -42,7 +43,7 @@ public class HttpConfigs implements InitializingBean {
     private @Value("${ssl.enabled:false}") Boolean enableSSL;
 
     private @Value("${jetty.resource.base:}") Resource resourceBase;
-    private @Value("${jetty.web.default:org/eclipse/jetty/webapp/webdefault.xml}") String webDefault;
+    private @Value("${jetty.web.default:org/eclipse/jetty/webapp/webdefault.xml}") FileSystemResource webDefault;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -119,7 +120,11 @@ public class HttpConfigs implements InitializingBean {
     }
 
     public String getWebDefault() {
-        return webDefault;
+        try {
+            return webDefault.getFile().getCanonicalPath();
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public void validate() {

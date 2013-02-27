@@ -17,6 +17,7 @@ import org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter;
 import org.eclipse.jetty.server.SessionManager;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.WebApplicationInitializer;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +65,14 @@ public class WebAppConfigurator implements WebApplicationInitializer {
         }
 
 
-        BuildSettings buildSettings = new BuildSettings(null, new File(env.getProperty("grails.base")));
+        AbstractApplicationContext ctx = SpringConfiguration.getInstance().getAppContext();
+
+        BuildSettings buildSettings = null;
+        try {
+            buildSettings = new BuildSettings(null, ctx.getResource(env.getProperty("grails.base")).getFile());
+        } catch (IOException e) {
+            throw new ServletException(e);
+        }
         buildSettings.loadConfig();
         BuildSettingsHolder.setSettings(buildSettings);
 
@@ -98,7 +107,7 @@ public class WebAppConfigurator implements WebApplicationInitializer {
         container.addFilter("urlMapping", new UrlMappingsFilter())
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD), false, "/*");
 
-        // sitemesh
+        // #3
         FilterRegistration sitemeshFilter = container.addFilter("sitemesh", new GrailsPageFilter());
         sitemeshFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
 
@@ -106,7 +115,7 @@ public class WebAppConfigurator implements WebApplicationInitializer {
             container.addFilter("'ResourcesDevModeFilter'", "org.grails.plugin.resource.DevModeSanityFilter")
                     .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
         }
-
+        //#2
         container.addFilter("grailsWebRequestFilter", new GrailsWebRequestFilter())
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
 
@@ -124,7 +133,7 @@ public class WebAppConfigurator implements WebApplicationInitializer {
         characterEncodingFilter.setInitParameters(getCharacterEncodingFilterParam());
         characterEncodingFilter.addMappingForUrlPatterns(null, false, "/*");
 
-        // spring security
+        // #1
         container.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain", grailsWebContext))
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.ERROR, DispatcherType.REQUEST, DispatcherType.FORWARD), false, "/*");
 

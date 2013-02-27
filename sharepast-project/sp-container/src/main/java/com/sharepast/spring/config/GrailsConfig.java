@@ -16,7 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 /**
@@ -34,7 +35,7 @@ public class GrailsConfig {
 
     @Bean
     public GrailsApplicationFactoryBean grailsApplication(GrailsResourceLoader resourceLoader,
-                                                          @Value("${grails.descriptor}") FileSystemResource grailsDescriptor) {
+                                                          @Value("${grails.descriptor}") Resource grailsDescriptor) {
         GrailsApplicationFactoryBean grailsApp = new GrailsApplicationFactoryBean();
         grailsApp.setGrailsResourceLoader(resourceLoader);
         //grailsApp.setGrailsDescriptor(grailsDescriptor);
@@ -102,7 +103,7 @@ public class GrailsConfig {
 
     @Bean
     public GrailsPluginManagerFactoryBean pluginManager(ApplicationContext ctx, GrailsApplication grailsApplication,
-                                                        @Value("${grails.descriptor}") FileSystemResource grailsDescriptor) {
+                                                        @Value("${grails.descriptor}") Resource grailsDescriptor) {
         GrailsPluginManagerFactoryBean grailsPluginManagerFactoryBean = new GrailsPluginManagerFactoryBean();
         grailsPluginManagerFactoryBean.setApplication(grailsApplication);
         grailsPluginManagerFactoryBean.setApplicationContext(ctx);

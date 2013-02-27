@@ -8,11 +8,14 @@ grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //for correct jquery plugin resources resolution
 grails.project.plugins.dir = "${basedir}/plugins"
+//grails.offline.mode = true
 //for correct resource (i18n) resolution
 //grails.project.resource.dir=SpringConfiguration.getInstance().getEnvironment().getProperty("grails.resources")
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.dependency.resolution = {
+    pom true
+
     // inherit Grails' default dependencies
     inherits("global") {
         // uncomment to disable ehcache
@@ -32,8 +35,9 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://repo.springsource.org/release"
     }
+
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
         // runtime 'mysql:mysql-connector-java:5.1.16'

@@ -1,15 +1,15 @@
 <grails>
   <resources>
-    <resource>ResourcesBootStrap</resource>
+    <resource>JQueryTagLib</resource>
+    <resource>org.grails.plugin.resource.BundleResourceMapper</resource>
+    <resource>JQueryService</resource>
     <resource>org.grails.plugin.resource.ResourceTagLib</resource>
+    <resource>ResourcesBootStrap</resource>
+    <resource>JQueryConfig</resource>
     <resource>org.grails.plugin.resource.CSSRewriterResourceMapper</resource>
     <resource>JQueryResourceTagLib</resource>
     <resource>JQueryPluginResources</resource>
-    <resource>org.grails.plugin.resource.BundleResourceMapper</resource>
-    <resource>JQueryConfig</resource>
-    <resource>JQueryService</resource>
     <resource>org.grails.plugin.resource.CSSPreprocessorResourceMapper</resource>
-    <resource>JQueryTagLib</resource>
   </resources>
   <plugins>
     <plugin>JqueryGrailsPlugin</plugin>

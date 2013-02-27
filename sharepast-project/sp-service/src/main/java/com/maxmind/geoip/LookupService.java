@@ -3,6 +3,7 @@ package com.maxmind.geoip;
 import com.sharepast.commons.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
@@ -64,7 +65,7 @@ public class LookupService {
 
 
 
-  private String databaseFilePath = null;
+  private Resource databaseFilePath = null;
 
   /**
    * Information about the database.
@@ -299,7 +300,7 @@ public class LookupService {
    */
   public void init() throws IOException
   {
-    this.databaseFile = new File (databaseFilePath);
+    this.databaseFile = databaseFilePath.getFile();
 
     if( !databaseFile.exists() )
     {
@@ -309,9 +310,9 @@ public class LookupService {
         folder.mkdirs();
 
       if( ! folder.isDirectory() )
-        throw new IllegalArgumentException( String.format( "cannot find or create folder %s for geoip database %s", folder.getAbsoluteFile(), databaseFilePath ) );
+        throw new IllegalArgumentException( String.format( "cannot find or create folder %s for geoip database %s", folder.getAbsoluteFile(), databaseFilePath.getFile().getCanonicalPath() ) );
 
-      long sz = Util.resourceToFile("com/maxmind/geoip/geoip.dat", databaseFilePath, false);
+      long sz = Util.resourceToFile("com/maxmind/geoip/geoip.dat", databaseFilePath.getFile().getCanonicalPath(), false);
 
       LOG.info( String.format( "geoip database: copies %d bytes to %s", sz, databaseFilePath ) );
     }
@@ -1061,7 +1062,7 @@ public class LookupService {
     this.dbOptions = dbOptions;
   }
 
-  public void setDatabaseFilePath(String databaseFilePath) {
+  public void setDatabaseFilePath(Resource databaseFilePath) {
     this.databaseFilePath = databaseFilePath;
   }
 

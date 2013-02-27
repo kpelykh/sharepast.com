@@ -11,6 +11,13 @@
 
     <url>http://www.sharepast.com</url>
 
+    <repositories>
+        <repository>
+            <id>springsource-release</id>
+            <url>http://repo.springsource.org/release</url>
+        </repository>
+    </repositories>
+
     <properties>
 
         <!--
@@ -919,9 +926,9 @@
                         </aspectLibrary>
                     </aspectLibraries>
                     <source>${compiler.compatibility}</source>
-                    <target>${compiler.compatibility}</target>
+                    <!--<target>${compiler.compatibility}</target>-->
                     <verbose>true</verbose>
-                    <complianceLevel>${compiler.compatibility}</complianceLevel>
+                    <!--<complianceLevel>${compiler.compatibility}</complianceLevel>-->
                     <XnoInline>true</XnoInline>
                     <showWeaveInfo>true</showWeaveInfo>
                 </configuration>

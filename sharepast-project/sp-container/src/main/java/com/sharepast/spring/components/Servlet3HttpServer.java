@@ -8,6 +8,7 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
+import org.eclipse.jetty.webapp.WebXmlConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
@@ -56,12 +57,11 @@ public class Servlet3HttpServer extends AbstractHttpServer {
 
         //see http://jira.codehaus.org/browse/JETTY-467
         ctxUI.setResourceBase(configs.getResourceBase());
-        ctxUI.setDefaultsDescriptor(configs.getWebDefault());
+        //ctxUI.setDefaultsDescriptor(configs.getWebDefault());
 
         ctxUI.setAttribute(WebInfConfiguration.CONTAINER_JAR_PATTERN, configs.getContainerJarPattern());
 
-        ctxUI.setConfigurations(new Configuration[]{
-                new SPAnnotationConfiguration(), new WebInfConfiguration()});
+        ctxUI.setConfigurations(new Configuration[]{new WebInfConfiguration(), new WebXmlConfiguration(), new SPAnnotationConfiguration()});
 
         server.setHandler(ctxUI);
     }
